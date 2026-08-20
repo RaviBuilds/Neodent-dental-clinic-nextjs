@@ -1242,29 +1242,43 @@ button {
     bottom: 18px;
   }
   .hero-founder-inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 0.62fr) auto;
-    align-items: end;
-    justify-content: initial;
-    padding: 12px 0 58px;
-    gap: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 88px 0 24px;
+    gap: 28px;
+    height: 100%;
   }
   .hero-founder-copy {
-    grid-row: 2;
+    order: 2;
     max-width: 100%;
-    align-self: end;
+    align-self: stretch;
     padding-bottom: 0;
   }
   .hero-founder-visual {
-    grid-row: 1;
-    height: auto;
-    min-height: 0;
+    order: 1;
+    flex: 0 0 auto;
+    align-self: stretch;
+    width: 100%;
+    height: min(30svh, 250px);
+    min-height: 190px;
+    border-radius: 18px;
+    overflow: hidden;
     justify-content: center;
+    box-shadow: 0 22px 44px rgba(6, 10, 11, 0.55);
+    border: 1px solid rgba(251, 250, 247, 0.12);
   }
   .hero-founder-portrait {
-    height: min(34svh, 292px);
-    max-height: 100%;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    max-height: none;
+    max-width: none;
+    object-fit: cover;
+    object-position: top center;
+    filter: saturate(0.92) contrast(1.04);
+    animation: none;
   }
   .hero-founder-copy .hero-title {
     font-size: clamp(32px, 8vw, 40px);
@@ -1273,33 +1287,50 @@ button {
   .hero-founder-copy .hero-lead {
     display: none;
   }
-  .hero-founder-copy .hero-rating,
-  .hero-founder-copy .hero-founder-locations,
+  .hero-founder-copy .hero-rating {
+    margin-top: 16px;
+  }
+  .hero-founder-copy .hero-founder-locations {
+    margin-top: 10px;
+  }
   .hero-founder-copy .hero-founder-contact {
     display: none;
   }
   .hero-founder-copy .hero-actions {
-    margin-top: 10px;
+    margin-top: 20px;
   }
   .hero-founder-phone {
     font-size: 19px;
   }
-  .hero-founder-frame {
-    right: 6%;
-    top: 6%;
-    width: 60%;
-    height: 40vh;
-  }
-  .hero-founder-mark {
-    font-size: clamp(110px, 32vw, 220px);
-    right: 2%;
-    top: -1%;
-  }
+  .hero-founder-frame,
+  .hero-founder-groundline,
   .hero-founder-mark-caption {
     display: none;
   }
-  .hero-founder-groundline {
-    bottom: calc(40vh + 4px);
+  .hero-founder-mark {
+    position: absolute;
+    left: auto;
+    right: 14px;
+    top: auto;
+    bottom: 14px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--neodent-ivory);
+    -webkit-text-stroke: 0;
+    background: rgba(18, 21, 22, 0.62);
+    backdrop-filter: blur(6px);
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1px solid rgba(215, 25, 32, 0.55);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  }
+  .hero-founder-mark span {
+    color: var(--neodent-red);
   }
   .hero-founder-vertical-label {
     display: none;
@@ -1308,26 +1339,20 @@ button {
 
 @media (max-width: 600px) {
   .hero-founder-inner {
-    grid-template-rows: 230px auto;
-    padding-top: 8px;
-    gap: 0;
+    padding: 84px 0 20px;
+    gap: 20px;
   }
   .hero-founder-visual {
-    height: 230px;
-    min-height: 230px;
-    align-self: end;
+    height: min(26svh, 210px);
+    min-height: 170px;
   }
-  .hero-founder-portrait {
-    display: block;
-    height: 100%;
-    max-height: 230px;
-    width: auto;
+  .hero-founder-mark {
+    font-size: 24px;
+    padding: 6px 12px;
   }
-  .hero-founder-frame {
-    height: 210px;
-  }
-  .hero-founder-groundline {
-    bottom: 0;
+  .hero-founder-copy .hero-rating,
+  .hero-founder-copy .hero-founder-locations {
+    display: none;
   }
 }
 
