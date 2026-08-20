@@ -6233,10 +6233,6 @@ button {
     margin: 18px 21px 22px;
     font-weight: 600;
   }
-  .hero {
-    min-height: 78vh;
-    max-height: 780px;
-  }
   .hero-image {
     inset: 0 0 0 36%;
   }
@@ -6589,12 +6585,6 @@ button {
   }
   .brand-word {
     font-size: 9px;
-  }
-  .hero {
-    min-height: 0;
-    max-height: none;
-    display: block;
-    padding-top: 360px;
   }
   .hero-image {
     inset: 72px 0 auto;
