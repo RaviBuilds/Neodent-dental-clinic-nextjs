@@ -56,6 +56,11 @@ export function LegacyStory() {
           <p className="archive-founder-line">
             Founded by Dr. Mohd. Siraj Ur Rahman.
           </p>
+          <p className="archive-narrative">
+            Established in 1994, NeoDent has grown through decades of clinical
+            practice, specialist-led care and a commitment to making dentistry
+            more reassuring, personal and precise.
+          </p>
         </div>
 
         <figure className="archive-plate archive-plate-press">
