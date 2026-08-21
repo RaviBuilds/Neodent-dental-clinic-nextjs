@@ -9577,9 +9577,28 @@ button {
   color: #242628;
   padding: clamp(100px, 10vw, 148px) 0 clamp(88px, 8vw, 120px);
 }
+/* Barely-perceptible tonal drift across the section: clean ivory on
+   the left where the copy sits, warming slightly toward the centre,
+   and a faint grey/blush architectural cast on the right where the
+   background illustration and archive plates live. No visible edge,
+   no gradient anyone should consciously notice. */
+.archive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(236, 231, 220, 1) 0%,
+    rgba(238, 231, 218, 1) 38%,
+    rgba(233, 226, 217, 1) 66%,
+    rgba(226, 220, 214, 1) 100%
+  );
+  pointer-events: none;
+}
 .archive-atmosphere {
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   top: 0;
   right: -8%;
   bottom: 7%;
@@ -9698,6 +9717,7 @@ button {
     "intro plates"
     "founder plates"
     "impact plates"
+    "today plates"
     "climax climax"
     "transition transition";
   column-gap: clamp(56px, 7vw, 128px);
@@ -9808,13 +9828,32 @@ button {
   gap: 22px;
   margin: 44px 0 0;
 }
+.archive-founder::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 100%;
+  width: 26px;
+  height: 1px;
+  background: rgba(215, 25, 32, 0.4);
+}
+.archive-founder::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: calc(100% + 26px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neodent-red);
+}
 .archive-founder img {
-  width: 142px;
-  height: 174px;
+  width: 176px;
+  height: 216px;
   border: 1px solid rgba(36, 38, 40, 0.22);
   object-fit: cover;
   object-position: top center;
-  box-shadow: 10px 12px 22px rgba(36, 38, 40, 0.1);
+  box-shadow: 12px 14px 26px rgba(36, 38, 40, 0.12);
 }
 .archive-founder figcaption {
   display: flex;
@@ -9876,8 +9915,11 @@ button {
   font-size: clamp(3.7rem, 6vw, 5.6rem);
   letter-spacing: -0.05em;
 }
-.archive-figure-patients strong {
-  font-size: 54px;
+.archive-impact span {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
 }
 
 /* Beat 03–05 — the archive artifacts, sharing one tall visual field
@@ -9941,8 +9983,12 @@ button {
   justify-self: end;
   align-self: center;
   width: min(40%, 250px);
-  margin-top: clamp(120px, 16vw, 220px);
-  transition-delay: 0.15s;
+  margin-top: clamp(96px, 13vw, 180px);
+  transform: translateY(24px) rotate(0.9deg);
+  transition-delay: 0.18s;
+}
+.archive-visible .archive-plate-tv {
+  transform: translateY(0) rotate(0.9deg);
 }
 .archive-plate-tv img {
   aspect-ratio: 1.3;
@@ -9953,7 +9999,12 @@ button {
   align-self: end;
   width: min(34%, 210px);
   margin-left: 8%;
-  transition-delay: 0.28s;
+  margin-top: -34px;
+  transform: translateY(24px) rotate(-1.2deg);
+  transition-delay: 0.32s;
+}
+.archive-visible .archive-plate-award {
+  transform: translateY(0) rotate(-1.2deg);
 }
 .archive-plate-award img {
   aspect-ratio: 1.1;
@@ -9994,6 +10045,37 @@ button {
   font-style: italic;
 }
 
+/* Beat 07.5 — the spine's own terminus. A quiet "Today" marker where
+   the red vertical line ends, closing the 1994 -> ... -> Today arc
+   before the climax delivers its payoff below. */
+.archive-today {
+  grid-area: today;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 30px 0 0 18%;
+  padding-left: 24px;
+  color: rgba(36, 38, 40, 0.42);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.archive-visible .archive-today {
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+.archive-today-tick {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--neodent-red);
+  background: #ece7dc;
+}
 .archive-transition {
   grid-area: transition;
   display: flex;
@@ -10621,6 +10703,9 @@ button {
   .archive-founder,
   .archive-impact,
   .archive-plate,
+  .archive-plate-tv,
+  .archive-plate-award,
+  .archive-today,
   .archive-climax {
     opacity: 1;
     transform: none;
@@ -10649,6 +10734,9 @@ button {
   .archive-impact {
     margin-left: 8%;
   }
+  .archive-today {
+    margin-left: 8%;
+  }
 }
 
 @media (max-width: 900px) and (min-width: 768px) {
@@ -10656,12 +10744,16 @@ button {
     gap: 12px;
   }
   .archive-founder img {
-    width: 124px;
-    height: 152px;
+    width: 136px;
+    height: 166px;
   }
   .archive-founder figcaption b {
     max-width: 145px;
     line-height: 1.35;
+  }
+  .archive-founder::before,
+  .archive-founder::after {
+    display: none;
   }
 }
 
@@ -10705,15 +10797,8 @@ button {
     max-width: none;
     font-size: clamp(2.6rem, 13vw, 3.6rem);
   }
-  .archive-plate-press {
-    order: 3;
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
-    transform: none !important;
-  }
   .archive-founder {
-    order: 4;
+    order: 3;
     margin: 0;
     gap: 16px;
   }
@@ -10725,31 +10810,47 @@ button {
     max-width: 120px;
     line-height: 1.35;
   }
-  .archive-impact {
-    padding-left: 18px;
+  .archive-founder::before,
+  .archive-founder::after {
+    display: none;
+  }
+  .archive-plate-press {
+    order: 4;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    transform: none !important;
   }
   .archive-plate-tv {
     order: 5;
     width: min(72%, 300px);
     margin: 0 auto;
+    transform: none !important;
   }
   .archive-plate-award {
     order: 6;
     width: min(60%, 260px);
     margin: 0 auto;
+    transform: none !important;
   }
   .archive-impact {
     order: 7;
     margin: 0;
+    padding-left: 18px;
+  }
+  .archive-today {
+    order: 8;
+    margin: 22px 0 0;
+    padding-left: 18px;
   }
   .archive-climax {
-    order: 8;
+    order: 9;
     margin: 8px 0 0;
     max-width: none;
     text-align: left;
   }
   .archive-transition {
-    order: 9;
+    order: 10;
     justify-content: flex-start;
     margin-top: 4px;
   }
