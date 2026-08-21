@@ -80,10 +80,10 @@ export function Home() {
         <Hero />
         <ExperienceIntro />
         <LegacyStory />
+        <Expertise />
         <TrustStrip />
         <About />
         <WhyNeodent />
-        <Expertise />
         <Doctor />
         <Recognition />
         <Gallery onImage={(src, alt) => setLightbox({ src, alt })} />
