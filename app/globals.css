@@ -11625,6 +11625,10 @@ button {
 .treatment-atlas-stage-label { position: absolute; top: 16px; left: 16px; color: rgba(255,255,255,.82); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
 .treatment-atlas-play { position: absolute; right: 18px; bottom: 18px; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(236,231,220,.72); border-radius: 50%; color: #ece7dc; }
 .treatment-atlas-play svg { width: 14px; margin-left: 2px; }
+.treatment-atlas-before-after { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: min(100%, 520px); margin: -42px 0 0 auto; padding: 10px; background: rgba(236,231,220,.94); }
+.treatment-atlas-before-after figure { position: relative; min-width: 0; margin: 0; border: 1px solid rgba(36,38,40,.18); background: #d8d1c7; }
+.treatment-atlas-before-after img { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; filter: saturate(.78) contrast(1.03); }
+.treatment-atlas-before-after figcaption { position: absolute; right: 8px; bottom: 7px; padding: 3px 5px; background: rgba(236,231,220,.84); color: rgba(36,38,40,.7); font-size: 8px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 .treatment-atlas-stage-meta { display: flex; justify-content: space-between; width: min(100%, 520px); margin: 14px 0 0 auto; color: rgba(36,38,40,.44); font-size: 9px; letter-spacing: .18em; }
 .treatment-atlas-detail { position: relative; z-index: 2; width: min(100%, 520px); margin: -32px 0 0 auto; padding: 30px 0 0 28px; background: rgba(236,231,220,.94); }
 .treatment-atlas-detail::before { content: ""; position: absolute; top: 0; left: 0; width: 42px; height: 1px; background: var(--neodent-red); }
@@ -11659,7 +11663,8 @@ button {
   .treatment-atlas-stage { order: 1; min-height: 0; padding: 0; }
   .treatment-atlas-stage-backdrop { inset: -10px 16px 66px 0; }
   .treatment-atlas-stage-media { width: calc(100% - 12px); height: 330px; }
-  .treatment-atlas-detail { margin: -24px 0 0 12px; padding: 24px 0 0 18px; }
+  .treatment-atlas-before-after { width: calc(100% - 12px); margin: -18px 0 0 12px; padding: 8px; }
+  .treatment-atlas-detail { margin: 18px 0 0 12px; padding: 24px 0 0 18px; }
   .treatment-atlas-item { min-height: 52px; }
   .treatment-atlas-item strong { font-size: 13px; }
   .treatment-atlas-all { margin-top: 48px; }
