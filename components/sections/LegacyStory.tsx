@@ -78,18 +78,6 @@ export function LegacyStory() {
           </p>
         </div>
 
-        <figure className="archive-plate archive-plate-press">
-          <img
-            src={legacyPressImage}
-            alt="NeoDent feature in The Siasat Daily, Hyderabad"
-            loading="lazy"
-          />
-          <figcaption>
-            <b>The Siasat Daily</b>
-            <span>Hyderabad</span>
-          </figcaption>
-        </figure>
-
         <figure className="archive-founder">
           <img
             src={recognitionImage}
@@ -104,6 +92,18 @@ export function LegacyStory() {
             <strong>35+</strong>
             <span>Years</span>
           </p>
+        </figure>
+
+        <figure className="archive-plate archive-plate-press">
+          <img
+            src={legacyPressImage}
+            alt="NeoDent feature in The Siasat Daily, Hyderabad"
+            loading="lazy"
+          />
+          <figcaption>
+            <b>The Siasat Daily</b>
+            <span>Hyderabad</span>
+          </figcaption>
         </figure>
 
         <figure className="archive-plate archive-plate-tv">
@@ -132,6 +132,11 @@ export function LegacyStory() {
         <p className="archive-impact archive-figure archive-figure-patients">
           <strong>5,000+</strong>
           <span>Patients treated</span>
+        </p>
+
+        <p className="archive-today" aria-hidden="true">
+          <span className="archive-today-tick" />
+          Today
         </p>
 
         <div className="archive-climax">
