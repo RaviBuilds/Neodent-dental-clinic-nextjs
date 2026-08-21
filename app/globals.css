@@ -956,7 +956,7 @@ button {
 }
 .hero-founder-mark-caption {
   position: absolute;
-  right: 5%;
+  left: 6%;
   bottom: 8%;
   z-index: 0;
   font-size: 10.5px;
@@ -983,6 +983,40 @@ button {
   animation: founderLineIn 1.2s 0.3s both cubic-bezier(0.16, 0.72, 0.2, 1);
   transform-origin: center;
 }
+.hero-founder-visual-location {
+  position: absolute;
+  right: 4%;
+  bottom: 7%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 230px;
+  padding: 12px 16px 12px 14px;
+  border-left: 2px solid var(--neodent-red);
+  background: rgba(10, 12, 13, 0.86);
+  color: var(--neodent-ivory);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  animation: rise 1s 0.46s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-founder-visual-location span {
+  color: rgba(251, 250, 247, 0.56);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hero-founder-visual-location strong {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.hero-founder-visual-location i {
+  color: var(--neodent-red);
+  font-style: normal;
+  padding: 0 4px;
+}
 .hero-founder-vertical-label {
   position: absolute;
   left: 22px;
@@ -1003,9 +1037,10 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
+  align-content: center;
   gap: clamp(24px, 4vw, 64px);
   height: 100%;
-  padding: 32px 0 72px;
+  padding: 32px 0 56px;
 }
 .hero-founder-copy {
   min-width: 0;
@@ -1063,6 +1098,12 @@ button {
   color: var(--neodent-red);
   flex-shrink: 0;
 }
+/* The location detail now lives inside the portrait stage as a single
+   integrated trust element (see .hero-founder-visual-location), so the
+   duplicate text row is hidden in the copy column at every breakpoint. */
+.hero-founder-copy .hero-founder-locations {
+  display: none;
+}
 .hero-founder-contact {
   display: flex;
   flex-direction: column;
@@ -1101,19 +1142,19 @@ button {
   height: 100%;
   min-height: 0;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   min-width: 0;
 }
 .hero-founder-portrait {
   position: relative;
   z-index: 2;
-  height: 94%;
-  max-height: 620px;
+  height: 88%;
+  max-height: 600px;
   width: auto;
-  max-width: 100%;
+  max-width: 92%;
   object-fit: contain;
-  object-position: bottom center;
+  object-position: center;
   filter: drop-shadow(0 26px 46px rgba(0, 0, 0, 0.5));
   animation: founderPortraitIn 1.2s 0.15s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
@@ -1180,17 +1221,6 @@ button {
   .hero-slide-visual {
     height: min(48vh, 460px);
   }
-  .hero-founder-inner {
-    padding: 96px 0 84px;
-    gap: 28px;
-  }
-  .hero-founder-copy {
-    flex: 0 1 420px;
-    max-width: 420px;
-  }
-  .hero-founder-mark {
-    font-size: clamp(150px, 20vw, 300px);
-  }
 }
 
 @media (max-width: 860px) {
@@ -1241,118 +1271,227 @@ button {
   .hero-nav {
     bottom: 18px;
   }
+}
+
+/* ---- Slide 01 — tablet composition (768px–1199px) ----
+   Portrait-led hybrid: dominant portrait stage with one integrated
+   trust element, primary text content stacked beneath it. This block
+   is scoped exclusively to the founder slide and does not affect
+   slides 02/03, which keep their own rules above. */
+@media (max-width: 1199px) {
+  .hero-slide-founder.hero-slide-active {
+    height: 100%;
+  }
+  .hero-slide-founder .hero-founder,
+  .hero-slide-founder .hero-founder-inner {
+    height: 100%;
+    min-height: 0;
+  }
   .hero-founder-inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 88px 0 24px;
-    gap: 28px;
+    justify-content: flex-start;
+    padding: clamp(80px, 11svh, 104px) 0 84px;
+    gap: clamp(16px, 2.4svh, 26px);
     height: 100%;
-  }
-  .hero-founder-copy {
-    order: 2;
-    max-width: 100%;
-    align-self: stretch;
-    padding-bottom: 0;
+    overflow-y: auto;
   }
   .hero-founder-visual {
     order: 1;
     flex: 0 0 auto;
-    align-self: stretch;
+    align-self: center;
     width: 100%;
-    height: min(30svh, 250px);
-    min-height: 190px;
-    border-radius: 18px;
-    overflow: hidden;
+    height: clamp(240px, 32svh, 360px);
+    min-height: 0;
+    overflow: visible;
     justify-content: center;
-    box-shadow: 0 22px 44px rgba(6, 10, 11, 0.55);
-    border: 1px solid rgba(251, 250, 247, 0.12);
+  }
+  .hero-founder-copy {
+    order: 2;
+    max-width: 620px;
+    width: 100%;
+    align-self: center;
+    padding-bottom: 0;
+  }
+  .hero-founder-frame {
+    inset: 4% 6% 5% 12%;
+    width: auto;
+    height: auto;
+  }
+  .hero-founder-frame::before {
+    inset: 13px;
+  }
+  .hero-founder-portrait {
+    height: 92%;
+    max-height: 420px;
+    max-width: 80%;
+    object-position: center;
+  }
+  .hero-founder-mark {
+    right: 6%;
+    top: 0%;
+    font-size: clamp(150px, 22vw, 260px);
+  }
+  .hero-founder-mark-caption {
+    left: 8%;
+    bottom: 6%;
+  }
+  .hero-founder-groundline {
+    left: 6%;
+    right: 6%;
+    bottom: 10%;
+  }
+  .hero-founder-visual-location {
+    right: 5%;
+    bottom: 8%;
+  }
+  .hero-founder-vertical-label {
+    display: none;
+  }
+  .hero-founder-title {
+    font-size: clamp(32px, 4.4vw, 46px);
+    margin: 6px 0 10px;
+  }
+  .hero-founder-copy .hero-rating {
+    margin-top: 12px;
+  }
+  .hero-founder-copy .hero-founder-contact {
+    display: none;
+  }
+  .hero-slide-founder .hero-actions {
+    margin-top: 14px;
+  }
+}
+
+/* ---- Slide 01 — mobile composition (≤767px) ----
+   A compact, layered version of the same portrait-led concept: a
+   near-square portrait stage sits high in the hero with the frame,
+   30+ mark and one trust label layered behind/around the portrait,
+   followed by tagline, headline, identity and CTAs. */
+@media (max-width: 767px) {
+  .hero-founder-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: clamp(76px, 11svh, 96px) 0 28px;
+    gap: clamp(14px, 2.2svh, 22px);
+    height: 100%;
+    overflow-y: auto;
+  }
+  .hero-founder-visual {
+    order: 1;
+    position: relative;
+    flex: 0 0 auto;
+    align-self: center;
+    width: min(82vw, 320px);
+    aspect-ratio: 1 / 1.15;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .hero-founder-frame {
+    inset: 4% 6% 8% 12%;
+    width: auto;
+    height: auto;
+  }
+  .hero-founder-frame::before {
+    inset: 10px;
+  }
+  .hero-founder-mark {
+    right: -2%;
+    top: -4%;
+    font-size: clamp(96px, 30vw, 160px);
+  }
+  .hero-founder-mark-caption {
+    display: none;
+  }
+  .hero-founder-groundline {
+    left: 6%;
+    right: 6%;
+    bottom: 14%;
   }
   .hero-founder-portrait {
     position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
+    inset: auto;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 94%;
     max-height: none;
-    max-width: none;
-    object-fit: cover;
-    object-position: top center;
-    filter: saturate(0.92) contrast(1.04);
-    animation: none;
+    width: auto;
+    max-width: 86%;
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.5));
+  }
+  .hero-founder-visual-location {
+    right: 4%;
+    bottom: 5%;
+    max-width: 180px;
+    padding: 9px 12px 9px 11px;
+  }
+  .hero-founder-visual-location strong {
+    font-size: 10.5px;
+  }
+  .hero-founder-vertical-label {
+    display: none;
+  }
+  .hero-founder-copy {
+    order: 2;
+    max-width: 100%;
+    width: 100%;
+    align-self: stretch;
+    padding-bottom: 0;
   }
   .hero-founder-copy .hero-title {
-    font-size: clamp(32px, 8vw, 40px);
-    line-height: 0.98;
+    font-size: clamp(30px, 7.6vw, 42px);
+    line-height: 1;
+    margin: 6px 0 10px;
   }
   .hero-founder-copy .hero-lead {
     display: none;
   }
-  .hero-founder-copy .hero-rating {
-    margin-top: 16px;
+  .hero-founder-tagline {
+    font-size: 14px;
+    margin-top: 6px;
   }
-  .hero-founder-copy .hero-founder-locations {
+  .hero-founder-copy .hero-rating {
     margin-top: 10px;
   }
   .hero-founder-copy .hero-founder-contact {
     display: none;
   }
-  .hero-founder-copy .hero-actions {
-    margin-top: 20px;
+  .hero-slide-founder .hero-actions {
+    margin-top: 14px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-slide-founder .hero-actions > * {
+    width: 100%;
+    justify-content: center;
   }
   .hero-founder-phone {
-    font-size: 19px;
-  }
-  .hero-founder-frame,
-  .hero-founder-groundline,
-  .hero-founder-mark-caption {
-    display: none;
-  }
-  .hero-founder-mark {
-    position: absolute;
-    left: auto;
-    right: 14px;
-    top: auto;
-    bottom: 14px;
-    z-index: 3;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 2px;
-    font-size: 28px;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--neodent-ivory);
-    -webkit-text-stroke: 0;
-    background: rgba(18, 21, 22, 0.62);
-    backdrop-filter: blur(6px);
-    padding: 8px 15px;
-    border-radius: 999px;
-    border: 1px solid rgba(215, 25, 32, 0.55);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
-  }
-  .hero-founder-mark span {
-    color: var(--neodent-red);
-  }
-  .hero-founder-vertical-label {
-    display: none;
+    font-size: 18px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 430px) {
   .hero-founder-inner {
-    padding: 84px 0 20px;
-    gap: 20px;
+    padding-top: clamp(70px, 10svh, 84px);
+    gap: 12px;
   }
   .hero-founder-visual {
-    height: min(26svh, 210px);
-    min-height: 170px;
+    width: min(76vw, 260px);
   }
-  .hero-founder-mark {
-    font-size: 24px;
-    padding: 6px 12px;
+  .hero-founder-copy .hero-eyebrow {
+    font-size: 9px;
   }
-  .hero-founder-copy .hero-rating,
-  .hero-founder-copy .hero-founder-locations {
-    display: none;
+  .hero-founder-copy .hero-title {
+    font-size: clamp(28px, 8.2vw, 34px);
+  }
+  .hero-founder-visual-location {
+    max-width: 160px;
+    padding: 8px 10px 8px 9px;
   }
 }
 
