@@ -183,7 +183,6 @@ const structural = (page) =>
     const hero = document.querySelector(".hero");
     const eyebrowRow = document.querySelector(".exp-intro-eyebrow-row");
     const secondary = document.querySelector(".exp-intro-secondary");
-    const artifact = document.querySelector(".exp-intro-artifact");
     const threshold = document.querySelector(".exp-intro-threshold");
 
     const nested = [];
@@ -207,7 +206,6 @@ const structural = (page) =>
     // and must not intercept pointer events.
     const decorativeLeaks = [];
     for (const sel of [
-      ".exp-intro-artifact",
       ".exp-intro-threshold",
       ".exp-intro-ghost",
       ".exp-intro-backdrop",
