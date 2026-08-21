@@ -22,7 +22,6 @@ export const tourVideo = "/assets/Neodent dental clinic tour video.mp4";
    environment, not a photograph. */
 export const experienceIntroBackdrop =
   "/assets/Neodent dental hospital Interior.jpg";
-export const experienceIntroArtifact = "/assets/neodent-section01-tooth.png";
 export const treatmentImage = "/assets/Neodent dental hospital Interior.jpg";
 export const equipmentImage = "/assets/Neodent dental hospital Interior.jpg";
 export const detailImage = "/assets/Neodent dental hospital Interior.jpg";
