@@ -9938,8 +9938,13 @@ button {
 
 .exp-intro .exp-intro-cta {
   margin-top: 30px;
-  color: rgba(36, 38, 40, 0.78);
+  color: #242628;
+  -webkit-text-fill-color: #242628;
   cursor: default;
+}
+.exp-intro .exp-intro-cta > span {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
 }
 .exp-intro .exp-intro-cta:hover {
   color: rgba(36, 38, 40, 0.78);
