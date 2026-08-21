@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
-import { experienceIntroBackdrop, tourVideo } from "@/lib/site-data";
+import {
+  experienceIntroArtifact,
+  experienceIntroBackdrop,
+  tourVideo,
+} from "@/lib/site-data";
 
 const philosophyValues = ["Calm", "Precise", "Personal"];
 
@@ -153,6 +157,10 @@ export function ExperienceIntro() {
       <span className="exp-intro-ghost" aria-hidden="true">
         01
       </span>
+      <div className="exp-intro-artifact" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={experienceIntroArtifact} alt="" />
+      </div>
       <div className="container exp-intro-grid">
         <div className="exp-intro-copy">
           <div className="exp-intro-eyebrow-row">
