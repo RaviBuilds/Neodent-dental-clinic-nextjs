@@ -57,18 +57,7 @@
   --type-section-title: clamp(32px, 3.45vw, 52px);
 }
 
-/* ========================================
-   TYPE SCALE — three semantic levels, one source of truth
-   ========================================
-   LEVEL 1  --type-hero-primary     Hero Slide 01 ("Three decades…").
-                                    The strongest type on the site.
-   LEVEL 2  --type-hero-supporting  Hero Slides 02 & 03 ("Where NeoDent
-                                    is.", "Recognised beyond the clinic.").
-   LEVEL 3  --type-section-title    Homepage SECTION headings, starting
-                                    with Section 01. Deliberately and
-                                    provably subordinate to both Hero
-                                    levels at every viewport width.
-
+/*
    WHY TOKENS. These three levels previously lived as ~14 scattered
    `font-size` declarations whose vw slopes were near-identical (Level 2
    at 4.7vw vs Level 3 at 4.6vw). Below each clamp's ceiling the two
@@ -11525,4 +11514,157 @@ button {
     /* Same proportional rescale as the 767px tier above. */
     font-size: clamp(2.15rem, 10.8vw, 2.9rem);
   }
+}
+
+/* Section 03 — featured treatment atlas */
+.treatment-atlas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #ece7dc;
+  color: #242628;
+  padding: clamp(104px, 10vw, 148px) 0 clamp(88px, 8vw, 120px);
+}
+.treatment-atlas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(104deg, rgba(236,231,220,1), rgba(239,232,219,.98) 44%, rgba(227,221,214,.92));
+}
+.treatment-atlas-geometry {
+  position: absolute;
+  z-index: -1;
+  top: 5%;
+  right: -4%;
+  width: 62%;
+  height: 88%;
+  opacity: .58;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(36,38,40,.045) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(90deg, rgba(36,38,40,.045) 1px, transparent 1px) 0 0 / 72px 72px;
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 80%, transparent);
+}
+.treatment-atlas-geometry::before,
+.treatment-atlas-geometry::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(215,25,32,.14);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
+}
+.treatment-atlas-geometry::before { inset: 12% 4% 9% 8%; transform: rotate(-4deg); }
+.treatment-atlas-geometry::after { inset: 25% 16% 19% 22%; transform: rotate(-4deg); }
+.treatment-atlas-shell { position: relative; }
+.treatment-atlas-header {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(28px, 6vw, 92px);
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+.treatment-atlas-number {
+  color: rgba(36,38,40,.055);
+  font-size: clamp(10rem, 20vw, 19rem);
+  font-weight: 700;
+  letter-spacing: -.09em;
+  line-height: .72;
+  user-select: none;
+}
+.treatment-atlas-copy { max-width: 580px; padding-top: clamp(12px, 3vw, 34px); }
+.treatment-atlas-copy .eyebrow { color: rgba(36,38,40,.62); }
+.treatment-atlas-copy .eyebrow span { color: var(--neodent-red); }
+.treatment-atlas-copy h2 {
+  max-width: 550px;
+  margin: 20px 0 0;
+  font-size: clamp(2.9rem, 5vw, 5.3rem);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+.treatment-atlas-copy h2 .serif { font-style: italic; }
+.treatment-atlas-copy p { max-width: 390px; margin: 24px 0 0; color: rgba(36,38,40,.66); line-height: 1.65; }
+.treatment-atlas-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, .72fr) minmax(0, 1.28fr);
+  gap: clamp(42px, 8vw, 132px);
+  align-items: start;
+}
+.treatment-atlas-index { display: flex; flex-direction: column; }
+.treatment-atlas-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 1fr 18px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 0;
+  border: 0;
+  border-top: 1px solid rgba(36,38,40,.18);
+  background: transparent;
+  color: rgba(36,38,40,.54);
+  text-align: left;
+  cursor: pointer;
+  transition: color .35s ease, padding .35s ease;
+}
+.treatment-atlas-item:last-child { border-bottom: 1px solid rgba(36,38,40,.18); }
+.treatment-atlas-item > span { font-size: 10px; letter-spacing: .16em; }
+.treatment-atlas-item strong { font-size: 14px; font-weight: 600; letter-spacing: .03em; }
+.treatment-atlas-item svg { width: 15px; opacity: 0; transition: opacity .3s ease, transform .3s ease; }
+.treatment-atlas-item.is-active { padding-left: 14px; color: #242628; }
+.treatment-atlas-item.is-active::before { content: ""; position: absolute; left: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--neodent-red); }
+.treatment-atlas-item.is-active > span { color: var(--neodent-red); }
+.treatment-atlas-item.is-active svg { opacity: 1; color: var(--neodent-red); transform: translateX(3px); }
+.treatment-atlas-stage { position: relative; min-height: 600px; padding: 0 0 0 22px; }
+.treatment-atlas-stage-backdrop { position: absolute; inset: -18px 36px 74px 0; border: 1px solid rgba(36,38,40,.16); transform: rotate(1.2deg); }
+.treatment-atlas-stage-backdrop::after { content: ""; position: absolute; inset: 17px -17px -17px 17px; border: 1px solid rgba(215,25,32,.24); }
+.treatment-atlas-stage-media { position: relative; z-index: 1; width: min(100%, 520px); height: 410px; margin-left: auto; overflow: hidden; border: 1px solid rgba(36,38,40,.22); background: #d8d1c7; box-shadow: 18px 20px 34px rgba(36,38,40,.12); }
+.treatment-atlas-stage-media img,
+.treatment-atlas-stage-media video { width: 100%; height: 100%; object-fit: cover; filter: saturate(.78) contrast(1.03); transition: opacity .35s ease; }
+.treatment-atlas-stage-media video { object-position: center 30%; }
+.treatment-atlas-stage-label { position: absolute; top: 16px; left: 16px; color: rgba(255,255,255,.82); font-size: 9px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.treatment-atlas-play { position: absolute; right: 18px; bottom: 18px; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(236,231,220,.72); border-radius: 50%; color: #ece7dc; }
+.treatment-atlas-play svg { width: 14px; margin-left: 2px; }
+.treatment-atlas-stage-meta { display: flex; justify-content: space-between; width: min(100%, 520px); margin: 14px 0 0 auto; color: rgba(36,38,40,.44); font-size: 9px; letter-spacing: .18em; }
+.treatment-atlas-detail { position: relative; z-index: 2; width: min(100%, 520px); margin: -32px 0 0 auto; padding: 30px 0 0 28px; background: rgba(236,231,220,.94); }
+.treatment-atlas-detail::before { content: ""; position: absolute; top: 0; left: 0; width: 42px; height: 1px; background: var(--neodent-red); }
+.treatment-atlas-kicker, .treatment-atlas-proof { display: block; color: rgba(36,38,40,.46); font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.treatment-atlas-detail h3 { margin: 12px 0 0; font-size: clamp(1.9rem, 3vw, 3rem); letter-spacing: -.035em; }
+.treatment-atlas-detail p { max-width: 450px; margin: 12px 0 0; color: rgba(36,38,40,.66); line-height: 1.65; }
+.treatment-atlas-proof { margin-top: 20px; color: rgba(215,25,32,.7); }
+.treatment-atlas-link, .treatment-atlas-all { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; color: #242628; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-decoration: none; text-transform: uppercase; }
+.treatment-atlas-link svg, .treatment-atlas-all svg { width: 15px; transition: transform .3s ease; }
+.treatment-atlas-link:hover svg, .treatment-atlas-all:hover svg { transform: translateX(4px); }
+.treatment-atlas-all { margin: clamp(48px, 7vw, 84px) 0 0; padding-top: 18px; border-top: 1px solid rgba(36,38,40,.18); }
+.treatment-atlas:not(.treatment-atlas-visible) .treatment-atlas-copy,
+.treatment-atlas:not(.treatment-atlas-visible) .treatment-atlas-index,
+.treatment-atlas:not(.treatment-atlas-visible) .treatment-atlas-stage { opacity: 0; transform: translateY(18px); }
+.treatment-atlas-copy, .treatment-atlas-index, .treatment-atlas-stage { transition: opacity .8s ease, transform .8s ease; }
+.treatment-atlas-index { transition-delay: .16s; }
+.treatment-atlas-stage { transition-delay: .28s; }
+@media (max-width: 1024px) {
+  .treatment-atlas-header { gap: 34px; }
+  .treatment-atlas-grid { gap: 42px; grid-template-columns: minmax(210px,.8fr) minmax(0,1.2fr); }
+  .treatment-atlas-stage { min-height: 550px; }
+  .treatment-atlas-stage-media { height: 350px; }
+}
+@media (max-width: 767px) {
+  .treatment-atlas { padding: 78px 0 72px; }
+  .treatment-atlas-header { display: block; margin-bottom: 42px; }
+  .treatment-atlas-number { font-size: 9rem; line-height: .62; }
+  .treatment-atlas-copy { padding-top: 24px; }
+  .treatment-atlas-copy h2 { font-size: clamp(2.65rem, 12vw, 3.6rem); }
+  .treatment-atlas-grid { display: flex; flex-direction: column; gap: 34px; }
+  .treatment-atlas-index { order: 2; width: 100%; }
+  .treatment-atlas-stage { order: 1; min-height: 0; padding: 0; }
+  .treatment-atlas-stage-backdrop { inset: -10px 16px 66px 0; }
+  .treatment-atlas-stage-media { width: calc(100% - 12px); height: 330px; }
+  .treatment-atlas-detail { margin: -24px 0 0 12px; padding: 24px 0 0 18px; }
+  .treatment-atlas-item { min-height: 52px; }
+  .treatment-atlas-item strong { font-size: 13px; }
+  .treatment-atlas-all { margin-top: 48px; }
+}
+@media (max-width: 430px) {
+  .treatment-atlas-stage-media { height: 290px; }
+  .treatment-atlas-copy h2 { font-size: clamp(2.35rem, 11.5vw, 3.1rem); }
 }
