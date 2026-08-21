@@ -9579,7 +9579,7 @@ button {
   /* Top padding increased from clamp(76px, 9vw, 110px) so the section
      visibly starts BELOW the threshold hairline instead of continuing
      the Hero's own rhythm -- see the CHAPTER THRESHOLD note below. */
-  padding: clamp(108px, 13vw, 148px) 0 clamp(76px, 9vw, 110px);
+  padding: clamp(78px, 8vw, 96px) 0 clamp(64px, 7vw, 82px);
 }
 /* THE CHAPTER THRESHOLD. Before this section had NO visual event at its
    own top edge: Hero ends charcoal, Section 01 begins charcoal, same red
@@ -9765,9 +9765,9 @@ button {
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.68fr);
-  grid-template-rows: auto minmax(32px, 1fr) auto;
+  grid-template-rows: auto minmax(20px, 1fr) auto;
   align-items: start;
-  gap: clamp(24px, 3.4vw, 40px) clamp(40px, 5vw, 80px);
+  gap: clamp(20px, 2.6vw, 32px) clamp(40px, 5vw, 80px);
 }
 .exp-intro-copy {
   grid-column: 1;
@@ -9959,7 +9959,7 @@ button {
      surplus the middle grid row now absorbs. Narrowing the video keeps
      that surplus (and the aperture it creates) proportionate rather than
      letting the video dwarf the text column at wide desktop sizes. */
-  width: clamp(280px, 24vw, 360px);
+  width: clamp(300px, 25vw, 380px);
   max-width: 100%;
 }
 .exp-intro-frame::before {
