@@ -9677,6 +9677,13 @@ button {
   font-size: 15px;
   line-height: 1.6;
 }
+.archive-narrative {
+  max-width: 430px;
+  margin: 24px 0 0;
+  color: rgba(36, 38, 40, 0.68);
+  font-size: 15px;
+  line-height: 1.7;
+}
 
 /* Beat 06 — the founder, paired with his own oversized figure
    rather than a conventional profile card. */
