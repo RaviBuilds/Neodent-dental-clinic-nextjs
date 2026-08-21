@@ -9570,80 +9570,332 @@ button {
    collide with or redefine any Hero/.hero-founder-* rule or :root
    token above. Hero Slides 01–03 are untouched by this block.
    ======================================== */
-.legacy-story {
+.archive {
   position: relative;
   overflow: hidden;
-  background: #f1eee7;
+  background: #ece7dc;
   color: #242628;
-  padding: clamp(100px, 10vw, 150px) 0 clamp(96px, 9vw, 132px);
+  padding: clamp(100px, 10vw, 148px) 0 clamp(88px, 8vw, 120px);
 }
-.legacy-story::before {
-  content: "02";
+.archive-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(440px, 1.14fr);
+  grid-template-areas:
+    "year plates"
+    "intro plates"
+    "founder plates"
+    "impact plates"
+    "climax climax"
+    "transition transition";
+  column-gap: clamp(56px, 7vw, 128px);
+  row-gap: 6px;
+}
+.archive-grid::before {
+  content: "";
   position: absolute;
-  top: clamp(36px, 6vw, 76px);
-  right: 5vw;
-  color: rgba(36, 38, 40, 0.045);
-  font-family: var(--app-font-serif);
-  font-size: clamp(100px, 14vw, 220px);
-  line-height: 0.8;
+  top: 4%;
+  bottom: 22%;
+  left: calc((100% - 24px) * 0.86 / 2 + 12px);
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(215, 25, 32, 0.55) 18%,
+    rgba(215, 25, 32, 0.55) 82%,
+    transparent
+  );
   pointer-events: none;
 }
-.legacy-story-inner {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.88fr) minmax(480px, 1.12fr);
-  align-items: center;
-  gap: clamp(48px, 7vw, 112px);
-  min-height: 650px;
+
+/* Beat 01 — the year: an oversized editorial numeral that bleeds
+   behind the intro copy rather than sitting in its own card. */
+.archive-year {
+  grid-area: year;
+  position: relative;
+  z-index: 0;
+  margin: 0 0 -0.34em -0.04em;
+  color: rgba(36, 38, 40, 0.055);
+  font-family: var(--app-font-serif);
+  font-size: clamp(6.5rem, 12vw, 13rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  pointer-events: none;
 }
-.legacy-story-copy {
+
+/* Beat 02 — the statement. */
+.archive-intro {
+  grid-area: intro;
   position: relative;
   z-index: 2;
-  max-width: 520px;
+  max-width: 480px;
 }
-.legacy-eyebrow {
+.archive-eyebrow {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 0 28px;
+  margin: 0 0 24px;
   color: rgba(36, 38, 40, 0.58);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.legacy-eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--neodent-red); }
-.legacy-title {
-  max-width: 500px;
+.archive-eyebrow::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--neodent-red);
+}
+.archive-title {
+  max-width: 460px;
   margin: 0;
   font-family: var(--app-font-serif);
-  font-size: clamp(3.8rem, 6.2vw, 6.8rem);
+  font-size: clamp(3rem, 5vw, 5.2rem);
   font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 0.93;
+  letter-spacing: -0.05em;
+  line-height: 0.96;
 }
-.legacy-title span { display: block; color: var(--neodent-red); font-style: italic; }
-.legacy-description { max-width: 400px; margin: 30px 0 0; color: rgba(36, 38, 40, 0.68); font-size: 15px; line-height: 1.7; }
-.legacy-trust { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 500px; margin-top: 50px; border-top: 1px solid rgba(36, 38, 40, 0.18); border-bottom: 1px solid rgba(36, 38, 40, 0.12); }
-.legacy-trust-item { padding: 17px 16px 18px 0; }
-.legacy-trust-item + .legacy-trust-item { padding-left: 16px; border-left: 1px solid rgba(36, 38, 40, 0.13); }
-.legacy-trust-item strong, .legacy-trust-item span { display: block; }
-.legacy-trust-item strong { color: var(--neodent-red); font-family: var(--app-font-serif); font-size: 25px; font-weight: 400; line-height: 1; }
-.legacy-trust-item span { margin-top: 8px; color: rgba(36, 38, 40, 0.56); font-size: 10px; letter-spacing: 0.1em; line-height: 1.4; text-transform: uppercase; }
-.legacy-archive { position: relative; min-height: 620px; }
-.legacy-spine { position: absolute; top: 7%; bottom: 5%; left: 16%; width: 1px; background: linear-gradient(180deg, transparent, rgba(215, 25, 32, 0.65) 16%, rgba(215, 25, 32, 0.65) 84%, transparent); }
-.legacy-plate { position: absolute; margin: 0; border: 1px solid rgba(36, 38, 40, 0.22); background: #e5e1d8; box-shadow: 16px 18px 32px rgba(36, 38, 40, 0.09); opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
-.legacy-story-visible .legacy-plate { opacity: 1; transform: translateY(0); }
-.legacy-plate img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.legacy-plate figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px 11px; color: rgba(36, 38, 40, 0.54); font-size: 9px; letter-spacing: 0.11em; line-height: 1.4; text-transform: uppercase; }
-.legacy-plate figcaption b { color: var(--neodent-red); font-size: 9px; font-weight: 700; }
-.legacy-plate-primary { top: 8%; left: 20%; z-index: 1; width: min(62%, 420px); }
-.legacy-plate-primary img { aspect-ratio: 0.86; }
-.legacy-plate-interview { top: 45%; right: 1%; z-index: 3; width: min(42%, 270px); transition-delay: 0.15s; }
-.legacy-plate-interview img { aspect-ratio: 1.28; }
-.legacy-plate-award { bottom: 2%; left: 2%; z-index: 2; width: min(38%, 230px); transition-delay: 0.28s; }
-.legacy-plate-award img { aspect-ratio: 1.1; }
-.legacy-story-copy, .legacy-story-inner > .legacy-archive { opacity: 0; transform: translateY(22px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.legacy-story-visible .legacy-story-copy, .legacy-story-visible .legacy-story-inner > .legacy-archive { opacity: 1; transform: translateY(0); }
+.archive-title span {
+  display: block;
+  color: var(--neodent-red);
+  font-style: italic;
+}
+.archive-micro {
+  margin: 26px 0 0;
+  color: rgba(36, 38, 40, 0.5);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.archive-founder-line {
+  margin: 10px 0 0;
+  max-width: 360px;
+  color: rgba(36, 38, 40, 0.68);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Beat 06 — the founder, paired with his own oversized figure
+   rather than a conventional profile card. */
+.archive-founder {
+  grid-area: founder;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+  margin: 44px 0 0;
+}
+.archive-founder img {
+  width: 108px;
+  height: 132px;
+  border: 1px solid rgba(36, 38, 40, 0.22);
+  object-fit: cover;
+  object-position: top center;
+  box-shadow: 10px 12px 22px rgba(36, 38, 40, 0.1);
+}
+.archive-founder figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 6px;
+}
+.archive-founder figcaption b {
+  color: #242628;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.archive-founder figcaption span {
+  color: rgba(36, 38, 40, 0.54);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.archive-figure {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 6px;
+}
+.archive-figure strong {
+  color: var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1;
+}
+.archive-figure span {
+  margin-top: 6px;
+  color: rgba(36, 38, 40, 0.56);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Beat 07 — impact, offset from the founder row so the two large
+   numbers never read as a repeated stats strip. */
+.archive-impact {
+  grid-area: impact;
+  margin: 40px 0 0 18%;
+}
+.archive-figure-patients strong {
+  font-size: 54px;
+}
+
+/* Beat 03–05 — the archive artifacts, sharing one tall visual field
+   on the right so they fan out rather than stacking as equal cards. */
+.archive-plate {
+  grid-area: plates;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  border: 1px solid rgba(36, 38, 40, 0.2);
+  background: #e2ddd0;
+  box-shadow: 14px 16px 28px rgba(36, 38, 40, 0.1);
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s ease;
+}
+.archive-visible .archive-plate {
+  opacity: 1;
+  transform: translateY(0);
+}
+.archive-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.archive-plate figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px 11px;
+  color: rgba(36, 38, 40, 0.54);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.archive-plate figcaption b {
+  color: var(--neodent-red);
+  font-size: 9px;
+  font-weight: 700;
+}
+.archive-plate-press {
+  z-index: 2;
+  justify-self: start;
+  align-self: start;
+  width: min(58%, 400px);
+  border-color: rgba(215, 25, 32, 0.4);
+  transform: translateY(24px) rotate(-0.6deg);
+}
+.archive-visible .archive-plate-press {
+  transform: translateY(0) rotate(-0.6deg);
+}
+.archive-plate-press img {
+  aspect-ratio: 0.86;
+}
+.archive-plate-tv {
+  z-index: 3;
+  justify-self: end;
+  align-self: center;
+  width: min(40%, 250px);
+  margin-top: clamp(120px, 16vw, 220px);
+  transition-delay: 0.15s;
+}
+.archive-plate-tv img {
+  aspect-ratio: 1.3;
+}
+.archive-plate-award {
+  z-index: 4;
+  justify-self: start;
+  align-self: end;
+  width: min(34%, 210px);
+  margin-left: 8%;
+  transition-delay: 0.28s;
+}
+.archive-plate-award img {
+  aspect-ratio: 1.1;
+}
+
+/* Beat 08 — the climax, right-aligned against the intro's left
+   alignment so the eye is deliberately redirected before the close. */
+.archive-climax {
+  grid-area: climax;
+  max-width: 640px;
+  margin: 28px 0 0 auto;
+  padding-top: 44px;
+  border-top: 1px solid rgba(36, 38, 40, 0.18);
+  text-align: right;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+.archive-visible .archive-climax {
+  opacity: 1;
+  transform: translateY(0);
+}
+.archive-climax p {
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+.archive-climax-emphasis {
+  margin-top: 4px;
+  color: var(--neodent-red);
+  font-style: italic;
+}
+
+.archive-transition {
+  grid-area: transition;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 18px 0 0;
+  color: rgba(36, 38, 40, 0.48);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.archive-transition-line {
+  width: 40px;
+  height: 1px;
+  background: rgba(36, 38, 40, 0.32);
+}
+.archive-intro,
+.archive-founder,
+.archive-impact {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+.archive-visible .archive-intro,
+.archive-visible .archive-founder,
+.archive-visible .archive-impact {
+  opacity: 1;
+  transform: translateY(0);
+}
+.archive-founder {
+  transition-delay: 0.1s;
+}
+.archive-impact {
+  transition-delay: 0.2s;
+}
 
 .exp-intro {
 
@@ -10228,29 +10480,106 @@ button {
    viewport that is what keeps it visually prominent without forcing
    the frame wider than the screen. */
 @media (prefers-reduced-motion: reduce) {
-  .legacy-story-copy, .legacy-story-inner > .legacy-archive, .legacy-plate { opacity: 1; transform: none; transition: none; }
+  .archive-intro,
+  .archive-founder,
+  .archive-impact,
+  .archive-plate,
+  .archive-climax {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 @media (max-width: 1199px) {
-  .legacy-story-inner { grid-template-columns: minmax(280px, 0.9fr) minmax(390px, 1.1fr); gap: 42px; }
-  .legacy-archive { min-height: 540px; }
-  .legacy-plate-primary { width: min(62%, 360px); }
-  .legacy-plate-interview { width: min(42%, 230px); }
+  .archive-grid {
+    grid-template-columns: minmax(270px, 0.92fr) minmax(380px, 1.08fr);
+    column-gap: 40px;
+  }
+  .archive-year {
+    font-size: clamp(5.5rem, 13vw, 9rem);
+  }
+  .archive-plate-press {
+    width: min(60%, 320px);
+  }
+  .archive-plate-tv {
+    width: min(42%, 210px);
+    margin-top: clamp(90px, 18vw, 160px);
+  }
+  .archive-plate-award {
+    width: min(36%, 180px);
+  }
+  .archive-impact {
+    margin-left: 8%;
+  }
 }
+
+/* ---- Mobile (<768px): recomposed, not stacked. The desktop grid
+   areas are dropped for a single editorial flow that follows the
+   section's own reading order: legacy -> founding line -> Siasat
+   artifact -> founder/35+ -> television -> recognition -> patients
+   -> climax -> transition. */
 @media (max-width: 767px) {
-  .legacy-story { padding: 80px 0 72px; }
-  .legacy-story-inner { display: flex; flex-direction: column; align-items: stretch; gap: 48px; min-height: 0; }
-  .legacy-story-copy { max-width: none; }
-  .legacy-title { font-size: clamp(3.5rem, 15vw, 5rem); }
-  .legacy-description { margin-top: 24px; }
-  .legacy-trust { max-width: none; margin-top: 32px; }
-  .legacy-trust-item { padding-right: 10px; }
-  .legacy-trust-item + .legacy-trust-item { padding-left: 10px; }
-  .legacy-archive { min-height: 590px; margin: 0 -4px; }
-  .legacy-spine { left: 12%; }
-  .legacy-plate-primary { top: 0; left: 16%; width: 70%; }
-  .legacy-plate-interview { top: 40%; right: 0; width: 49%; }
-  .legacy-plate-award { bottom: 0; left: 0; width: 42%; }
+  .archive {
+    padding: 80px 0 72px;
+  }
+  .archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .archive-grid::before {
+    display: none;
+  }
+  .archive-year {
+    order: 1;
+    margin: 0 0 -0.3em;
+    font-size: clamp(4.5rem, 26vw, 6.5rem);
+  }
+  .archive-intro {
+    order: 2;
+    max-width: none;
+  }
+  .archive-title {
+    max-width: none;
+    font-size: clamp(2.6rem, 13vw, 3.6rem);
+  }
+  .archive-plate-press {
+    order: 3;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    transform: none !important;
+  }
+  .archive-founder {
+    order: 4;
+    margin: 0;
+  }
+  .archive-plate-tv {
+    order: 5;
+    width: min(72%, 300px);
+    margin: 0 auto;
+  }
+  .archive-plate-award {
+    order: 6;
+    width: min(60%, 260px);
+    margin: 0 auto;
+  }
+  .archive-impact {
+    order: 7;
+    margin: 0;
+  }
+  .archive-climax {
+    order: 8;
+    margin: 8px 0 0;
+    max-width: none;
+    text-align: left;
+  }
+  .archive-transition {
+    order: 9;
+    justify-content: flex-start;
+    margin-top: 4px;
+  }
 }
 
 @media (max-width: 767px) {
