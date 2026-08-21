@@ -43,6 +43,21 @@ export function LegacyStory() {
       aria-labelledby="archive-title"
     >
       <div className="container archive-grid">
+        <div className="archive-atmosphere" aria-hidden="true">
+          <span className="archive-arch archive-arch-main" />
+          <span className="archive-arch archive-arch-inner" />
+          <span className="archive-tooth-contour" />
+          <span className="archive-draft archive-draft-horizontal" />
+          <span className="archive-draft archive-draft-vertical" />
+          <span className="archive-registration archive-registration-top" />
+          <span className="archive-registration archive-registration-bottom" />
+        </div>
+        <div className="archive-route" aria-hidden="true">
+          <span>01 / BEGINNING</span>
+          <span>02 / PEOPLE</span>
+          <span>03 / RECORD</span>
+          <span>04 / IMPACT</span>
+        </div>
         <p className="archive-year" aria-hidden="true">
           1994
         </p>
