@@ -9764,10 +9764,10 @@ button {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.68fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.68fr);
   grid-template-rows: auto minmax(12px, 1fr) auto;
   align-items: start;
-  gap: clamp(16px, 2vw, 24px) clamp(40px, 5vw, 80px);
+  gap: clamp(16px, 2vw, 24px) clamp(48px, 4vw, 64px);
 }
 .exp-intro-proof-wrap {
   position: relative;
@@ -9981,7 +9981,7 @@ button {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 12px;
   min-width: 0;
   opacity: 0;
