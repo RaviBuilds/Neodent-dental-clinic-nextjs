@@ -156,6 +156,20 @@ export function ExperienceIntro() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={experienceIntroBackdrop} alt="" />
       </div>
+      {/* Bespoke architectural linework -- Section 02's own arch/draft/
+          registration vocabulary (see .archive-atmosphere in LegacyStory)
+          recomposed as a doorway/corridor motif instead of Section 02's
+          archive-arch/tooth-contour story, so both sections read as the
+          same designer's drafting language without literally repeating
+          either one's composition. Purely decorative: aria-hidden and
+          pointer-events:none throughout. */}
+      <div className="exp-intro-atmosphere" aria-hidden="true">
+        <span className="exp-intro-arch exp-intro-arch-door" />
+        <span className="exp-intro-arch exp-intro-arch-door-inner" />
+        <span className="exp-intro-draft exp-intro-draft-horizontal" />
+        <span className="exp-intro-draft exp-intro-draft-vertical" />
+        <span className="exp-intro-registration" />
+      </div>
       <span className="exp-intro-ghost" aria-hidden="true">
         01
       </span>
@@ -202,8 +216,13 @@ export function ExperienceIntro() {
               {isPlaying ? <Pause size={13} /> : <Play size={13} />}
             </button>
           </div>
+          {/* Same figcaption pattern Section 02's archive plates use --
+              a bold red primary label (<b>) paired with a muted <span>
+              -- so this caption reads as the same media-metadata
+              language, not a differently-weighted pair of labels.
+              Copy unchanged. */}
           <div className="exp-intro-meta">
-            <span>Neodent / Inside</span>
+            <b>Neodent / Inside</b>
             <span>Hospital tour</span>
           </div>
         </div>
@@ -214,15 +233,6 @@ export function ExperienceIntro() {
               <li key={value}>{value}</li>
             ))}
           </ul>
-          {/* Not yet wired: the dedicated About / Our Story page does not
-              exist in this multipage site yet. Rendered as plain text
-              (not an <a> or <button>) rather than pointing at a fake
-              route or the in-page #about anchor, so it is visually and
-              semantically complete without claiming to be interactive
-              until it can be wired to that page. */}
-          <span className="text-link exp-intro-cta">
-            Discover Our Story <span aria-hidden="true">→</span>
-          </span>
         </div>
       </div>
       <div className="container exp-intro-proof-wrap">
@@ -237,6 +247,21 @@ export function ExperienceIntro() {
             </div>
           ))}
         </div>
+      </div>
+      <div className="container exp-intro-cta-wrap">
+        {/* Not yet wired: the dedicated About / Our Story page does not
+            exist in this multipage site yet. Rendered as plain text
+            (not an <a> or <button>) rather than pointing at a fake
+            route or the in-page #about anchor, so it is visually and
+            semantically complete without claiming to be interactive
+            until it can be wired to that page. Positioned after the
+            proof points in DOM/reading order (both desktop and mobile)
+            so the section closes on the CTA, matching the intended
+            eyebrow -> headline -> paragraph -> video -> values -> proof
+            -> CTA sequence. */}
+        <span className="text-link exp-intro-cta">
+          Discover Our Story <span aria-hidden="true">→</span>
+        </span>
       </div>
     </section>
   );

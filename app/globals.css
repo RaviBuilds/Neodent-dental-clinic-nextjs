@@ -10289,6 +10289,84 @@ button {
   pointer-events: none;
 }
 
+/* ---- Architectural linework -- Section 01's own doorway/corridor
+   motif, built from Section 02's exact vocabulary and opacity recipe
+   (.archive-arch / .archive-draft / .archive-registration) but
+   recomposed around a different subject: an arch standing for a
+   doorway/entrance rather than Section 02's room-plan arches, plus one
+   corridor line that (in Task 5) will extend toward the video frame.
+   Namespaced entirely under .exp-intro-* -- nothing here redefines or
+   collides with any .archive-* selector. */
+.exp-intro-atmosphere {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* The entrance arch: a doorway silhouette on the right side of the
+   section, behind the video column, at the same border weight/opacity
+   Section 02 uses for its own arches (rgba(36,38,40,.11)). */
+.exp-intro-arch {
+  position: absolute;
+  border: 1px solid rgba(36, 38, 40, 0.11);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
+}
+.exp-intro-arch-door {
+  top: 6%;
+  right: 6%;
+  width: 30%;
+  height: 68%;
+  transform: rotate(2deg);
+}
+.exp-intro-arch-door-inner {
+  top: 12%;
+  right: 10.5%;
+  width: 22%;
+  height: 56%;
+  border-color: rgba(215, 25, 32, 0.15);
+  transform: rotate(2deg);
+}
+/* Corridor drafting lines -- same 1px hairline treatment as
+   .archive-draft-horizontal/-vertical. */
+.exp-intro-draft {
+  position: absolute;
+  background: rgba(36, 38, 40, 0.11);
+}
+.exp-intro-draft-horizontal {
+  top: 64%;
+  left: 4%;
+  width: 40%;
+  height: 1px;
+}
+.exp-intro-draft-vertical {
+  top: 8%;
+  left: 46%;
+  width: 1px;
+  height: 30%;
+}
+/* Registration mark -- same small circle + tick device as
+   .archive-registration, at the same 17px / red-.18 recipe. */
+.exp-intro-registration {
+  position: absolute;
+  top: 14%;
+  left: 42%;
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgba(215, 25, 32, 0.18);
+  border-radius: 50%;
+}
+.exp-intro-registration::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: -7px;
+  width: 29px;
+  height: 1px;
+  background: rgba(215, 25, 32, 0.16);
+}
+
 
 /* THE APERTURE. Column 1 (copy, then secondary) used to occupy the same
    two-row track as column 2's video with `align-items: center` -- since
@@ -10320,10 +10398,72 @@ button {
   align-items: start;
   gap: clamp(16px, 2vw, 24px) clamp(48px, 4vw, 64px);
 }
+/* THE CONNECTOR. One corridor draft line, built exactly like
+   .archive-grid::before (a calc()-positioned pseudo-element hairline,
+   not a standalone "UI connector" component), so the headline and the
+   video read as one composition instead of two independent columns.
+   Sits BEHIND both columns (z-index:0, under .exp-intro-copy/-visual's
+   z-index:1) and terminates near the frame's own red top-left corner
+   accent (.exp-intro-frame::after) so the drafting line appears to
+   walk into the frame rather than point at it with a separate arrow
+   or rule. Desktop-only: at the 1024px tier and narrower the grid
+   collapses to a single column and this relationship no longer
+   applies, so it is turned off there (see media queries below) the
+   same way Section 02 retires its own decorative connectors on
+   narrower layouts. */
+.exp-intro-grid::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: clamp(92px, 10vw, 132px);
+  left: 0;
+  width: calc(55% + clamp(52px, 7vw, 112px) * 0.45);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(36, 38, 40, 0.16) 22%,
+    rgba(215, 25, 32, 0.32) 78%,
+    rgba(215, 25, 32, 0.32) 100%
+  );
+  pointer-events: none;
+}
 .exp-intro-proof-wrap {
   position: relative;
   z-index: 1;
   margin-top: clamp(32px, 4vw, 48px);
+  /* Step 7 -- proof points, after the values trio. */
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.48s,
+    transform 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.48s;
+}
+.exp-intro-visible .exp-intro-proof-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* CTA now closes the section (after the proof points) instead of
+   sitting inside .exp-intro-secondary above the values list -- see
+   ExperienceIntro.tsx. Right-aligned under the proof strip so it still
+   reads as a deliberate close to the copy column rather than a
+   stray line, without competing with the proof points' own weight.
+   Step 8 -- last in the sequence, closing the cascade. */
+.exp-intro-cta-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: clamp(20px, 2.4vw, 28px);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 0.72, 0.2, 1) 0.56s,
+    transform 0.8s cubic-bezier(0.16, 0.72, 0.2, 1) 0.56s;
+}
+.exp-intro-visible .exp-intro-cta-wrap {
+  opacity: 1;
+  transform: translateY(0);
 }
 .exp-intro-proof {
   display: grid;
@@ -10370,6 +10510,20 @@ button {
   line-height: 1.45;
 }
 
+/* THE 8-STEP REVEAL. Same technique as Section 02's .archive-visible
+   pattern (a single IntersectionObserver toggling one class on the
+   section, then each element getting its own transition-delay), just
+   with finer granularity: background -> eyebrow -> headline ->
+   paragraph -> video -> values -> proof points -> CTA. Every one of
+   these eight targets is already a distinctly-classed element inside
+   the existing .exp-intro-visible toggle, so no extra wrapper divs
+   were needed in ExperienceIntro.tsx -- only these CSS rules.
+
+   Delays step up by ~0.08s and share one duration/easing so the
+   sequence reads as ONE calm cascade rather than eight separate
+   beats; movement stays small throughout (12-24px translateY, one
+   translateX on the background, one scale on the background) per the
+   "calm, precise, personal" brief for this section's own motion. */
 .exp-intro-copy {
   grid-column: 1;
   grid-row: 1;
@@ -10377,15 +10531,6 @@ button {
   z-index: 1;
   min-width: 0;
   max-width: 560px;
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1),
-    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1);
-}
-.exp-intro-visible .exp-intro-copy {
-  opacity: 1;
-  transform: translateY(0);
 }
 .exp-intro-visual {
   grid-column: 2;
@@ -10397,21 +10542,67 @@ button {
   align-self: end;
   min-width: 0;
   max-width: 560px;
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.06s,
-    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.06s;
-}
-.exp-intro-visible .exp-intro-secondary {
-  opacity: 1;
-  transform: translateY(0);
 }
 .exp-intro-eyebrow-row {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 8px 16px;
+}
+
+/* Step 1 -- background/atmosphere gently reveals first, establishing
+   the room before anything else arrives. Scale is the one place this
+   section uses the 0.98 -> 1 device the brief calls for, and the one
+   translateX in the sequence (a few px, reading as the corridor lines
+   settling into place) lives here too. */
+.exp-intro-atmosphere,
+.exp-intro-ghost {
+  opacity: 0;
+  transform: translateX(-8px) scale(0.98);
+  transition:
+    opacity 1.1s cubic-bezier(0.16, 0.72, 0.2, 1),
+    transform 1.1s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.exp-intro-visible .exp-intro-atmosphere,
+.exp-intro-visible .exp-intro-ghost {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+/* Step 2 -- eyebrow. */
+.exp-intro-eyebrow-row {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.08s,
+    transform 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.08s;
+}
+.exp-intro-visible .exp-intro-eyebrow-row {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Step 3 -- headline. */
+.exp-intro-title {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.16s,
+    transform 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.16s;
+}
+.exp-intro-visible .exp-intro-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Step 4 -- paragraph. */
+.exp-intro-lede {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.24s,
+    transform 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.24s;
+}
+.exp-intro-visible .exp-intro-lede {
+  opacity: 1;
+  transform: translateY(0);
 }
 .exp-intro .exp-intro-copy .eyebrow {
   display: inline-flex;
@@ -10423,7 +10614,10 @@ button {
 }
 .exp-intro .exp-intro-copy .eyebrow::before {
   content: "";
-  width: 14px;
+  /* Matched to Section 02's .archive-eyebrow::before hairline width
+     (34px) rather than the previous 14px, so the two sections' eyebrow
+     rows read as the same typographic device. */
+  width: 34px;
   height: 1px;
   background: var(--neodent-red);
 }
@@ -10448,7 +10642,15 @@ button {
   margin: 16px 0 0;
   display: flex;
   flex-direction: column;
-  font-size: clamp(3.25rem, 4.4vw, 4rem);
+  /* Derived from Section 02's .archive-title scale (clamp(3rem, 5vw,
+     5.2rem), i.e. 48px-83.2px) rather than picked independently: this
+     section's ceiling is deliberately set below both that figure and
+     the Hero's --type-hero-primary (56px-96px), so Section 01 reads as
+     a substantial editorial section heading -- clearly a sibling of
+     Section 02's chapter titles -- and unambiguously subordinate to
+     the Hero. See the desktop-tier override below for the value that
+     actually wins at >=768px; this is only the pre-art-direction base. */
+  font-size: clamp(2.75rem, 4.1vw, 4.5rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
   font-weight: 400;
@@ -10488,6 +10690,16 @@ button {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  /* Step 6 -- CALM / PRECISE / PERSONAL, after the video. */
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.4s,
+    transform 0.85s cubic-bezier(0.16, 0.72, 0.2, 1) 0.4s;
+}
+.exp-intro-visible .exp-intro-values {
+  opacity: 1;
+  transform: translateY(0);
 }
 .exp-intro-values li {
   position: relative;
@@ -10507,7 +10719,7 @@ button {
 }
 
 .exp-intro .exp-intro-cta {
-  margin-top: 30px;
+  margin-top: 0;
   color: #242628;
   -webkit-text-fill-color: #242628;
   opacity: 1;
@@ -10556,11 +10768,13 @@ button {
   align-items: flex-start;
   gap: 12px;
   min-width: 0;
+  /* Step 5 -- video, arriving after the paragraph as the brief
+     specifies ("video frame enters slightly after the text"). */
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition:
-    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.12s,
-    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.12s;
+    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.32s,
+    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.32s;
 }
 .exp-intro-visible .exp-intro-visual {
   opacity: 1;
@@ -10642,30 +10856,56 @@ button {
   background: rgba(215, 25, 32, 0.22);
 }
 
+/* Matched to Section 02's .archive-plate figcaption recipe exactly:
+   flex space-between (not a left-aligned run), the same 9px/0.1em
+   uppercase muted metadata treatment, and a bold red primary label
+   via <b> (see .exp-intro-meta b below) instead of the two
+   equal-weight plain spans this used to be. Copy is unchanged --
+   only the typographic language moved to match. */
 .exp-intro-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding-right: 4px;
-  color: rgba(36, 38, 40, 0.5);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px 11px 4px;
+  color: rgba(36, 38, 40, 0.54);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
-.exp-intro-meta span + span {
-  padding-left: 10px;
-  border-left: 1px solid rgba(251, 250, 247, 0.2);
+.exp-intro-meta b {
+  color: var(--neodent-red);
+  font-size: 9px;
+  font-weight: 700;
 }
 
+/* All eight reveal steps disabled uniformly -- everything appears at
+   its final position instantly, same pattern already used for
+   .archive-*'s own reduced-motion override. */
 @media (prefers-reduced-motion: reduce) {
-  .exp-intro-copy,
-  .exp-intro-visual {
+  .exp-intro-atmosphere,
+  .exp-intro-ghost,
+  .exp-intro-eyebrow-row,
+  .exp-intro-title,
+  .exp-intro-lede,
+  .exp-intro-visual,
+  .exp-intro-values,
+  .exp-intro-proof-wrap,
+  .exp-intro-cta-wrap {
     transition: opacity 0.2s ease !important;
     transform: none !important;
   }
-  .exp-intro-visible .exp-intro-copy,
-  .exp-intro-visible .exp-intro-visual {
+  .exp-intro-visible .exp-intro-atmosphere,
+  .exp-intro-visible .exp-intro-ghost,
+  .exp-intro-visible .exp-intro-eyebrow-row,
+  .exp-intro-visible .exp-intro-title,
+  .exp-intro-visible .exp-intro-lede,
+  .exp-intro-visible .exp-intro-visual,
+  .exp-intro-visible .exp-intro-values,
+  .exp-intro-visible .exp-intro-proof-wrap,
+  .exp-intro-visible .exp-intro-cta-wrap {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -10696,6 +10936,14 @@ button {
     grid-template-rows: auto auto auto;
     gap: 32px;
   }
+  /* The headline->video connector line is a desktop-only device --
+     once the grid collapses to one column the two are already
+     stacked in reading order and no longer need a drafted line
+     between them, the same way Section 02 retires its own decorative
+     connectors at narrower widths. */
+  .exp-intro-grid::before {
+    display: none;
+  }
   .exp-intro-copy,
   .exp-intro-secondary {
     grid-column: 1;
@@ -10714,6 +10962,10 @@ button {
   }
   .exp-intro-frame {
     width: min(52vw, 380px);
+    /* Reset the desktop-only offset -- centred in a single-column
+       layout, the frame should sit cleanly rather than carry a nudge
+       that had a specific desktop target to reach for. */
+    transform: none;
   }
 }
 
@@ -10934,6 +11186,10 @@ button {
     order: 3;
     max-width: 100%;
   }
+  /* .exp-intro-proof-wrap and .exp-intro-cta-wrap are siblings of
+     .exp-intro-grid (not flex children within it), so they already
+     render in correct document order after the grid -- no `order`
+     needed here. See ExperienceIntro.tsx for the DOM order. */
   .exp-intro-frame {
     width: min(100%, 316px);
     max-width: 100%;
@@ -10945,13 +11201,7 @@ button {
   }
   .exp-intro-meta {
     gap: 8px;
-    padding-right: 0;
-    font-size: 9px;
-    letter-spacing: 0.14em;
-  }
-  .exp-intro-meta span + span {
-    padding-left: 8px;
-    border-left-color: rgba(36, 38, 40, 0.2);
+    padding: 8px 0 0;
   }
 }
 
@@ -10999,16 +11249,25 @@ button {
     transparent
   );
 }
+/* The one and only "NEODENT / ARRIVAL / 01" vertical label -- matched
+   to Section 02's .archive-atmosphere::after recipe exactly (font-size,
+   weight, letter-spacing, color, writing-mode). Positioning logic stays
+   pixel/viewport-based rather than percentage-based because this label
+   is a ::after on .exp-intro itself (the section box), not on a nested
+   atmosphere container the way .archive-atmosphere::after is -- the
+   two DOM hosts differ, but the resulting typographic treatment is
+   identical. Task 3's new .exp-intro-atmosphere layer does not add a
+   second copy of this label; this remains the single instance. */
 .exp-intro::after {
   content: "NEODENT / ARRIVAL / 01";
   position: absolute;
   top: 48px;
   right: max(24px, calc((100vw - 1340px) / 2));
   z-index: 2;
-  color: rgba(36, 38, 40, 0.34);
+  color: rgba(36, 38, 40, 0.13);
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.26em;
   writing-mode: vertical-rl;
   pointer-events: none;
 }
@@ -11052,9 +11311,19 @@ button {
 .exp-intro-title {
   margin-top: 22px;
   max-width: 520px;
-  font-size: clamp(3.5rem, 5.2vw, 5.7rem);
-  line-height: 0.97;
-  letter-spacing: -0.045em;
+  /* This is the rule that actually wins at desktop widths (it has no
+     media-query wrapper, so it overrides the un-scoped base rule
+     above). Was clamp(3.5rem, 5.2vw, 5.7rem) = 56px-91.2px -- nearly
+     identical to the Hero's --type-hero-primary (56px-96px), which is
+     exactly the "reads as a second hero" problem the section needed
+     to shed. Rescaled to clamp(2.75rem, 4.1vw, 4.5rem) = 44px-72px:
+     derived proportionally from Section 02's .archive-title
+     (clamp(3rem, 5vw, 5.2rem) = 48px-83.2px) so the two section titles
+     sit in the same size family, while staying clearly beneath both
+     Section 02's ceiling and the Hero's floor. */
+  font-size: clamp(2.75rem, 4.1vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 .exp-intro-title .serif {
   font-style: italic;
@@ -11073,6 +11342,13 @@ button {
 .exp-intro-frame {
   width: clamp(300px, 28vw, 410px);
   padding: 18px 0 0 18px;
+  /* Subtle grid-breaking offset -- restrained to the same order of
+     magnitude as Section 02's plate rotations (-0.6deg to -1.2deg),
+     not a bold overlap. Nudges the frame up and slightly left so its
+     top-left red corner accent (::after) sits closer to where the
+     connector line above terminates, without leaving its column or
+     overlapping the copy text. */
+  transform: translate(-10px, -14px);
 }
 .exp-intro-frame::before {
   border-color: rgba(215, 25, 32, 0.46);
@@ -11092,11 +11368,6 @@ button {
 }
 .exp-intro-meta {
   width: min(100%, 410px);
-  justify-content: space-between;
-  color: rgba(36, 38, 40, 0.46);
-}
-.exp-intro-meta span + span {
-  border-left-color: rgba(36, 38, 40, 0.2);
 }
 .exp-intro-secondary {
   max-width: 500px;
@@ -11106,11 +11377,13 @@ button {
   color: rgba(36, 38, 40, 0.62);
 }
 .exp-intro .exp-intro-cta {
-  margin-top: 34px;
   color: #242628;
 }
 .exp-intro-proof-wrap {
   margin-top: clamp(48px, 6vw, 84px);
+}
+.exp-intro-cta-wrap {
+  margin-top: clamp(24px, 2.8vw, 34px);
 }
 .exp-intro-proof {
   max-width: 980px;
@@ -11168,6 +11441,37 @@ button {
     left: 18px;
     top: 50px;
   }
+  /* On the single-column mobile layout the doorway arch's original
+     desktop address (pinned to the right, behind the video column)
+     no longer sits behind anything in particular; scaled down and
+     nudged toward the top-right corner instead, echoing how Section
+     02's own .archive-atmosphere is repositioned (not hidden) at this
+     same breakpoint. */
+  .exp-intro-atmosphere {
+    opacity: 0.7;
+  }
+  .exp-intro-arch-door {
+    top: 2%;
+    right: -8%;
+    width: 46%;
+    height: 30%;
+  }
+  .exp-intro-arch-door-inner {
+    top: 5%;
+    right: -2%;
+    width: 34%;
+    height: 24%;
+  }
+  .exp-intro-draft-horizontal {
+    top: 34%;
+    width: 60%;
+  }
+  .exp-intro-draft-vertical {
+    display: none;
+  }
+  .exp-intro-registration {
+    display: none;
+  }
   .exp-intro-grid {
     gap: 32px;
   }
@@ -11181,8 +11485,14 @@ button {
   }
   .exp-intro-title {
     max-width: 360px;
-    font-size: clamp(2.9rem, 13vw, 4rem);
-    line-height: 0.98;
+    /* Rescaled by the same ~0.79 ratio as the desktop tier above (new
+       72px ceiling / old 91.2px ceiling), keeping this tier's own
+       proportions internally consistent with the rest of the section's
+       new, more subordinate scale rather than chasing the Hero's much
+       more aggressively-shrunk mobile size, which belongs to a
+       different composition. */
+    font-size: clamp(2.3rem, 10.5vw, 3.2rem);
+    line-height: 1.02;
   }
   .exp-intro-lede {
     max-width: 340px;
@@ -11212,6 +11522,7 @@ button {
     display: none;
   }
   .exp-intro-title {
-    font-size: clamp(2.7rem, 13.5vw, 3.6rem);
+    /* Same proportional rescale as the 767px tier above. */
+    font-size: clamp(2.15rem, 10.8vw, 2.9rem);
   }
 }
