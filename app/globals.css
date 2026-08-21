@@ -10152,7 +10152,7 @@ button {
    the frame wider than the screen. */
 @media (max-width: 767px) {
   .exp-intro {
-    padding: 72px 0 64px;
+    padding: 56px 0 48px;
   }
   /* Rescaled down with the desktop base, same reasoning as the tablet
      tier above -- was clamp(56px, 20vw, 84px). */
@@ -10168,10 +10168,10 @@ button {
   .exp-intro-grid {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
   }
   .exp-intro-proof-wrap {
-    margin-top: 32px;
+    margin-top: 24px;
   }
   .exp-intro-proof {
     grid-template-columns: 1fr;
@@ -10179,7 +10179,7 @@ button {
   }
   .exp-intro-proof-item,
   .exp-intro-proof-item + .exp-intro-proof-item {
-    padding: 16px 0;
+    padding: 13px 0;
     border-left: 0;
   }
   .exp-intro-proof-item + .exp-intro-proof-item {
@@ -10199,19 +10199,44 @@ button {
     max-width: 100%;
   }
   .exp-intro-frame {
-    width: auto;
+    width: min(100%, 300px);
     max-width: 100%;
   }
   .exp-intro-video {
-    width: auto;
+    width: 100%;
     max-width: 100%;
-    height: clamp(460px, 64vh, 560px);
+    height: clamp(360px, 56vh, 450px);
+  }
+  .exp-intro-meta {
+    gap: 8px;
+    padding-right: 0;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+  .exp-intro-meta span + span {
+    padding-left: 8px;
   }
 }
 
 @media (max-width: 430px) {
-  /* Headline size: --type-section-title, ≤430px tier. */
+  /* Keep the portrait tour present but subordinate to the headline. */
+  .exp-intro-frame {
+    width: min(100%, 286px);
+  }
   .exp-intro-video {
-    height: clamp(420px, 60vh, 500px);
+    height: clamp(340px, 54vh, 420px);
+  }
+}
+
+@media (max-width: 340px) {
+  .exp-intro {
+    padding-top: 48px;
+  }
+  .exp-intro-video {
+    height: clamp(320px, 52vh, 380px);
+  }
+  .exp-intro-proof-item strong {
+    font-size: 10px;
+    letter-spacing: 0.12em;
   }
 }
