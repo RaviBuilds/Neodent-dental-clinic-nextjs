@@ -26,6 +26,9 @@ export const treatmentImage = "/assets/Neodent dental hospital Interior.jpg";
 export const equipmentImage = "/assets/Neodent dental hospital Interior.jpg";
 export const detailImage = "/assets/Neodent dental hospital Interior.jpg";
 export const philosophyImage = "/attached_assets/our-philosophy.webp";
+export const legacyPressImage = "/assets/neodent-media-siasat-01.jpg";
+export const legacyInterviewImage = "/assets/dr-siraj-tv-interview.jpg";
+export const legacyAwardImage = "/assets/dr-miftah-award-recognition.jpg";
 export const visitImage = "/assets/Neodent dental hospital Interior.jpg";
 export const officialLogo = "/assets/Neodent dental hospital hyderabad logo.jpeg";
 
