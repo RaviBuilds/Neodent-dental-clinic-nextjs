@@ -9738,6 +9738,26 @@ button {
   pointer-events: none;
 }
 
+/* A quiet clinical artifact gives the section's negative space a subject:
+   material, not ornament. It stays behind the editorial copy and never
+   competes with the real clinic photograph or tour video. */
+.exp-intro-artifact {
+  position: absolute;
+  left: clamp(10%, 18vw, 28%);
+  top: 34%;
+  z-index: 0;
+  width: clamp(150px, 19vw, 280px);
+  opacity: 0.13;
+  filter: grayscale(0.7) blur(0.2px) drop-shadow(0 18px 20px rgba(0, 0, 0, 0.24));
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+.exp-intro-artifact img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* THE APERTURE. Column 1 (copy, then secondary) used to occupy the same
    two-row track as column 2's video with `align-items: center` -- since
    the video ran ~300px taller than the two text blocks combined, that
@@ -9846,7 +9866,7 @@ button {
   margin: 16px 0 0;
   display: flex;
   flex-direction: column;
-  font-size: var(--type-section-title);
+  font-size: clamp(3.25rem, 4.4vw, 4rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
   font-weight: 400;
@@ -9866,7 +9886,7 @@ button {
      font size) while using the column it's actually given. */
   max-width: 460px;
   color: rgba(251, 250, 247, 0.72);
-  font-size: 15.5px;
+  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
   line-height: 1.65;
 }
 
@@ -10068,6 +10088,12 @@ button {
   .exp-intro-backdrop img {
     opacity: 0.5;
   }
+  .exp-intro-artifact {
+    left: 18%;
+    top: 42%;
+    width: 190px;
+    opacity: 0.09;
+  }
   .exp-intro-grid {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto;
@@ -10113,6 +10139,9 @@ button {
      to the new higher base opacity. */
   .exp-intro-backdrop img {
     opacity: 0.4;
+  }
+  .exp-intro-artifact {
+    display: none;
   }
   .exp-intro-grid {
     display: flex;
