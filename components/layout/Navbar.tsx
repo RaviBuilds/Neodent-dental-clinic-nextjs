@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { AppButton } from "@/components/ui/AppButton";
-import { navItems, officialLogo } from "@/lib/site-data";
+import { BrandLockup } from "@/components/layout/BrandLockup";
+import { navItems } from "@/lib/site-data";
 
 export function Navbar({ onBook }: { onBook: () => void }) {
   const [scrolled, setScrolled] = useState(false);
@@ -23,26 +24,7 @@ export function Navbar({ onBook }: { onBook: () => void }) {
       data-testid="navigation-header"
     >
       <div className="container nav-inner">
-        <a
-          className="brand"
-          href="#home"
-          onClick={closeMenu}
-          data-testid="link-home-brand"
-        >
-          <span className="brand-logo-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="brand-logo"
-              src={officialLogo}
-              alt="Neodent Dental Hospitals"
-            />
-          </span>
-          <span className="brand-word">
-            NEODENT
-            <br />
-            DENTAL HOSPITALS
-          </span>
-        </a>
+        <BrandLockup onClick={closeMenu} testId="link-home-brand" />
         <nav className="nav-links" aria-label="Primary navigation">
           {navItems.map((item) => (
             <a
