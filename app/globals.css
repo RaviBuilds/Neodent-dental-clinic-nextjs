@@ -9942,19 +9942,33 @@ button {
   -webkit-text-fill-color: #242628;
   opacity: 1;
   transform: none;
-  cursor: default;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    gap 0.3s ease,
+    background-size 0.3s ease;
+  background-image: linear-gradient(#d71920, #d71920);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
 }
 .exp-intro .exp-intro-cta > span {
   color: inherit;
   -webkit-text-fill-color: inherit;
+  transition: transform 0.3s ease;
 }
-.exp-intro .exp-intro-cta:hover {
-  color: rgba(36, 38, 40, 0.78);
+.exp-intro .exp-intro-cta:hover,
+.exp-intro .exp-intro-cta:focus-visible {
+  color: #d71920;
+  -webkit-text-fill-color: #d71920;
   gap: 11px;
+  background-size: 100% 1px;
 }
-.exp-intro .exp-intro-cta::after {
-  display: none;
+.exp-intro .exp-intro-cta:hover > span,
+.exp-intro .exp-intro-cta:focus-visible > span {
+  transform: translateX(4px);
 }
+.exp-intro .exp-intro-cta::after,
 .exp-intro .exp-intro-cta svg {
   display: none;
 }
