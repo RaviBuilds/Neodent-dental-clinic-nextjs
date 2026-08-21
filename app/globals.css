@@ -9573,8 +9573,8 @@ button {
 
 .exp-intro {
   position: relative;
-  background: var(--neodent-charcoal);
-  color: var(--neodent-ivory);
+  background: #f1eee7;
+  color: #242628;
   overflow: hidden;
   /* Top padding increased from clamp(76px, 9vw, 110px) so the section
      visibly starts BELOW the threshold hairline instead of continuing
@@ -9607,9 +9607,9 @@ button {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(251, 250, 247, 0.14) 15%,
-    rgba(215, 25, 32, 0.4) 50%,
-    rgba(251, 250, 247, 0.14) 85%,
+    rgba(36, 38, 40, 0.14) 15%,
+    rgba(215, 25, 32, 0.5) 50%,
+    rgba(36, 38, 40, 0.14) 85%,
     transparent 100%
   );
 }
@@ -9657,8 +9657,8 @@ button {
      desaturated to grey. This is graded for RECOGNISABILITY, not for
      brightness: the veil below still does the heavy lifting of keeping
      the layer dark and subordinate to the copy. */
-  filter: grayscale(0.4) brightness(0.56) contrast(1.08) saturate(1.1);
-  opacity: 0.62;
+  filter: grayscale(0.35) brightness(1.05) contrast(1.02) saturate(0.85);
+  opacity: 0.1;
 }
 /* ---- Crop, at ≤1024px. The box's ratio flips below the photo's own
    (0.75): the box is now TALLER than the photo relative to its width,
@@ -9690,27 +9690,8 @@ button {
   position: absolute;
   inset: 0;
   background:
-    /* Primary veil: heavy under the copy column, opening up across the
-       seam into the video column -- the APERTURE the composition is
-       built around. Still fully opaque-reading at 0%; the clinic is
-       never competing with the headline. */
-    linear-gradient(
-      100deg,
-      rgba(22, 28, 30, 0.95) 0%,
-      rgba(22, 28, 30, 0.82) 36%,
-      rgba(22, 28, 30, 0.46) 64%,
-      rgba(22, 28, 30, 0.3) 88%,
-      rgba(22, 28, 30, 0.38) 100%
-    ),
-    /* Floor fade: darkens the section's bottom edge back toward
-       charcoal so the seam into TrustStrip (paper-toned) reads as a
-       deliberate close, not a hard cut. */
-    linear-gradient(180deg, transparent 68%, rgba(22, 28, 30, 0.5) 100%),
-    radial-gradient(
-      60% 70% at 12% 12%,
-      rgba(215, 25, 32, 0.08) 0%,
-      transparent 60%
-    );
+    linear-gradient(100deg, rgba(241, 238, 231, 0.94) 0%, rgba(241, 238, 231, 0.78) 42%, rgba(241, 238, 231, 0.32) 78%, rgba(241, 238, 231, 0.18) 100%),
+    linear-gradient(180deg, rgba(241, 238, 231, 0.08) 68%, rgba(228, 222, 211, 0.42) 100%);
 }
 
 /* Restrained ghost "01" -- deliberately MUCH more subordinate than any
@@ -9732,8 +9713,8 @@ button {
   font-size: clamp(72px, 7.5vw, 120px);
   line-height: 0.78;
   letter-spacing: -0.03em;
-  color: rgba(215, 25, 32, 0.045);
-  -webkit-text-stroke: 1px rgba(215, 25, 32, 0.1);
+  color: rgba(36, 38, 40, 0.045);
+  -webkit-text-stroke: 1px rgba(36, 38, 40, 0.12);
   user-select: none;
   pointer-events: none;
 }
@@ -9779,8 +9760,8 @@ button {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 920px;
   margin-left: auto;
-  border-top: 1px solid rgba(251, 250, 247, 0.18);
-  border-bottom: 1px solid rgba(251, 250, 247, 0.12);
+  border-top: 1px solid rgba(36, 38, 40, 0.18);
+  border-bottom: 1px solid rgba(36, 38, 40, 0.12);
 }
 .exp-intro-proof-item {
   display: flex;
@@ -9791,7 +9772,7 @@ button {
 }
 .exp-intro-proof-item + .exp-intro-proof-item {
   padding-left: 24px;
-  border-left: 1px solid rgba(251, 250, 247, 0.14);
+  border-left: 1px solid rgba(36, 38, 40, 0.14);
 }
 .exp-intro-proof-index {
   color: var(--neodent-red);
@@ -9805,7 +9786,7 @@ button {
   display: block;
 }
 .exp-intro-proof-item strong {
-  color: rgba(251, 250, 247, 0.86);
+  color: rgba(36, 38, 40, 0.88);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -9814,7 +9795,7 @@ button {
 }
 .exp-intro-proof-item span:last-child {
   margin-top: 5px;
-  color: rgba(251, 250, 247, 0.5);
+  color: rgba(36, 38, 40, 0.56);
   font-size: 12px;
   line-height: 1.45;
 }
@@ -9866,7 +9847,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  color: rgba(251, 250, 247, 0.62);
+  color: rgba(36, 38, 40, 0.68);
   font-size: 11px;
   letter-spacing: 0.18em;
 }
@@ -9882,7 +9863,7 @@ button {
 .exp-intro-clinical {
   padding-left: 14px;
   border-left: 1px solid rgba(215, 25, 32, 0.55);
-  color: rgba(251, 250, 247, 0.46);
+  color: rgba(36, 38, 40, 0.56);
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -9916,7 +9897,7 @@ button {
      readable line-length territory (roughly 70-80 characters at this
      font size) while using the column it's actually given. */
   max-width: 460px;
-  color: rgba(251, 250, 247, 0.72);
+  color: rgba(36, 38, 40, 0.76);
   font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
   line-height: 1.65;
 }
@@ -9932,7 +9913,7 @@ button {
   margin: 22px 0 0;
   padding: 0;
   list-style: none;
-  color: rgba(251, 250, 247, 0.68);
+  color: rgba(36, 38, 40, 0.72);
   font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -9957,16 +9938,37 @@ button {
 
 .exp-intro .exp-intro-cta {
   margin-top: 30px;
-  color: rgba(251, 250, 247, 0.78);
-  cursor: default;
+  color: #242628;
+  -webkit-text-fill-color: #242628;
+  opacity: 1;
+  transform: none;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    gap 0.3s ease,
+    background-size 0.3s ease;
+  background-image: linear-gradient(#d71920, #d71920);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
 }
-.exp-intro .exp-intro-cta:hover {
-  color: rgba(251, 250, 247, 0.78);
+.exp-intro .exp-intro-cta > span {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+  transition: transform 0.3s ease;
+}
+.exp-intro .exp-intro-cta:hover,
+.exp-intro .exp-intro-cta:focus-visible {
+  color: #d71920;
+  -webkit-text-fill-color: #d71920;
   gap: 11px;
+  background-size: 100% 1px;
 }
-.exp-intro .exp-intro-cta::after {
-  display: none;
+.exp-intro .exp-intro-cta:hover > span,
+.exp-intro .exp-intro-cta:focus-visible > span {
+  transform: translateX(4px);
 }
+.exp-intro .exp-intro-cta::after,
 .exp-intro .exp-intro-cta svg {
   display: none;
 }
@@ -10041,8 +10043,8 @@ button {
      way. cover is kept only as a defensive fallback against float
      rounding between the aspect-ratio box and the file's true ratio. */
   object-fit: cover;
-  background: var(--neodent-ink);
-  border: 1px solid rgba(251, 250, 247, 0.14);
+  background: #dedbd3;
+  border: 1px solid rgba(36, 38, 40, 0.18);
 }
 
 .exp-intro-video-toggle {
@@ -10056,9 +10058,9 @@ button {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1px solid rgba(251, 250, 247, 0.4);
-  background: rgba(22, 28, 30, 0.55);
-  color: var(--neodent-ivory);
+  border: 1px solid rgba(36, 38, 40, 0.42);
+  background: rgba(241, 238, 231, 0.78);
+  color: #242628;
   backdrop-filter: blur(4px);
   transition:
     border-color 0.2s ease,
@@ -10075,7 +10077,7 @@ button {
   align-items: center;
   gap: 10px;
   padding-right: 4px;
-  color: rgba(251, 250, 247, 0.42);
+  color: rgba(36, 38, 40, 0.5);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -10117,7 +10119,7 @@ button {
   /* Same 80%-of-base ratio the original tablet override used, scaled to
      the new higher base opacity (0.62 rather than 0.5). */
   .exp-intro-backdrop img {
-    opacity: 0.5;
+    opacity: 0.1;
   }
   .exp-intro-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -10163,7 +10165,7 @@ button {
   /* Same ~64%-of-base ratio the original mobile override used, scaled
      to the new higher base opacity. */
   .exp-intro-backdrop img {
-    opacity: 0.4;
+    opacity: 0.1;
   }
   .exp-intro-grid {
     display: flex;
@@ -10183,7 +10185,7 @@ button {
     border-left: 0;
   }
   .exp-intro-proof-item + .exp-intro-proof-item {
-    border-top: 1px solid rgba(251, 250, 247, 0.14);
+    border-top: 1px solid rgba(36, 38, 40, 0.14);
   }
   .exp-intro-copy {
     order: 1;
