@@ -9579,7 +9579,7 @@ button {
   /* Top padding increased from clamp(76px, 9vw, 110px) so the section
      visibly starts BELOW the threshold hairline instead of continuing
      the Hero's own rhythm -- see the CHAPTER THRESHOLD note below. */
-  padding: clamp(108px, 13vw, 148px) 0 clamp(76px, 9vw, 110px);
+  padding: clamp(72px, 7vw, 88px) 0 clamp(56px, 6vw, 72px);
 }
 /* THE CHAPTER THRESHOLD. Before this section had NO visual event at its
    own top edge: Hero ends charcoal, Section 01 begins charcoal, same red
@@ -9738,6 +9738,7 @@ button {
   pointer-events: none;
 }
 
+
 /* THE APERTURE. Column 1 (copy, then secondary) used to occupy the same
    two-row track as column 2's video with `align-items: center` -- since
    the video ran ~300px taller than the two text blocks combined, that
@@ -9764,10 +9765,60 @@ button {
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.68fr);
-  grid-template-rows: auto minmax(32px, 1fr) auto;
+  grid-template-rows: auto minmax(12px, 1fr) auto;
   align-items: start;
-  gap: clamp(24px, 3.4vw, 40px) clamp(40px, 5vw, 80px);
+  gap: clamp(16px, 2vw, 24px) clamp(40px, 5vw, 80px);
 }
+.exp-intro-proof-wrap {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(32px, 4vw, 48px);
+}
+.exp-intro-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 920px;
+  margin-left: auto;
+  border-top: 1px solid rgba(251, 250, 247, 0.18);
+  border-bottom: 1px solid rgba(251, 250, 247, 0.12);
+}
+.exp-intro-proof-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px 24px 20px 0;
+}
+.exp-intro-proof-item + .exp-intro-proof-item {
+  padding-left: 24px;
+  border-left: 1px solid rgba(251, 250, 247, 0.14);
+}
+.exp-intro-proof-index {
+  color: var(--neodent-red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+.exp-intro-proof-item strong,
+.exp-intro-proof-item span:last-child {
+  display: block;
+}
+.exp-intro-proof-item strong {
+  color: rgba(251, 250, 247, 0.86);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.exp-intro-proof-item span:last-child {
+  margin-top: 5px;
+  color: rgba(251, 250, 247, 0.5);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .exp-intro-copy {
   grid-column: 1;
   grid-row: 1;
@@ -9846,7 +9897,7 @@ button {
   margin: 16px 0 0;
   display: flex;
   flex-direction: column;
-  font-size: var(--type-section-title);
+  font-size: clamp(3.25rem, 4.4vw, 4rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
   font-weight: 400;
@@ -9858,7 +9909,7 @@ button {
   color: var(--neodent-red);
 }
 .exp-intro-lede {
-  margin: 18px 0 0;
+  margin: 16px 0 0;
   /* Widened from 400px now that .exp-intro-copy's own cap moved to
      560px -- was leaving ~150px of dead track between the lede's text
      and the column's actual width. 460px keeps the measure inside
@@ -9866,7 +9917,7 @@ button {
      font size) while using the column it's actually given. */
   max-width: 460px;
   color: rgba(251, 250, 247, 0.72);
-  font-size: 15.5px;
+  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
   line-height: 1.65;
 }
 
@@ -9878,7 +9929,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   gap: 0;
-  margin: 28px 0 0;
+  margin: 22px 0 0;
   padding: 0;
   list-style: none;
   color: rgba(251, 250, 247, 0.68);
@@ -9958,7 +10009,7 @@ button {
      surplus the middle grid row now absorbs. Narrowing the video keeps
      that surplus (and the aperture it creates) proportionate rather than
      letting the video dwarf the text column at wide desktop sizes. */
-  width: clamp(280px, 24vw, 360px);
+  width: clamp(280px, 23vw, 350px);
   max-width: 100%;
 }
 .exp-intro-frame::before {
@@ -9983,7 +10034,7 @@ button {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 74vh;
+  max-height: 68vh;
   aspect-ratio: var(--tour-video-ratio);
   /* The box is sized to the video's OWN real ratio, so cover and
      contain are visually equivalent here -- no crop occurs either
@@ -10118,6 +10169,21 @@ button {
     display: flex;
     flex-direction: column;
     gap: 24px;
+  }
+  .exp-intro-proof-wrap {
+    margin-top: 32px;
+  }
+  .exp-intro-proof {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+  .exp-intro-proof-item,
+  .exp-intro-proof-item + .exp-intro-proof-item {
+    padding: 16px 0;
+    border-left: 0;
+  }
+  .exp-intro-proof-item + .exp-intro-proof-item {
+    border-top: 1px solid rgba(251, 250, 247, 0.14);
   }
   .exp-intro-copy {
     order: 1;
