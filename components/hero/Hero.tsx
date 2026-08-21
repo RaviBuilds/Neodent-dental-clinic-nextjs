@@ -138,6 +138,10 @@ export function Hero() {
                   Years of changing smiles
                 </span>
                 <span className="hero-founder-groundline" aria-hidden="true" />
+                <div className="hero-founder-visual-location" aria-label="NeoDent Hyderabad locations">
+                  <span>2 Hyderabad locations</span>
+                  <strong>Humayun Nagar <i aria-hidden="true">·</i> Nampally</strong>
+                </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="hero-founder-portrait"
