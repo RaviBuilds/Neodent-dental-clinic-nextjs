@@ -59,7 +59,7 @@ export function Hero() {
               <span className="hero-founder-gridlines" />
             </div>
             <span className="hero-founder-vertical-label" aria-hidden="true">
-              Humayun Nagar &nbsp;·&nbsp; Nampally &nbsp;·&nbsp; Hyderabad
+              Mehdipatnam &nbsp;·&nbsp; Nampally &nbsp;·&nbsp; Hyderabad
             </span>
             <div className="container hero-founder-inner">
               <div className="hero-founder-copy">
@@ -103,7 +103,7 @@ export function Hero() {
                   <MapPin size={13} aria-hidden="true" />
                   <span>2 Hyderabad locations</span>
                   <span aria-hidden="true">·</span>
-                  <span>Humayun Nagar</span>
+                  <span>Mehdipatnam</span>
                   <span aria-hidden="true">·</span>
                   <span>Nampally</span>
                 </div>
@@ -131,6 +131,8 @@ export function Hero() {
               </div>
               <div className="hero-founder-visual">
                 <span className="hero-founder-frame" aria-hidden="true" />
+                <span className="hero-founder-frame-tick hero-founder-frame-tick-a" aria-hidden="true" />
+                <span className="hero-founder-frame-tick hero-founder-frame-tick-b" aria-hidden="true" />
                 <span className="hero-founder-mark" aria-hidden="true">
                   30<span>+</span>
                 </span>
@@ -138,10 +140,7 @@ export function Hero() {
                   Years of changing smiles
                 </span>
                 <span className="hero-founder-groundline" aria-hidden="true" />
-                <div className="hero-founder-visual-location" aria-label="NeoDent Hyderabad locations">
-                  <span>2 Hyderabad locations</span>
-                  <strong>Humayun Nagar <i aria-hidden="true">·</i> Nampally</strong>
-                </div>
+                <span className="hero-founder-portrait-glow" aria-hidden="true" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="hero-founder-portrait"
@@ -149,6 +148,10 @@ export function Hero() {
                   alt="Dr. Mohd. Siraj Ur Rahman, BDS, FCIP, MDS, Director of NeoDent Dental Hospitals, Hyderabad"
                   loading="eager"
                 />
+                <div className="hero-founder-visual-location" aria-label="NeoDent Hyderabad locations">
+                  <span>2 Hyderabad locations</span>
+                  <strong>Mehdipatnam <i aria-hidden="true">·</i> Nampally</strong>
+                </div>
               </div>
             </div>
           </div>
