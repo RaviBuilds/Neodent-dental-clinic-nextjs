@@ -1290,9 +1290,9 @@ button {
   .hero-founder-inner {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding: clamp(80px, 11svh, 104px) 0 84px;
-    gap: clamp(16px, 2.4svh, 26px);
+    justify-content: center;
+    padding: clamp(44px, 7svh, 80px) 0 clamp(22px, 4svh, 44px);
+    gap: clamp(12px, 2svh, 22px);
     height: 100%;
     overflow-y: auto;
   }
@@ -1301,17 +1301,18 @@ button {
     flex: 0 0 auto;
     align-self: center;
     width: 100%;
-    height: clamp(240px, 32svh, 360px);
+    height: clamp(170px, 25svh, 300px);
     min-height: 0;
     overflow: visible;
     justify-content: center;
   }
   .hero-founder-copy {
     order: 2;
-    max-width: 620px;
+    max-width: 560px;
     width: 100%;
     align-self: center;
     padding-bottom: 0;
+    gap: 0;
   }
   .hero-founder-frame {
     inset: 4% 6% 5% 12%;
@@ -1319,18 +1320,18 @@ button {
     height: auto;
   }
   .hero-founder-frame::before {
-    inset: 13px;
+    inset: 12px;
   }
   .hero-founder-portrait {
-    height: 92%;
-    max-height: 420px;
-    max-width: 80%;
+    height: 90%;
+    max-height: 320px;
+    max-width: 78%;
     object-position: center;
   }
   .hero-founder-mark {
     right: 6%;
     top: 0%;
-    font-size: clamp(150px, 22vw, 260px);
+    font-size: clamp(110px, 19vw, 200px);
   }
   .hero-founder-mark-caption {
     left: 8%;
@@ -1348,18 +1349,28 @@ button {
   .hero-founder-vertical-label {
     display: none;
   }
+  .hero-founder-copy .hero-eyebrow {
+    margin-bottom: 4px;
+  }
+  .hero-founder-tagline {
+    margin-top: 4px;
+  }
   .hero-founder-title {
-    font-size: clamp(32px, 4.4vw, 46px);
-    margin: 6px 0 10px;
+    font-size: clamp(23px, 3vw, 32px);
+    line-height: 1.06;
+    margin: 8px 0 8px;
+  }
+  .hero-founder-identity {
+    margin-top: 1px;
   }
   .hero-founder-copy .hero-rating {
-    margin-top: 12px;
+    margin-top: 8px;
   }
   .hero-founder-copy .hero-founder-contact {
     display: none;
   }
   .hero-slide-founder .hero-actions {
-    margin-top: 14px;
+    margin-top: 10px;
   }
 }
 
@@ -1372,9 +1383,9 @@ button {
   .hero-founder-inner {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding: clamp(76px, 11svh, 96px) 0 28px;
-    gap: clamp(14px, 2.2svh, 22px);
+    justify-content: center;
+    padding: clamp(52px, 8svh, 80px) 0 clamp(16px, 3svh, 32px);
+    gap: clamp(10px, 1.6svh, 18px);
     height: 100%;
     overflow-y: auto;
   }
@@ -1383,9 +1394,10 @@ button {
     position: relative;
     flex: 0 0 auto;
     align-self: center;
-    width: min(82vw, 320px);
-    aspect-ratio: 1 / 1.15;
+    width: min(72vw, 260px);
+    aspect-ratio: 1 / 1.1;
     height: auto;
+    max-height: 30svh;
     min-height: 0;
     overflow: visible;
   }
@@ -1400,7 +1412,7 @@ button {
   .hero-founder-mark {
     right: -2%;
     top: -4%;
-    font-size: clamp(96px, 30vw, 160px);
+    font-size: clamp(84px, 27vw, 140px);
   }
   .hero-founder-mark-caption {
     display: none;
@@ -1427,11 +1439,11 @@ button {
   .hero-founder-visual-location {
     right: 4%;
     bottom: 5%;
-    max-width: 180px;
-    padding: 9px 12px 9px 11px;
+    max-width: 168px;
+    padding: 8px 11px 8px 10px;
   }
   .hero-founder-visual-location strong {
-    font-size: 10.5px;
+    font-size: 10px;
   }
   .hero-founder-vertical-label {
     display: none;
@@ -1442,33 +1454,67 @@ button {
     width: 100%;
     align-self: stretch;
     padding-bottom: 0;
+    gap: 0;
+  }
+  .hero-founder-copy .hero-eyebrow {
+    display: none;
   }
   .hero-founder-copy .hero-title {
-    font-size: clamp(30px, 7.6vw, 42px);
-    line-height: 1;
-    margin: 6px 0 10px;
+    font-size: clamp(25px, 7.2vw, 36px);
+    line-height: 1.03;
+    margin: 0 0 8px;
   }
   .hero-founder-copy .hero-lead {
     display: none;
   }
   .hero-founder-tagline {
-    font-size: 14px;
-    margin-top: 6px;
+    font-size: 13px;
+    margin-top: 0;
+  }
+  .hero-founder-identity {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-top: 2px;
+  }
+  .hero-founder-identity .hero-credentials {
+    font-size: 13px;
+  }
+  .hero-founder-expertise {
+    font-size: 10.5px;
   }
   .hero-founder-copy .hero-rating {
-    margin-top: 10px;
+    margin-top: 8px;
+    padding: 6px 11px;
+    gap: 8px;
   }
   .hero-founder-copy .hero-founder-contact {
     display: none;
   }
-  .hero-slide-founder .hero-actions {
-    margin-top: 14px;
-    flex-direction: column;
-    gap: 10px;
+  .hero-slide-founder .hero-founder-copy .hero-actions {
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 8px;
   }
-  .hero-slide-founder .hero-actions > * {
-    width: 100%;
+  .hero-slide-founder .hero-founder-copy .hero-actions > * {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
     justify-content: center;
+    min-height: 44px;
+    padding: 0 6px;
+    gap: 5px;
+    font-size: 11.5px;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .hero-slide-founder .hero-founder-copy .hero-actions > * svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
   }
   .hero-founder-phone {
     font-size: 18px;
@@ -1477,21 +1523,23 @@ button {
 
 @media (max-width: 430px) {
   .hero-founder-inner {
-    padding-top: clamp(70px, 10svh, 84px);
-    gap: 12px;
+    padding-top: clamp(48px, 7svh, 68px);
+    gap: 10px;
   }
   .hero-founder-visual {
-    width: min(76vw, 260px);
-  }
-  .hero-founder-copy .hero-eyebrow {
-    font-size: 9px;
+    width: min(68vw, 220px);
   }
   .hero-founder-copy .hero-title {
-    font-size: clamp(28px, 8.2vw, 34px);
+    font-size: clamp(24px, 7.8vw, 30px);
   }
   .hero-founder-visual-location {
-    max-width: 160px;
-    padding: 8px 10px 8px 9px;
+    max-width: 148px;
+    padding: 7px 10px 7px 9px;
+  }
+  .hero-slide-founder .hero-founder-copy .hero-actions > * {
+    font-size: 11.5px;
+    padding: 0 8px;
+    gap: 6px;
   }
 }
 
