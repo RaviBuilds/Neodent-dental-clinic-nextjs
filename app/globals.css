@@ -9577,6 +9577,118 @@ button {
   color: #242628;
   padding: clamp(100px, 10vw, 148px) 0 clamp(88px, 8vw, 120px);
 }
+.archive-atmosphere {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: -8%;
+  bottom: 7%;
+  width: 63%;
+  overflow: hidden;
+  opacity: 0.72;
+  pointer-events: none;
+}
+.archive-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 8% 0 0 8%;
+  background:
+    linear-gradient(rgba(36, 38, 40, 0.045) 1px, transparent 1px) 0 0 / 100% 86px,
+    linear-gradient(90deg, rgba(36, 38, 40, 0.035) 1px, transparent 1px) 0 0 / 86px 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.archive-atmosphere::after {
+  content: "ARCHIVE / CLINICAL RECORD / HYDERABAD";
+  position: absolute;
+  top: 19%;
+  right: 8%;
+  color: rgba(36, 38, 40, 0.13);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  writing-mode: vertical-rl;
+}
+.archive-arch {
+  position: absolute;
+  border: 1px solid rgba(36, 38, 40, 0.11);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
+}
+.archive-arch-main {
+  top: 11%;
+  left: 4%;
+  width: 92%;
+  height: 76%;
+  transform: rotate(-3deg);
+}
+.archive-arch-inner {
+  top: 22%;
+  left: 13%;
+  width: 74%;
+  height: 60%;
+  border-color: rgba(215, 25, 32, 0.15);
+  transform: rotate(-3deg);
+}
+.archive-tooth-contour {
+  position: absolute;
+  right: 20%;
+  bottom: 4%;
+  width: 74px;
+  height: 116px;
+  border: 1px solid rgba(36, 38, 40, 0.1);
+  border-radius: 45% 45% 38% 38% / 32% 32% 62% 62%;
+  transform: rotate(12deg);
+}
+.archive-draft {
+  position: absolute;
+  background: rgba(36, 38, 40, 0.11);
+}
+.archive-draft-horizontal {
+  top: 59%;
+  left: 5%;
+  width: 84%;
+  height: 1px;
+}
+.archive-draft-vertical {
+  top: 9%;
+  right: 24%;
+  width: 1px;
+  height: 78%;
+}
+.archive-registration {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgba(215, 25, 32, 0.18);
+  border-radius: 50%;
+}
+.archive-registration::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: -7px;
+  width: 29px;
+  height: 1px;
+  background: rgba(215, 25, 32, 0.16);
+}
+.archive-registration-top { top: 16%; right: 25%; }
+.archive-registration-bottom { bottom: 15%; left: 19%; }
+.archive-route {
+  position: absolute;
+  z-index: 2;
+  top: 16%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(72px, 8vw, 116px);
+  color: rgba(36, 38, 40, 0.38);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  writing-mode: vertical-rl;
+  pointer-events: none;
+}
+.archive-route span:nth-child(3) { color: rgba(215, 25, 32, 0.62); }
 .archive-grid {
   position: relative;
   display: grid;
@@ -9697,8 +9809,8 @@ button {
   margin: 44px 0 0;
 }
 .archive-founder img {
-  width: 108px;
-  height: 132px;
+  width: 142px;
+  height: 174px;
   border: 1px solid rgba(36, 38, 40, 0.22);
   object-fit: cover;
   object-position: top center;
@@ -9747,6 +9859,22 @@ button {
 .archive-impact {
   grid-area: impact;
   margin: 40px 0 0 18%;
+  position: relative;
+  z-index: 2;
+  padding-left: 24px;
+}
+.archive-impact::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 2px;
+  left: 0;
+  width: 1px;
+  background: var(--neodent-red);
+}
+.archive-impact strong {
+  font-size: clamp(3.7rem, 6vw, 5.6rem);
+  letter-spacing: -0.05em;
 }
 .archive-figure-patients strong {
   font-size: 54px;
@@ -9835,6 +9963,8 @@ button {
    alignment so the eye is deliberately redirected before the close. */
 .archive-climax {
   grid-area: climax;
+  position: relative;
+  z-index: 2;
   max-width: 640px;
   margin: 28px 0 0 auto;
   padding-top: 44px;
@@ -10521,6 +10651,20 @@ button {
   }
 }
 
+@media (max-width: 900px) and (min-width: 768px) {
+  .archive-founder {
+    gap: 12px;
+  }
+  .archive-founder img {
+    width: 124px;
+    height: 152px;
+  }
+  .archive-founder figcaption b {
+    max-width: 145px;
+    line-height: 1.35;
+  }
+}
+
 /* ---- Mobile (<768px): recomposed, not stacked. The desktop grid
    areas are dropped for a single editorial flow that follows the
    section's own reading order: legacy -> founding line -> Siasat
@@ -10529,6 +10673,16 @@ button {
 @media (max-width: 767px) {
   .archive {
     padding: 80px 0 72px;
+  }
+  .archive-atmosphere {
+    top: 9%;
+    right: -36%;
+    bottom: 12%;
+    width: 116%;
+    opacity: 0.42;
+  }
+  .archive-route {
+    display: none;
   }
   .archive-grid {
     display: flex;
@@ -10561,6 +10715,18 @@ button {
   .archive-founder {
     order: 4;
     margin: 0;
+    gap: 16px;
+  }
+  .archive-founder img {
+    width: 124px;
+    height: 152px;
+  }
+  .archive-founder figcaption b {
+    max-width: 120px;
+    line-height: 1.35;
+  }
+  .archive-impact {
+    padding-left: 18px;
   }
   .archive-plate-tv {
     order: 5;
