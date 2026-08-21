@@ -9570,8 +9570,83 @@ button {
    collide with or redefine any Hero/.hero-founder-* rule or :root
    token above. Hero Slides 01–03 are untouched by this block.
    ======================================== */
+.legacy-story {
+  position: relative;
+  overflow: hidden;
+  background: #f1eee7;
+  color: #242628;
+  padding: clamp(100px, 10vw, 150px) 0 clamp(96px, 9vw, 132px);
+}
+.legacy-story::before {
+  content: "02";
+  position: absolute;
+  top: clamp(36px, 6vw, 76px);
+  right: 5vw;
+  color: rgba(36, 38, 40, 0.045);
+  font-family: var(--app-font-serif);
+  font-size: clamp(100px, 14vw, 220px);
+  line-height: 0.8;
+  pointer-events: none;
+}
+.legacy-story-inner {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.88fr) minmax(480px, 1.12fr);
+  align-items: center;
+  gap: clamp(48px, 7vw, 112px);
+  min-height: 650px;
+}
+.legacy-story-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+.legacy-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 28px;
+  color: rgba(36, 38, 40, 0.58);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.legacy-eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--neodent-red); }
+.legacy-title {
+  max-width: 500px;
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-size: clamp(3.8rem, 6.2vw, 6.8rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 0.93;
+}
+.legacy-title span { display: block; color: var(--neodent-red); font-style: italic; }
+.legacy-description { max-width: 400px; margin: 30px 0 0; color: rgba(36, 38, 40, 0.68); font-size: 15px; line-height: 1.7; }
+.legacy-trust { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 500px; margin-top: 50px; border-top: 1px solid rgba(36, 38, 40, 0.18); border-bottom: 1px solid rgba(36, 38, 40, 0.12); }
+.legacy-trust-item { padding: 17px 16px 18px 0; }
+.legacy-trust-item + .legacy-trust-item { padding-left: 16px; border-left: 1px solid rgba(36, 38, 40, 0.13); }
+.legacy-trust-item strong, .legacy-trust-item span { display: block; }
+.legacy-trust-item strong { color: var(--neodent-red); font-family: var(--app-font-serif); font-size: 25px; font-weight: 400; line-height: 1; }
+.legacy-trust-item span { margin-top: 8px; color: rgba(36, 38, 40, 0.56); font-size: 10px; letter-spacing: 0.1em; line-height: 1.4; text-transform: uppercase; }
+.legacy-archive { position: relative; min-height: 620px; }
+.legacy-spine { position: absolute; top: 7%; bottom: 5%; left: 16%; width: 1px; background: linear-gradient(180deg, transparent, rgba(215, 25, 32, 0.65) 16%, rgba(215, 25, 32, 0.65) 84%, transparent); }
+.legacy-plate { position: absolute; margin: 0; border: 1px solid rgba(36, 38, 40, 0.22); background: #e5e1d8; box-shadow: 16px 18px 32px rgba(36, 38, 40, 0.09); opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.legacy-story-visible .legacy-plate { opacity: 1; transform: translateY(0); }
+.legacy-plate img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.legacy-plate figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px 11px; color: rgba(36, 38, 40, 0.54); font-size: 9px; letter-spacing: 0.11em; line-height: 1.4; text-transform: uppercase; }
+.legacy-plate figcaption b { color: var(--neodent-red); font-size: 9px; font-weight: 700; }
+.legacy-plate-primary { top: 8%; left: 20%; z-index: 1; width: min(62%, 420px); }
+.legacy-plate-primary img { aspect-ratio: 0.86; }
+.legacy-plate-interview { top: 45%; right: 1%; z-index: 3; width: min(42%, 270px); transition-delay: 0.15s; }
+.legacy-plate-interview img { aspect-ratio: 1.28; }
+.legacy-plate-award { bottom: 2%; left: 2%; z-index: 2; width: min(38%, 230px); transition-delay: 0.28s; }
+.legacy-plate-award img { aspect-ratio: 1.1; }
+.legacy-story-copy, .legacy-story-inner > .legacy-archive { opacity: 0; transform: translateY(22px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.legacy-story-visible .legacy-story-copy, .legacy-story-visible .legacy-story-inner > .legacy-archive { opacity: 1; transform: translateY(0); }
 
 .exp-intro {
+
   position: relative;
   background: #f1eee7;
   color: #242628;
@@ -10152,6 +10227,32 @@ button {
    viewport height) rather than width-driven, since on a narrow phone
    viewport that is what keeps it visually prominent without forcing
    the frame wider than the screen. */
+@media (prefers-reduced-motion: reduce) {
+  .legacy-story-copy, .legacy-story-inner > .legacy-archive, .legacy-plate { opacity: 1; transform: none; transition: none; }
+}
+
+@media (max-width: 1199px) {
+  .legacy-story-inner { grid-template-columns: minmax(280px, 0.9fr) minmax(390px, 1.1fr); gap: 42px; }
+  .legacy-archive { min-height: 540px; }
+  .legacy-plate-primary { width: min(62%, 360px); }
+  .legacy-plate-interview { width: min(42%, 230px); }
+}
+@media (max-width: 767px) {
+  .legacy-story { padding: 80px 0 72px; }
+  .legacy-story-inner { display: flex; flex-direction: column; align-items: stretch; gap: 48px; min-height: 0; }
+  .legacy-story-copy { max-width: none; }
+  .legacy-title { font-size: clamp(3.5rem, 15vw, 5rem); }
+  .legacy-description { margin-top: 24px; }
+  .legacy-trust { max-width: none; margin-top: 32px; }
+  .legacy-trust-item { padding-right: 10px; }
+  .legacy-trust-item + .legacy-trust-item { padding-left: 10px; }
+  .legacy-archive { min-height: 590px; margin: 0 -4px; }
+  .legacy-spine { left: 12%; }
+  .legacy-plate-primary { top: 0; left: 16%; width: 70%; }
+  .legacy-plate-interview { top: 40%; right: 0; width: 49%; }
+  .legacy-plate-award { bottom: 0; left: 0; width: 42%; }
+}
+
 @media (max-width: 767px) {
   .exp-intro {
     padding: 56px 0 48px;

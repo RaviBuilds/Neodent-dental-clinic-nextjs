@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
 import { ExperienceIntro } from "@/components/sections/ExperienceIntro";
 import { TrustStrip } from "@/components/sections/TrustStrip";
+import { LegacyStory } from "@/components/sections/LegacyStory";
 import { About } from "@/components/sections/About";
 import { WhyNeodent } from "@/components/sections/WhyNeodent";
 import { Expertise } from "@/components/sections/Expertise";
@@ -78,6 +79,7 @@ export function Home() {
       <main>
         <Hero />
         <ExperienceIntro />
+        <LegacyStory />
         <TrustStrip />
         <About />
         <WhyNeodent />
