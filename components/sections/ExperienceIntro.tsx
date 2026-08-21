@@ -6,6 +6,12 @@ import { experienceIntroBackdrop, tourVideo } from "@/lib/site-data";
 
 const philosophyValues = ["Calm", "Precise", "Personal"];
 
+const experienceProof = [
+  { value: "30+ YEARS", detail: "of dental care" },
+  { value: "2 LOCATIONS", detail: "Mehdipatnam · Nampally" },
+  { value: "MULTI-SPECIALITY", detail: "Comprehensive dental care" },
+];
+
 export function ExperienceIntro() {
   const [isVisible, setIsVisible] = useState(false);
   // Lazy initializer reads the real preference on first client render
@@ -217,6 +223,19 @@ export function ExperienceIntro() {
           <span className="text-link exp-intro-cta">
             Discover Our Story <span aria-hidden="true">→</span>
           </span>
+        </div>
+      </div>
+      <div className="container exp-intro-proof-wrap">
+        <div className="exp-intro-proof" aria-label="NeoDent experience facts">
+          {experienceProof.map((item, index) => (
+            <div className="exp-intro-proof-item" key={item.value}>
+              <span className="exp-intro-proof-index">0{index + 1}</span>
+              <div>
+                <strong>{item.value}</strong>
+                <span>{item.detail}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
