@@ -10170,10 +10170,16 @@ button {
   .exp-intro-grid {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .exp-intro-proof-wrap {
-    margin-top: 24px;
+    margin-top: 20px;
+  }
+  .exp-intro-values {
+    margin-top: 16px;
+  }
+  .exp-intro .exp-intro-cta {
+    margin-top: 20px;
   }
   .exp-intro-proof {
     grid-template-columns: 1fr;
@@ -10201,7 +10207,7 @@ button {
     max-width: 100%;
   }
   .exp-intro-frame {
-    width: min(100%, 300px);
+    width: min(100%, 316px);
     max-width: 100%;
   }
   .exp-intro-video {
@@ -10217,13 +10223,14 @@ button {
   }
   .exp-intro-meta span + span {
     padding-left: 8px;
+    border-left-color: rgba(36, 38, 40, 0.2);
   }
 }
 
 @media (max-width: 430px) {
   /* Keep the portrait tour present but subordinate to the headline. */
   .exp-intro-frame {
-    width: min(100%, 286px);
+    width: min(100%, 300px);
   }
   .exp-intro-video {
     height: clamp(340px, 54vh, 420px);
