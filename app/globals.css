@@ -9940,6 +9940,8 @@ button {
   margin-top: 30px;
   color: #242628;
   -webkit-text-fill-color: #242628;
+  opacity: 1;
+  transform: none;
   cursor: default;
 }
 .exp-intro .exp-intro-cta > span {
