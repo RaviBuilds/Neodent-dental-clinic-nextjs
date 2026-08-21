@@ -5,6 +5,7 @@ import { ArrowRight, Phone, X } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
+import { ExperienceIntro } from "@/components/sections/ExperienceIntro";
 import { TrustStrip } from "@/components/sections/TrustStrip";
 import { About } from "@/components/sections/About";
 import { WhyNeodent } from "@/components/sections/WhyNeodent";
@@ -76,6 +77,7 @@ export function Home() {
       <Navbar onBook={() => setAppointmentOpen(true)} />
       <main>
         <Hero />
+        <ExperienceIntro />
         <TrustStrip />
         <About />
         <WhyNeodent />

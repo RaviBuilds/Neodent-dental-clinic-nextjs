@@ -1,23 +1,54 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight, MapPin, MessageCircle, Phone, Star } from "lucide-react";
 import { AppButton } from "@/components/ui/AppButton";
 import {
   HERO_AUTOPLAY_MS,
-  doctorImage,
+  type HeroRecordItem,
   googleRating,
+  heroBranches,
+  heroRecordItems,
   heroSlideMeta,
   phone,
   recognitionImage,
   telPhone,
-  treatmentImage,
-  treatmentVideo,
   whatsappConsultLink,
 } from "@/lib/site-data";
 
 const inertAttr = (isInert: boolean) =>
   (isInert ? { inert: true } : {}) as Record<string, boolean>;
+
+/* Slide 03's evidence is split at the data level rather than by index
+   inside the markup, so removing a plate from heroRecordItems is a
+   one-line data change that cannot leave a dangling grid cell behind. */
+const heroRecordPrimary = heroRecordItems[0];
+const heroRecordSecondary = heroRecordItems.slice(1);
+
+function RecordPlate({ item }: { item: HeroRecordItem }) {
+  return (
+    <figure className={`hero-record-item hero-record-item-${item.variant}`}>
+      <div className="hero-record-stack">
+        <div className="hero-record-plate">
+          <Image
+            className="hero-record-photo"
+            src={item.src}
+            alt={item.alt}
+            fill
+            sizes={item.sizes}
+          />
+        </div>
+      </div>
+      {/* Non-breaking space before each separator keeps the "·" bound to
+          the preceding word, so a wrapped line never opens with a stray
+          dot. */}
+      <figcaption className="hero-record-source">
+        {item.source.join("\u00A0· ")}
+      </figcaption>
+    </figure>
+  );
+}
 
 export function Hero() {
   const [active, setActive] = useState(0);
@@ -107,19 +138,6 @@ export function Hero() {
                   <span aria-hidden="true">·</span>
                   <span>Nampally</span>
                 </div>
-                <div className="hero-founder-contact">
-                  <span className="hero-founder-contact-label">
-                    Call today for a consultation
-                  </span>
-                  <a
-                    className="hero-founder-phone"
-                    href={telPhone}
-                    data-testid="link-hero-phone"
-                  >
-                    <Phone size={16} aria-hidden="true" />
-                    {phone}
-                  </a>
-                </div>
                 <div className="hero-actions">
                   <AppButton href={telPhone} variant="primary">
                     Call for Consultation <ArrowRight size={15} />
@@ -152,94 +170,192 @@ export function Hero() {
                   <span>2 Hyderabad locations</span>
                   <strong>Mehdipatnam <i aria-hidden="true">·</i> Nampally</strong>
                 </div>
+                <div className="hero-founder-visual-contact">
+                  <span className="hero-founder-contact-label">
+                    Call today for a consultation
+                  </span>
+                  <a
+                    className="hero-founder-phone"
+                    href={telPhone}
+                    data-testid="link-hero-phone"
+                  >
+                    <Phone size={16} aria-hidden="true" />
+                    {phone}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </article>
 
-        {/* Slide 02 — Dr. Siraj */}
+        {/* Slide 02 — Where NeoDent is: the two Hyderabad locations.
+            An editorial "location atlas": one copy column, then two
+            staggered photographic plates whose scale, plate shape and
+            frame offsets are mirrored rather than repeated, so the
+            branches read as two destinations inside one brand instead
+            of two equal cards. */}
         <article
-          className={`hero-slide ${active === 1 ? "hero-slide-active" : ""}`}
+          className={`hero-slide hero-slide-place ${active === 1 ? "hero-slide-active" : ""}`}
           aria-hidden={active !== 1}
           {...inertAttr(active !== 1)}
+          aria-labelledby="hero-place-title"
         >
-          <div className="container hero-slide-grid hero-slide-grid-reverse">
-            <div className="hero-slide-copy">
-              <div className="hero-eyebrow">Director, NeoDent Dental Hospitals</div>
-              <h1 className="hero-title">
-                Dr. Mohd. Siraj{" "}
-                <span className="serif">Ur Rahman.</span>
-              </h1>
-              <p className="hero-credentials">BDS, FCIP, MDS (Chennai)</p>
-              <p className="hero-lead">
-                Dental Surgeon · Prosthodontist · Implantologist. Professor at
-                Osmania Government Dental College &amp; Hospital, Hyderabad.
-              </p>
-              <div className="hero-actions">
-                <AppButton href="#doctor" variant="primary">
-                  Meet Dr. Siraj <ArrowRight size={15} />
-                </AppButton>
-              </div>
+          <div className="hero-place">
+            <div className="hero-place-bg" aria-hidden="true">
+              <span className="hero-place-gridlines" />
             </div>
-            <div className="hero-slide-visual hero-visual-doctor">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="hero-visual-portrait"
-                src={recognitionImage}
-                alt="Dr. Mohd. Siraj Ur Rahman, Director of NeoDent Dental Hospitals"
-                loading="eager"
-              />
+            <span className="hero-place-vertical-label" aria-hidden="true">
+              Hyderabad &nbsp;·&nbsp; Telangana
+            </span>
+            <div className="container hero-place-inner">
+              <div className="hero-place-copy">
+                <div className="hero-eyebrow">NeoDent Dental Hospitals</div>
+                <h2 id="hero-place-title" className="hero-title hero-place-title">
+                  <span>Where</span>
+                  <span>NeoDent</span>
+                  <span className="serif">is.</span>
+                </h2>
+                <p className="hero-place-tagline">
+                  <span>Two Hyderabad locations.</span>
+                  <span>One standard of care.</span>
+                </p>
+                {/* Wayfinding legend. Decorative: the same two branches are
+                    announced properly by each figure's caption below, so this
+                    index is hidden from assistive tech to avoid duplication. */}
+                <ul className="hero-place-legend" aria-hidden="true">
+                  {heroBranches.map((branch) => (
+                    <li key={branch.index}>
+                      <span>{branch.index}</span>
+                      {branch.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="hero-place-atlas">
+                {heroBranches.map((branch) => (
+                  <figure
+                    key={branch.index}
+                    className={`hero-place-branch hero-place-branch-${branch.variant}`}
+                  >
+                    <span className="hero-place-ghost" aria-hidden="true">
+                      {branch.index}
+                    </span>
+                    <div className="hero-place-stack">
+                      <div className="hero-place-plate">
+                        <Image
+                          className="hero-place-photo"
+                          src={branch.plate.src}
+                          alt={branch.plate.alt}
+                          fill
+                          sizes="(max-width: 767px) 60vw, (max-width: 1023px) 46vw, 34vw"
+                        />
+                        <div className="hero-place-inset">
+                          <Image
+                            className="hero-place-photo hero-place-photo-inset"
+                            src={branch.inset.src}
+                            alt={branch.inset.alt}
+                            fill
+                            sizes="(max-width: 767px) 26vw, 15vw"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <figcaption className="hero-place-caption">
+                      <span className="hero-place-caption-index" aria-hidden="true">
+                        {branch.index}
+                      </span>
+                      <div className="hero-place-caption-text">
+                        <h3 className="hero-place-name">{branch.name}</h3>
+                        {/* Non-breaking space before each separator keeps
+                            the "·" bound to the preceding word, so a
+                            wrapped line never opens with a stray dot. */}
+                        <small className="hero-place-meta">
+                          {branch.meta.join("\u00A0· ")}
+                        </small>
+                      </div>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
             </div>
           </div>
         </article>
 
-        {/* Slide 03 — Dr. Miftah */}
+        {/* Slide 03 — Why you can trust us: the work, on the public
+            record. An editorial "dossier": one copy column, then a
+            dominant press artifact with two stepped secondary planes
+            (broadcast, then institutional recognition), so the three
+            channels read as accumulated credibility rather than as a
+            news feed.
+
+            The subject is NEODENT DENTAL HOSPITALS, not a doctor. That
+            is enforced by the copy: no doctor's name appears in any
+            visible string on this slide, and every caption names the
+            OUTLET only. Doctors visible inside the genuine artifacts
+            are evidence of the institution's public record. */}
         <article
-          className={`hero-slide ${active === 2 ? "hero-slide-active" : ""}`}
+          className={`hero-slide hero-slide-record ${active === 2 ? "hero-slide-active" : ""}`}
           aria-hidden={active !== 2}
           {...inertAttr(active !== 2)}
+          aria-labelledby="hero-record-title"
         >
-          <div className="container hero-slide-grid">
-            <div className="hero-slide-copy">
-              <div className="hero-eyebrow">
-                Assistant Director, NeoDent Dental Hospitals
-              </div>
-              <h1 className="hero-title">
-                Dr. Md. Miftah{" "}
-                <span className="serif">Ur Rahman.</span>
-              </h1>
-              <p className="hero-credentials">
-                BDS, MDS, FICOI (U.S.A.) · Gold Medalist
-              </p>
-              <p className="hero-lead">
-                Prosthodontist &amp; Implantologist. Assistant Professor at SB
-                Patil Dental College &amp; Hospital.
-              </p>
-              <div className="hero-actions">
-                <AppButton href="#expertise" variant="primary">
-                  Explore Treatments <ArrowRight size={15} />
-                </AppButton>
-              </div>
+          <div className="hero-record">
+            <div className="hero-record-bg" aria-hidden="true">
+              <span className="hero-record-gridlines" />
             </div>
-            <div className="hero-slide-visual hero-visual-video">
-              <video
-                className="hero-visual-video-el"
-                src={treatmentVideo}
-                poster={treatmentImage}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                aria-hidden="true"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="hero-visual-portrait hero-visual-portrait-overlay"
-                src={doctorImage}
-                alt="Dr. Md. Miftah Ur Rahman treating a patient at NeoDent"
-                loading="eager"
-              />
+            <span className="hero-record-vertical-label" aria-hidden="true">
+              In print &nbsp;·&nbsp; On air &nbsp;·&nbsp; Hyderabad
+            </span>
+            {/* The oversized numeral, same language as Slide 01's 30+ and
+                Slide 02's 01/02. Sits behind the plates and is partly
+                cropped by .hero's overflow. */}
+            <span className="hero-record-ghost" aria-hidden="true">
+              03
+            </span>
+            <div className="container hero-record-inner">
+              <div className="hero-record-copy">
+                <div className="hero-eyebrow">NeoDent Dental Hospitals</div>
+                <h2 id="hero-record-title" className="hero-title hero-record-title">
+                  <span>Recognised</span>
+                  <span>beyond the</span>
+                  <span className="serif">clinic.</span>
+                </h2>
+                <p className="hero-record-tagline">
+                  <span>Documented in print and on air.</span>
+                  <span>Practised the same way, every day.</span>
+                </p>
+                {/* Channel index. Decorative: each figure's caption below
+                    names its own outlet to assistive tech, so this index
+                    is hidden to avoid announcing the same evidence twice
+                    (same rationale as Slide 02's wayfinding legend). */}
+                <ul className="hero-record-index" aria-hidden="true">
+                  {heroRecordItems.map((item) => (
+                    <li key={item.index}>
+                      <span>{item.index}</span>
+                      {item.channel}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* The dossier: the dominant press plate in column one, and
+                  the remaining planes gathered into their own stack in
+                  column two. The stack is a real element rather than two
+                  grid-placed figures because the dominant plate is taller
+                  than the two secondaries combined — spanning it across
+                  two grid rows would stretch those rows apart and break
+                  the stepped composition. */}
+              <div className="hero-record-dossier">
+                {heroRecordPrimary ? (
+                  <RecordPlate item={heroRecordPrimary} />
+                ) : null}
+                <div className="hero-record-stack-group">
+                  {heroRecordSecondary.map((item) => (
+                    <RecordPlate key={item.index} item={item} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </article>

@@ -1,4 +1,5 @@
-import { directions, navItems, officialLogo, phone, telPhone } from "@/lib/site-data";
+import { BrandLockup } from "@/components/layout/BrandLockup";
+import { directions, navItems, phone, telPhone } from "@/lib/site-data";
 
 export function Footer() {
   return (
@@ -6,17 +7,7 @@ export function Footer() {
       <div className="container">
         <div className="footer-top">
           <div>
-            <a className="brand" href="#home" data-testid="link-footer-brand">
-              <span className="brand-logo-wrap">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="brand-logo" src={officialLogo} alt="Neodent Dental Hospitals" />
-              </span>
-              <span className="brand-word">
-                NEODENT
-                <br />
-                DENTAL HOSPITALS
-              </span>
-            </a>
+            <BrandLockup testId="link-footer-brand" />
             <p className="footer-tag">
               Expert dental care in Hyderabad, presented with clarity and care.
             </p>

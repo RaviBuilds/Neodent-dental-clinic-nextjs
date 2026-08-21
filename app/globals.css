@@ -44,6 +44,83 @@
   --app-font-sans: "Manrope", sans-serif;
   --app-font-serif: "DM Serif Display", serif;
   --app-font-mono: "Manrope", sans-serif;
+  /* Single source of truth for the fixed navbar's height. Consumed by
+     .nav-inner and by the hero so hero sizing/inset math can never
+     drift out of sync with the actual navbar height again. */
+  --nav-height-desktop: 78px;
+  --nav-height-mobile: 68px;
+
+  /* ---- Semantic headline scale. Full definition in the TYPE SCALE
+     block immediately below -- these are only the widest-tier values. ---- */
+  --type-hero-primary: clamp(56px, 7.2vw, 96px);
+  --type-hero-supporting: clamp(38px, 4.7vw, 64px);
+  --type-section-title: clamp(32px, 3.45vw, 52px);
+}
+
+/* ========================================
+   TYPE SCALE — three semantic levels, one source of truth
+   ========================================
+   LEVEL 1  --type-hero-primary     Hero Slide 01 ("Three decades…").
+                                    The strongest type on the site.
+   LEVEL 2  --type-hero-supporting  Hero Slides 02 & 03 ("Where NeoDent
+                                    is.", "Recognised beyond the clinic.").
+   LEVEL 3  --type-section-title    Homepage SECTION headings, starting
+                                    with Section 01. Deliberately and
+                                    provably subordinate to both Hero
+                                    levels at every viewport width.
+
+   WHY TOKENS. These three levels previously lived as ~14 scattered
+   `font-size` declarations whose vw slopes were near-identical (Level 2
+   at 4.7vw vs Level 3 at 4.6vw). Below each clamp's ceiling the two
+   curves converged and then CROSSED: at 430px Section 01's headline
+   (34px) was rendering LARGER than Hero Slide 01's (30px), i.e. the
+   first content section outranked the hero. Expressing the levels as
+   tokens makes that class of bug visible instead of emergent, and
+   `scripts/section01-probe.mjs` asserts the ordering at every breakpoint.
+
+   LEVEL 1/2 VALUES ARE FROZEN, NOT REDESIGNED. The Hero is approved
+   artwork. Every value below reproduces what the Hero already rendered,
+   measured off the live page before the refactor -- including the values
+   it was inheriting by accident from a legacy `.hero h1` selector (see
+   the note on .hero-founder-title). Level 1's tier boundaries are 900px
+   and 767px/430px; Level 2's are `1023px & min-height:940px`, 767px and
+   430px. Those are the Hero's own existing breakpoints, reused rather
+   than reinvented, which is why the two levels change tier at different
+   widths.
+
+   ORDER IS LOAD-BEARING. Custom properties do not cascade by
+   specificity here (every block below targets :root), so the LAST
+   matching declaration wins. The blocks therefore run widest-first, and
+   the height-conditional Level 2 tier must precede the ≤767px tier so a
+   narrow-but-tall viewport still resolves to the mobile value.
+   ======================================== */
+
+/* Level 2 stacks its slide composition here, and the headline is that
+   layout's biggest consumer of vertical space -- so it is capped against
+   viewport HEIGHT as well as width. Height-conditional, hence first. */
+@media (max-width: 1023px) and (min-height: 940px) {
+  :root {
+    --type-hero-supporting: clamp(30px, min(5.2vw, 6.4svh), 46px);
+  }
+}
+@media (max-width: 900px) {
+  :root {
+    --type-hero-primary: clamp(48px, 13vw, 60px);
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --type-hero-primary: clamp(25px, 7.2vw, 36px);
+    --type-hero-supporting: clamp(26px, 8.2vw, 38px);
+    --type-section-title: clamp(25px, 5.1vw, 30px);
+  }
+}
+@media (max-width: 430px) {
+  :root {
+    --type-hero-primary: clamp(24px, 7.8vw, 30px);
+    --type-hero-supporting: clamp(25px, 8.4vw, 33px);
+    --type-section-title: clamp(20px, 5.6vw, 25px);
+  }
 }
 
 * {
@@ -175,48 +252,75 @@ button {
   -webkit-backdrop-filter: blur(20px) saturate(1.8);
 }
 .nav-inner {
-  height: 78px;
+  height: var(--nav-height-desktop);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 32px;
 }
+/* Brand lockup (navbar + footer).
+   The image is the extracted symbol only -- see BrandLockup.tsx -- so the
+   wordmark below carries the name and nothing competes with it. The symbol
+   artwork is black linework on white, which needs a light surface to sit on;
+   hence the plate rather than a bare transparent mark. */
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 13px;
   min-width: 200px;
   transition: opacity 0.25s ease;
 }
 .brand:hover {
   opacity: 0.88;
 }
-.brand-logo-wrap {
-  width: 42px;
-  height: 42px;
+.brand-mark {
+  width: 48px;
+  height: 48px;
   flex: 0 0 auto;
-  overflow: hidden;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.48);
-  border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 0 2px 10px rgba(22, 28, 30, 0.14);
+  padding: 4px;
+  border-radius: 13px;
+  background: #fff;
+  /* Hairline via spread shadow so it costs no layout box. */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 1px 2px rgba(12, 37, 40, 0.1),
+    0 8px 18px -6px rgba(12, 37, 40, 0.3);
 }
-.brand-logo {
+.brand-mark img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: center;
-  border-radius: 50%;
+}
+/* Over the cream scrolled navbar a white plate needs a real edge to read. */
+.nav.scrolled .brand-mark {
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 1px 2px rgba(12, 37, 40, 0.06);
 }
 .brand-word {
-  font-size: 10.5px;
-  line-height: 1.22;
-  font-weight: 800;
-  letter-spacing: 0.145em;
-  opacity: 0.96;
+  display: grid;
+  gap: 4px;
+}
+.brand-word-name {
+  font-family: var(--app-font-serif);
+  /* Caps read optically larger than title case and need tracking to breathe,
+     so this is a touch smaller and looser than the mixed-case setting was. */
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--neodent-red);
+}
+.brand-word-sub {
+  font-size: 8.5px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.235em;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 .nav-links {
   display: flex;
@@ -425,15 +529,6 @@ button {
   padding: 120px 0 100px;
   width: min(720px, 72%);
 }
-.hero h1 {
-  font-size: clamp(56px, 7.2vw, 96px);
-  line-height: 0.92;
-  letter-spacing: -0.052em;
-  margin: 22px 0 32px;
-  max-width: 720px;
-  font-weight: 400;
-  animation: rise 1s 0.1s both cubic-bezier(0.16, 0.72, 0.2, 1);
-}
 .hero-copy {
   color: rgba(251, 250, 247, 0.82);
   font-size: 17.5px;
@@ -623,8 +718,8 @@ button {
 
 .hero {
   position: relative;
-  height: calc(100svh - 80px);
-  min-height: calc(100svh - 80px);
+  height: calc(100svh - var(--nav-height-desktop));
+  min-height: calc(100svh - var(--nav-height-desktop));
   max-height: none;
   display: flex;
   align-items: stretch;
@@ -686,8 +781,11 @@ button {
   text-transform: uppercase;
   animation: rise 0.9s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
+/* Shared, size-agnostic base for all three Hero headlines. Deliberately
+   sets NO font-size: each slide's own rule binds the correct semantic
+   token (Level 1 for Slide 01, Level 2 for Slides 02/03), so there is
+   exactly one font-size declaration in play per headline. */
 .hero-title {
-  font-size: clamp(42px, 5.6vw, 72px);
   line-height: 1;
   letter-spacing: -0.03em;
   font-weight: 400;
@@ -954,11 +1052,19 @@ button {
   );
 }
 .hero-founder-frame {
+  /* Explicit inset box (rather than top+width/height), driven by the
+     --founder-frame-* custom properties declared on .hero-founder-visual
+     below. This is the outer square of the "double-square" system;
+     .hero-founder-frame::before is the inner square. Every tier
+     (desktop/tablet/mobile) only needs to redeclare these four custom
+     properties — the frame, its inner square, and the portrait's
+     bottom-anchor all derive from the same values, so they can never
+     drift out of sync with each other again. */
   position: absolute;
-  right: 2%;
-  top: 4%;
-  width: 92%;
-  height: 84%;
+  top: var(--founder-frame-top);
+  right: var(--founder-frame-right);
+  bottom: var(--founder-frame-bottom);
+  left: var(--founder-frame-left);
   border: 1px solid rgba(215, 25, 32, 0.4);
   z-index: 0;
   animation: founderFrameIn 1.1s 0.1s both cubic-bezier(0.16, 0.72, 0.2, 1);
@@ -966,7 +1072,7 @@ button {
 .hero-founder-frame::before {
   content: "";
   position: absolute;
-  inset: 20px;
+  inset: var(--founder-frame-inner-gap);
   border: 1px solid rgba(251, 250, 247, 0.13);
 }
 .hero-founder-frame-tick {
@@ -979,21 +1085,24 @@ button {
   animation: rise 1s 0.5s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
 .hero-founder-frame-tick-a {
-  right: calc(2% - 1px);
-  top: 4%;
+  right: calc(var(--founder-frame-right) - 1px);
+  top: var(--founder-frame-top);
   border-top: 1.5px solid;
   border-right: 1.5px solid;
 }
 .hero-founder-frame-tick-b {
-  left: 10%;
-  bottom: 12%;
+  left: calc(var(--founder-frame-left) + 4%);
+  bottom: var(--founder-frame-bottom);
   border-bottom: 1.5px solid;
   border-left: 1.5px solid;
 }
 .hero-founder-mark {
+  /* Sits just inside the stage's top edge rather than bleeding above it
+     (was top:-4%), so the full glyph belongs to the portrait composition
+     and never reads as running up behind the navbar. */
   position: absolute;
-  right: -2%;
-  top: -6%;
+  right: -1%;
+  top: 3%;
   z-index: 0;
   font-family: var(--app-font-serif);
   font-size: clamp(150px, 19vw, 340px);
@@ -1026,10 +1135,12 @@ button {
   animation: rise 1s 0.5s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
 .hero-founder-groundline {
+  /* Tied to the frame's own bottom line so the "ground" the portrait
+     stands on is the same line as the outer square's base. */
   position: absolute;
   left: -6%;
   right: -6%;
-  bottom: 13%;
+  bottom: var(--founder-frame-bottom);
   height: 1px;
   z-index: 0;
   background: linear-gradient(
@@ -1043,10 +1154,12 @@ button {
   transform-origin: center;
 }
 .hero-founder-portrait-glow {
+  /* Pooled at the grey square's bottom line — the same line the portrait
+     now stands on — so the light reinforces the contact/base illusion. */
   position: absolute;
   z-index: 1;
   left: 50%;
-  bottom: 6%;
+  bottom: calc(var(--founder-frame-bottom) + var(--founder-frame-inner-gap));
   width: 78%;
   height: 62%;
   transform: translateX(-50%);
@@ -1059,15 +1172,18 @@ button {
   filter: blur(2px);
   pointer-events: none;
 }
-.hero-founder-visual-location {
+/* Two integrated trust cards float over the portrait stage: locations
+   top-left (in the empty corner above the shoulders), consultation
+   phone bottom-right (where the locations card used to live). Both
+   share one visual treatment so they read as one design system. */
+.hero-founder-visual-location,
+.hero-founder-visual-contact {
   position: absolute;
-  right: 4%;
-  bottom: 7%;
   z-index: 3;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  max-width: 224px;
+  max-width: 232px;
   padding: 11px 16px 11px 14px;
   border-top: 1px solid rgba(215, 25, 32, 0.55);
   background: rgba(10, 12, 13, 0.72);
@@ -1075,6 +1191,19 @@ button {
   color: var(--neodent-ivory);
   box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
   animation: rise 1s 0.46s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Both cards align to the INNER square's own lines (frame inset + inner
+   gap) rather than to arbitrary percentages, so they read as part of the
+   frame geometry. Locations sits on the inner square's top line in the
+   empty corner beside the head; the consultation card sits on its bottom
+   line, below the hands, clear of the face. */
+.hero-founder-visual-location {
+  top: calc(var(--founder-frame-top) + var(--founder-frame-inner-gap));
+  left: 0;
+}
+.hero-founder-visual-contact {
+  right: 0;
+  bottom: calc(var(--founder-frame-bottom) + var(--founder-frame-inner-gap));
 }
 .hero-founder-visual-location span {
   color: rgba(251, 250, 247, 0.5);
@@ -1094,7 +1223,28 @@ button {
   font-style: normal;
   padding: 0 4px;
 }
+/* The consultation card reuses .hero-founder-contact-label/.hero-founder-phone
+   typography from the copy column's original treatment, scaled down to
+   fit this compact card instead of inventing new type styles. */
+.hero-founder-visual-contact .hero-founder-contact-label {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.17em;
+}
+.hero-founder-visual-contact .hero-founder-phone {
+  font-size: 17px;
+  gap: 7px;
+  white-space: nowrap;
+}
+.hero-founder-visual-contact .hero-founder-phone svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
 .hero-founder-vertical-label {
+  /* Decorative only; the same locations data is shown in the portrait's
+     locations card. Hidden below 1280px (see media query) where the
+     headline column gets close to the viewport edge. */
   position: absolute;
   left: 22px;
   top: 50%;
@@ -1117,7 +1267,11 @@ button {
   align-content: center;
   gap: clamp(24px, 4vw, 64px);
   height: 100%;
-  padding: 32px 0 56px;
+  /* Content must clear the fixed navbar with deliberate breathing room,
+     not float against it. Derived from the shared nav-height variable
+     so this can never silently drift out of sync with the real navbar
+     height again. */
+  padding: calc(var(--nav-height-desktop) + 34px) 0 40px;
 }
 .hero-founder-copy {
   min-width: 0;
@@ -1139,7 +1293,7 @@ button {
   background: var(--neodent-red);
 }
 .hero-founder-tagline {
-  margin: 12px 0 0;
+  margin: 16px 0 0;
   padding-left: 14px;
   border-left: 2px solid var(--neodent-red);
   font-family: var(--app-font-serif);
@@ -1154,6 +1308,7 @@ button {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 6px 12px;
+  margin-top: 4px;
 }
 .hero-founder-identity .hero-credentials {
   margin: 0;
@@ -1167,11 +1322,30 @@ button {
   font-size: 12px;
   letter-spacing: 0.02em;
 }
+/* Slide 01's headline — Level 1, the strongest type on the site.
+   THE VALUES BELOW ARE A TRANSPLANT, NOT A REDESIGN. Until this refactor
+   an orphaned `.hero h1 { … }` rule (a leftover from the pre-carousel
+   single-shot hero, whose siblings .hero-content/.hero-image/.hero-copy
+   are no longer rendered by any component) was silently WINNING this
+   headline on specificity: `.hero h1` scores one class + one type =
+   (0,1,1), which outranks `.hero-founder-title`'s (0,1,0). So this
+   rule's ORIGINAL declarations -- clamp(38px,4.7vw,64px)/0.98/-0.015em
+   -- never once reached the screen, and neither did the tablet override
+   that used to sit in the ≤1199px block. What the visitor actually saw
+   came from `.hero h1`.
+   Those legacy rules are now deleted and the values they were really
+   producing (measured off the live page at 1440/1280/1024/900/768/430/390
+   before removal) live here instead: 0.92 line-height, -0.052em tracking,
+   22/32 margins, the 720px measure, and the 0.1s `rise` delay that was
+   overriding .hero-title's 0.08s. Rendering is unchanged; only the
+   architecture is. See the TYPE SCALE block for the size itself. */
 .hero-founder-title {
-  margin: 10px 0 14px;
-  font-size: clamp(38px, 4.7vw, 64px);
-  line-height: 0.98;
-  letter-spacing: -0.015em;
+  margin: 22px 0 32px;
+  font-size: var(--type-hero-primary);
+  line-height: 0.92;
+  letter-spacing: -0.052em;
+  max-width: 720px;
+  animation: rise 1s 0.1s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
 .hero-founder-locations {
   display: inline-flex;
@@ -1194,8 +1368,14 @@ button {
 .hero-founder-copy .hero-founder-locations {
   display: none;
 }
+/* The consultation phone now lives inside the portrait stage as well
+   (see .hero-founder-visual-contact), so its copy-column duplicate is
+   hidden at every breakpoint, matching the locations treatment above. */
+.hero-founder-copy .hero-founder-contact {
+  display: none;
+}
 .hero-founder-copy .hero-rating {
-  margin-top: 18px;
+  margin-top: 24px;
   padding: 7px 14px;
   background: rgba(251, 250, 247, 0.04);
   border: 1px solid rgba(215, 25, 32, 0.3);
@@ -1230,10 +1410,33 @@ button {
   color: var(--neodent-red);
 }
 .hero-slide-founder .hero-actions {
-  margin-top: 16px;
-  gap: 10px;
+  margin-top: 30px;
+  gap: 12px;
 }
 .hero-founder-visual {
+  /* Desktop double-square proportions. These four custom properties are
+     the single source of truth for the frame box (.hero-founder-frame),
+     its inner square (::before) and the portrait's bottom anchor below —
+     redeclare only these at each breakpoint rather than re-deriving the
+     frame/portrait relationship independently per tier. */
+  --founder-frame-top: 4%;
+  --founder-frame-right: 2%;
+  --founder-frame-bottom: 12%;
+  --founder-frame-left: 6%;
+  --founder-frame-inner-gap: 20px;
+  /* Portrait width drives its size (see .hero-founder-portrait). Sized to
+     sit comfortably INSIDE the inner grey square rather than spilling
+     over its side lines, so the square reads as a container. */
+  --founder-portrait-width: 80%;
+  /* MEASURED FROM THE ASSET: the portrait PNG is 1017x887 but its last
+     non-transparent row is 812, leaving 74 empty rows = 8.34% of the
+     image height as dead space baked into the file. That dead space —
+     not the CSS box position — is why the figure appeared to hang: the
+     box bottom sat on the grey line correctly, but the visible suit/hands
+     ended 8.34% above it. Re-seating happens via translateY below, whose
+     percentage resolves against the element's OWN height, so this single
+     value corrects every breakpoint with no per-tier tuning. */
+  --founder-portrait-base-trim: 8.34%;
   position: relative;
   height: 100%;
   min-height: 0;
@@ -1243,15 +1446,35 @@ button {
   min-width: 0;
 }
 .hero-founder-portrait {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  height: 88%;
-  max-height: 600px;
-  width: auto;
-  max-width: 92%;
+  /* The portrait is placed INSIDE the inner grey square: it shares that
+     square's left, right and bottom lines. margin-inline:auto centres it
+     on the grey square's own centre (not the stage centre, which is a few
+     px off because the frame insets are asymmetric). */
+  left: calc(var(--founder-frame-left) + var(--founder-frame-inner-gap));
+  right: calc(var(--founder-frame-right) + var(--founder-frame-inner-gap));
+  bottom: calc(var(--founder-frame-bottom) + var(--founder-frame-inner-gap));
+  margin-inline: auto;
+  /* WIDTH-driven sizing with height:auto keeps the <img> box exactly equal
+     to its own pixels, so the box's bottom edge is a predictable reference.
+     object-fit/object-position remain only as a guard for the max-height
+     case, where they bottom-align rather than centre the content. */
+  width: var(--founder-portrait-width);
+  height: auto;
+  max-width: none;
+  max-height: calc(100% - var(--founder-frame-top) - var(--founder-frame-bottom));
   object-fit: contain;
-  object-position: center;
-  filter: drop-shadow(0 26px 46px rgba(0, 0, 0, 0.5));
+  object-position: bottom center;
+  /* Pushes the box down by exactly the asset's dead-space ratio so the
+     VISIBLE flat cut lands on the grey square's bottom line. The 74
+     transparent rows now fall harmlessly below that line, making the cut
+     read as the figure standing in the grey container rather than a
+     photo hanging in space. */
+  transform: translateY(var(--founder-portrait-base-trim));
+  /* Kept tight and low-offset: a large downward shadow at the contact line
+     would re-introduce the visual gap the trim above just removed. */
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
   animation: founderPortraitIn 1.2s 0.15s both cubic-bezier(0.16, 0.72, 0.2, 1);
 }
 
@@ -1285,14 +1508,18 @@ button {
     transform: scaleX(1);
   }
 }
+/* Centring is now handled by left/right insets + margin-inline:auto, so no
+   translateX is needed here. The base-trim offset MUST be carried in both
+   keyframe steps, otherwise the animation's final frame would reset the
+   portrait back up off the grey square's bottom line. */
 @keyframes founderPortraitIn {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(calc(var(--founder-portrait-base-trim) + 24px));
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(var(--founder-portrait-base-trim));
   }
 }
 
@@ -1304,10 +1531,20 @@ button {
   .hero-founder-groundline,
   .hero-founder-portrait,
   .hero-founder-visual-location,
+  .hero-founder-visual-contact,
   .hero-founder-tagline,
   .hero-founder-locations,
   .hero-founder-contact {
     animation: none;
+  }
+}
+
+/* Below 1280px the copy column approaches the viewport edge, so the
+   decorative vertical label is retired (its data is already in the
+   locations card) to protect the headline's breathing room. */
+@media (max-width: 1279px) {
+  .hero-founder-vertical-label {
+    display: none;
   }
 }
 
@@ -1321,25 +1558,63 @@ button {
   }
 }
 
-@media (max-width: 860px) {
+/* Hero height must switch to the mobile nav-height variable at the exact
+   breakpoint where .nav-inner itself switches (900px, see the .nav-inner
+   override above), so hero sizing and navbar height never drift apart.
+   This is intentionally its own query, isolated from the Slide 2/3
+   stacking breakpoint below (860px), so it does not shift when Slide
+   2/3's layout collapses to a single column. */
+@media (max-width: 900px) {
   .hero {
-    height: calc(100svh - 72px);
-    min-height: calc(100svh - 72px);
+    height: calc(100svh - var(--nav-height-mobile));
+    min-height: calc(100svh - var(--nav-height-mobile));
   }
-  .hero-slides {
-    height: 100%;
+}
+
+/* Slide 1 (founder) "no clipping, no nested scroll" sizing model.
+   Scoped to Slide 1 only via :has(), so Slides 2/3 keep their exact
+   existing hard height:100%/position:absolute stacking behavior
+   untouched. min-height still guarantees the normal one-viewport
+   composition (using the nav-height variable that matches whichever
+   navbar height is actually active at this width — see the nested
+   900px override below); height:auto lets the box grow taller than
+   that floor on unusually short/dense viewports instead of clipping
+   or forcing a nested scrollbar inside the hero — any residual
+   overflow scrolls the page itself.
+   This spans the full ≤1199px range (tablet + mobile tiers) because
+   both tiers removed their own overflow-y:auto fallback and therefore
+   both need this escape valve, not just the mobile tier. */
+@media (max-width: 1199px) {
+  .hero:has(.hero-slide-founder.hero-slide-active) {
+    height: auto;
+    align-items: flex-start;
   }
-  .hero-slide-founder.hero-slide-active {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    align-items: stretch;
+  .hero:has(.hero-slide-founder.hero-slide-active) .hero-slides {
+    height: auto;
   }
-  .hero-slide-founder .hero-founder,
-  .hero-slide-founder .hero-founder-inner {
-    height: 100%;
-    min-height: 0;
+  .hero:has(.hero-slide-founder.hero-slide-active)
+    .hero-slide-founder.hero-slide-active {
+    position: relative;
+    height: auto;
   }
+  .hero:has(.hero-slide-founder.hero-slide-active) .hero-founder,
+  .hero:has(.hero-slide-founder.hero-slide-active) .hero-founder-inner {
+    height: auto;
+    min-height: calc(100svh - var(--nav-height-desktop));
+  }
+}
+@media (max-width: 900px) {
+  .hero:has(.hero-slide-founder.hero-slide-active) .hero-founder,
+  .hero:has(.hero-slide-founder.hero-slide-active) .hero-founder-inner {
+    min-height: calc(100svh - var(--nav-height-mobile));
+  }
+}
+
+/* This block governs Slide 2/3's stacking layout only. Slide 1's
+   sizing at this width range is fully handled by the
+   .hero:has(.hero-slide-founder...) rules above, which take
+   precedence by specificity — no slide-1 rules are duplicated here. */
+@media (max-width: 860px) {
   .hero-slide-grid,
   .hero-slide-grid-reverse {
     grid-template-columns: 1fr;
@@ -1353,9 +1628,10 @@ button {
   .hero-slide-copy {
     max-width: 100%;
   }
-  .hero-title {
-    font-size: clamp(34px, 9vw, 46px);
-  }
+  /* DELETED: a `.hero-title { font-size: clamp(34px, 9vw, 46px) }` override
+     used to sit here. It was DEAD CODE at every width -- all three slide
+     titles have their own equal-specificity (0,1,0) rules declared LATER in
+     this file, so those always won. Sizes now come from the TYPE SCALE. */
   .hero-lead {
     max-width: 100%;
   }
@@ -1377,29 +1653,46 @@ button {
    is scoped exclusively to the founder slide and does not affect
    slides 02/03, which keep their own rules above. */
 @media (max-width: 1199px) {
-  .hero-slide-founder.hero-slide-active {
-    height: 100%;
-  }
-  .hero-slide-founder .hero-founder,
-  .hero-slide-founder .hero-founder-inner {
-    height: 100%;
-    min-height: 0;
-  }
+  /* height is intentionally not forced to 100%/height:0 here — the
+     .hero:has(.hero-slide-founder...) rule above establishes the real
+     sizing model (min-height floor + auto growth) for this slide at
+     this width range, so this box just participates in normal flow. */
   .hero-founder-inner {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: clamp(92px, 12svh, 130px) 0 clamp(76px, 9.5svh, 96px);
+    /* Min bound is anchored to the shared desktop nav-height variable
+       (rather than a standalone magic number) so this tier's top
+       clearance can never fall below the tallest possible fixed navbar
+       at this width range. */
+    padding: clamp(calc(var(--nav-height-desktop) + 22px), 12svh, 130px) 0
+      clamp(76px, 9.5svh, 96px);
     gap: clamp(10px, 1.6svh, 18px);
-    height: 100%;
-    overflow-y: auto;
+    height: auto;
   }
   .hero-founder-visual {
+    /* Tablet double-square proportions: symmetric left/right insets
+       (unlike the previous 12%/6% split) so the frame/portrait/30+
+       composition stays optically centered instead of skewing right.
+       Critically, the stage is now a CONSTRAINED, near-square box via
+       aspect-ratio instead of `width:100%; height:clamp(140px,20svh,260px)`.
+       That old full-width flat band was the tablet root cause: it turned
+       the "double square" into a stretched horizontal rectangle, threw
+       the 30+ mark off to the right, and pushed both data cards out to
+       the far edges of the screen. */
+    --founder-frame-top: 4%;
+    --founder-frame-right: 5%;
+    --founder-frame-bottom: 5%;
+    --founder-frame-left: 5%;
+    --founder-frame-inner-gap: 14px;
+    --founder-portrait-width: 76%;
     order: 1;
     flex: 0 0 auto;
     align-self: center;
-    width: 100%;
-    height: clamp(140px, 20svh, 260px);
+    width: min(62vw, 400px);
+    aspect-ratio: 1 / 1.02;
+    height: auto;
+    max-height: 40svh;
     min-height: 0;
     overflow: visible;
     justify-content: center;
@@ -1412,45 +1705,43 @@ button {
     padding-bottom: 0;
     gap: 0;
   }
-  .hero-founder-frame {
-    inset: 4% 6% 5% 12%;
-    width: auto;
-    height: auto;
-  }
-  .hero-founder-frame::before {
-    inset: 12px;
-  }
   .hero-founder-frame-tick {
     display: none;
   }
-  .hero-founder-portrait {
-    height: 90%;
-    max-height: 320px;
-    max-width: 78%;
-    object-position: center;
+  /* Portrait sizing is inherited from the width-driven base rule; only
+     the --founder-portrait-width variable above needs redeclaring, so
+     the exact bottom-anchor relationship is preserved at this tier. */
+  .hero-slide-founder .hero-actions .button-primary {
+    min-width: 0;
   }
   .hero-founder-portrait-glow {
     width: 66%;
     height: 60%;
-    bottom: 2%;
   }
   .hero-founder-mark {
-    right: 6%;
-    top: 0%;
-    font-size: clamp(110px, 19vw, 200px);
+    right: -1%;
+    top: 3%;
+    font-size: clamp(96px, 15vw, 150px);
   }
+  /* Retired on the compact tablet stage: at ~400px wide this caption
+     would run underneath the bottom-right consultation card. The 30+
+     mark already carries the same meaning. */
   .hero-founder-mark-caption {
-    left: 8%;
-    bottom: 6%;
+    display: none;
   }
   .hero-founder-groundline {
     left: 6%;
     right: 6%;
-    bottom: 10%;
   }
-  .hero-founder-visual-location {
-    right: 5%;
-    bottom: 8%;
+  /* Cards keep inheriting their frame-line anchoring from the base rule;
+     only their scale is reduced to suit the smaller tablet stage. */
+  .hero-founder-visual-location,
+  .hero-founder-visual-contact {
+    max-width: 176px;
+    padding: 9px 12px 9px 11px;
+  }
+  .hero-founder-visual-contact .hero-founder-phone {
+    font-size: 15px;
   }
   .hero-founder-vertical-label {
     display: none;
@@ -1461,22 +1752,24 @@ button {
   .hero-founder-tagline {
     margin-top: 4px;
   }
-  .hero-founder-title {
-    font-size: clamp(23px, 3vw, 32px);
-    line-height: 1.06;
-    margin: 8px 0 8px;
-  }
+  /* DELETED: a `.hero-founder-title` size/leading/margin override used to
+     sit here (clamp(30px, 4.4vw, 44px) / 1.04 / 14px). It was DEAD CODE --
+     the legacy `.hero h1` selector outranked it (0,1,1) vs (0,1,0), so it
+     never rendered at any width, and its accompanying comment about
+     "editorial weight at 768px" was tuning a rule the browser discarded.
+     Reviving it here would have SHRUNK Slide 01 from 73.7px to 44px at
+     1024px. Level 1's real tablet step is the ≤900px tier in TYPE SCALE. */
   .hero-founder-identity {
-    margin-top: 1px;
+    margin-top: 4px;
   }
   .hero-founder-copy .hero-rating {
-    margin-top: 8px;
+    margin-top: 14px;
   }
   .hero-founder-copy .hero-founder-contact {
     display: none;
   }
   .hero-slide-founder .hero-actions {
-    margin-top: 10px;
+    margin-top: 18px;
   }
 }
 
@@ -1490,38 +1783,51 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: clamp(100px, 14svh, 124px) 0 clamp(68px, 9svh, 88px);
-    gap: clamp(10px, 1.6svh, 18px);
-    height: 100%;
-    overflow-y: auto;
+    /* No overflow-y here: nested scrolling inside the hero is removed
+       by design. height is intentionally NOT forced to 100% — the
+       .hero:has(...) rule above supplies a min-height floor of one
+       comfortable viewport (nav-height aware) while letting this box
+       grow taller if content genuinely needs more room, so any
+       residual overflow scrolls the page instead of nesting a
+       scrollbar or clipping content. */
+    /* Bottom clamp must clear the absolutely-positioned .hero-nav
+       carousel controls (bottom:18px + ~34px control height at this
+       width), otherwise the CTA row visually collides with them. */
+    padding: clamp(64px, 10svh, 88px) 0 clamp(56px, 8.5svh, 72px);
+    gap: clamp(8px, 1.4svh, 14px);
+    height: auto;
   }
   .hero-founder-visual {
+    /* Mobile double-square proportions: symmetric insets so the frame
+       stays centered rather than skewed toward one edge, matching the
+       desktop/tablet composition instead of inventing a new one. */
+    --founder-frame-top: 3%;
+    --founder-frame-right: 4%;
+    --founder-frame-bottom: 4%;
+    --founder-frame-left: 4%;
+    --founder-frame-inner-gap: 8px;
+    --founder-portrait-width: 80%;
     order: 1;
     position: relative;
     flex: 0 0 auto;
     align-self: center;
-    width: min(72vw, 260px);
-    aspect-ratio: 1 / 1.1;
+    /* Stage widened from min(66vw,230px): the old 230px box was too small
+       for the 148px cards to coexist with the portrait, which is why the
+       consultation card landed on the doctor's chest/hands. */
+    width: min(78vw, 288px);
+    aspect-ratio: 1 / 1.04;
     height: auto;
-    max-height: 30svh;
+    max-height: 32svh;
     min-height: 0;
     overflow: visible;
-  }
-  .hero-founder-frame {
-    inset: 4% 6% 8% 12%;
-    width: auto;
-    height: auto;
-  }
-  .hero-founder-frame::before {
-    inset: 10px;
   }
   .hero-founder-frame-tick {
     display: none;
   }
   .hero-founder-mark {
-    right: -2%;
-    top: -4%;
-    font-size: clamp(84px, 27vw, 140px);
+    right: -1%;
+    top: 3%;
+    font-size: clamp(76px, 22vw, 118px);
   }
   .hero-founder-mark-caption {
     display: none;
@@ -1529,35 +1835,41 @@ button {
   .hero-founder-groundline {
     left: 6%;
     right: 6%;
-    bottom: 14%;
   }
   .hero-founder-portrait {
-    position: absolute;
-    inset: auto;
-    bottom: 4%;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 94%;
-    max-height: none;
-    width: auto;
-    max-width: 86%;
-    object-fit: contain;
-    object-position: bottom center;
-    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.5));
+    /* Size/anchor inherited from the width-driven base rule via
+       --founder-portrait-width above; only the shadow is retuned. */
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
   }
   .hero-founder-portrait-glow {
     width: 74%;
     height: 58%;
-    bottom: 0;
   }
-  .hero-founder-visual-location {
-    right: 4%;
-    bottom: 5%;
-    max-width: 168px;
-    padding: 8px 11px 8px 10px;
+  /* Cards shrink to ~40% of the stage width (was ~64%) and keep their
+     frame-line anchoring from the base rule, so they occupy the empty
+     background corners instead of covering the face or the hands. */
+  .hero-founder-visual-location,
+  .hero-founder-visual-contact {
+    max-width: 118px;
+    padding: 6px 8px 6px 7px;
+    gap: 3px;
+  }
+  .hero-founder-visual-location span,
+  .hero-founder-visual-contact .hero-founder-contact-label {
+    font-size: 7.5px;
+    letter-spacing: 0.13em;
   }
   .hero-founder-visual-location strong {
-    font-size: 10px;
+    font-size: 9.5px;
+    line-height: 1.3;
+  }
+  .hero-founder-visual-contact .hero-founder-phone {
+    font-size: 12px;
+    gap: 5px;
+  }
+  .hero-founder-visual-contact .hero-founder-phone svg {
+    width: 11px;
+    height: 11px;
   }
   .hero-founder-vertical-label {
     display: none;
@@ -1578,8 +1890,9 @@ button {
   .hero-founder-copy .hero-eyebrow::before {
     width: 10px;
   }
+  /* Size comes from --type-hero-primary's ≤767px tier; only the mobile
+     leading and margins are slide-specific. */
   .hero-founder-copy .hero-title {
-    font-size: clamp(25px, 7.2vw, 36px);
     line-height: 1.03;
     margin: 0 0 8px;
   }
@@ -1642,18 +1955,20 @@ button {
 
 @media (max-width: 430px) {
   .hero-founder-inner {
-    padding-top: clamp(92px, 13svh, 112px);
-    gap: 10px;
+    padding-top: clamp(64px, 10svh, 88px);
+    gap: 8px;
   }
   .hero-founder-visual {
-    width: min(68vw, 220px);
+    width: min(76vw, 252px);
+    max-height: 30svh;
   }
-  .hero-founder-copy .hero-title {
-    font-size: clamp(24px, 7.8vw, 30px);
+  /* Size comes from --type-hero-primary's ≤430px tier. */
+  .hero-founder-visual-location,
+  .hero-founder-visual-contact {
+    max-width: 108px;
   }
-  .hero-founder-visual-location {
-    max-width: 148px;
-    padding: 7px 10px 7px 9px;
+  .hero-founder-visual-contact .hero-founder-phone {
+    font-size: 11px;
   }
   .hero-slide-founder .hero-founder-copy .hero-actions > * {
     font-size: 11.5px;
@@ -1675,10 +1990,1732 @@ button {
     flex-direction: column;
     align-items: stretch;
   }
-  .hero-slide .hero-actions .button-primary,
-  .hero-slide .hero-actions .button-ghost {
+  /* :not(.hero-slide-founder) — Slide 1 defines its own compact,
+     equal-width CTA row above; without this exclusion, this later,
+     equal-specificity rule would win the cascade and force Slide 1's
+     buttons back to full width, which is the "CTA too wide" bug.
+     Slides 2/3 are unaffected: their CTAs still get width: 100% here
+     exactly as before. */
+  .hero-slide:not(.hero-slide-founder) .hero-actions .button-primary,
+  .hero-slide:not(.hero-slide-founder) .hero-actions .button-ghost {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ========================================
+   HERO — SLIDE 02 · "WHERE NEODENT IS"
+   The location / architectural chapter of the same editorial hero.
+
+   INHERITED FROM SLIDE 01 (deliberately, line for line):
+     - the charcoal canvas + red radial wash + 64px technical grid
+     - the double-line frame language with red corner registration
+       ticks (.hero-founder-frame / -frame-tick)
+     - the oversized outlined serif numeral, here 01 / 02 in place of
+       Slide 01's 30+, at the same colour, stroke and mask values
+     - the italic serif tagline on a 2px red rule
+       (.hero-founder-tagline)
+     - the red-dash eyebrow, the rotated edge label, the ivory/red
+       type palette and the same `rise` / `founderFrameIn` /
+       `founderMarkIn` motion curves
+     - the same nav-height-aware, one-viewport, never-clip sizing model
+
+   NOT inherited: the LAYOUT. Slide 01 is a centred portrait stage.
+   Slide 02 is a copy column plus a two-column "location atlas" whose
+   two plates are intentionally unequal — portrait vs. landscape,
+   staggered by numeral bands of different heights, with mirrored
+   frame offsets, inset corners and caption alignment — so the
+   branches read as two destinations inside one brand rather than as
+   two matching cards.
+   ======================================== */
+
+/* ---- Sizing model ----
+   Same contract as Slide 01, scoped to Slide 02 through :has() so
+   Slides 01/03 keep their own behaviour untouched. min-height holds
+   the normal first-screen composition (using whichever navbar height
+   is actually active at this width); height:auto lets the box grow
+   past that floor on unusually short viewports so any residual
+   overflow scrolls the PAGE rather than being clipped by .hero's
+   overflow:hidden or nesting a scrollbar inside the hero. */
+.hero:has(.hero-slide-place.hero-slide-active) {
+  height: auto;
+  min-height: calc(100svh - var(--nav-height-desktop));
+  align-items: flex-start;
+}
+.hero:has(.hero-slide-place.hero-slide-active) .hero-slides {
+  height: auto;
+}
+.hero:has(.hero-slide-place.hero-slide-active)
+  .hero-slide-place.hero-slide-active {
+  position: relative;
+  height: auto;
+}
+.hero-slide-place {
+  display: block;
+  padding: 0;
+}
+.hero-place {
+  position: relative;
+  display: grid;
+  width: 100%;
+  /* align-content:start is load-bearing, not cosmetic. A grid's default
+     align-content (normal -> stretch) would size this single auto row to
+     the container's min-height and then stretch .hero-place-inner into
+     it, which made the inner's own content overflow a box that could no
+     longer grow -- and .hero's overflow:hidden then clipped it. Starting
+     the row instead lets the row (and therefore this box, and therefore
+     .hero) take the inner's real height, so the one-viewport floor lives
+     on .hero-place-inner's min-height alone and any genuine excess grows
+     the hero and scrolls the page. */
+  align-content: start;
+}
+
+/* ---- Canvas ---- */
+.hero-place-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-place-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      50% 58% at 74% 24%,
+      rgba(215, 25, 32, 0.1) 0%,
+      rgba(215, 25, 32, 0.03) 44%,
+      transparent 74%
+    ),
+    radial-gradient(
+      66% 54% at 4% 94%,
+      rgba(0, 0, 0, 0.5) 0%,
+      transparent 62%
+    );
+}
+.hero-place-gridlines {
+  position: absolute;
+  inset: 0;
+  /* Identical grid values to .hero-founder-gridlines — only the mask
+     angle differs, so the same technical language reads as a new
+     composition rather than a repeat. */
+  background-image:
+    linear-gradient(90deg, rgba(251, 250, 247, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(251, 250, 247, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(
+    62deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.34) 48%,
+    transparent 80%
+  );
+}
+.hero-place-vertical-label {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(251, 250, 247, 0.34);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- Composition ---- */
+.hero-place-inner {
+  --place-gap: clamp(28px, 4vw, 64px);
+  /* Copy column share of the 0.68 / 1.32 split. Declared once so the
+     architectural spine below can resolve the exact column seam. */
+  --place-copy-share: 0.34;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  align-content: center;
+  align-items: center;
+  gap: var(--place-gap);
+  /* The one-viewport floor lives here (see .hero-place above). Top
+     clearance is derived from the shared nav-height variable so it can
+     never drift out of sync with the real navbar; bottom clearance is
+     sized to clear the absolutely positioned .hero-nav carousel
+     controls (bottom:28px + ~34px control height). */
+  min-height: calc(100svh - var(--nav-height-desktop));
+  padding: calc(var(--nav-height-desktop) + clamp(20px, 3.6svh, 40px)) 0
+    clamp(74px, 9svh, 96px);
+}
+/* The architectural spine: one vertical red hairline standing exactly on
+   the seam between the copy column and the atlas. Anchored to the grid's
+   own track maths rather than a viewport percentage, so it tracks the
+   seam at every width instead of drifting into the copy column. Same
+   gradient fade as Slide 01's vertical hairline. */
+.hero-place-inner::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: calc(
+    (100% - var(--place-gap)) * var(--place-copy-share) + var(--place-gap) / 2
+  );
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(215, 25, 32, 0.22) 18%,
+    rgba(215, 25, 32, 0.22) 82%,
+    transparent 100%
+  );
+}
+
+/* ---- Copy column ---- */
+.hero-place-copy {
+  min-width: 0;
+  max-width: 440px;
+  align-self: center;
+}
+.hero-place-copy .hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.hero-place-copy .hero-eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--neodent-red);
+}
+/* Inherits .hero-title (scale, weight, `rise` entrance and the red
+   .serif accent); only the stacked three-line setting is new. */
+.hero-place-title {
+  margin: 20px 0 0;
+  font-size: var(--type-hero-supporting);
+  line-height: 0.96;
+  letter-spacing: -0.018em;
+}
+.hero-place-title span {
+  display: block;
+}
+/* Set as two deliberate lines (one span per sentence) rather than left
+   to wrap luck, which was orphaning "care." onto its own line. */
+.hero-place-tagline span {
+  display: block;
+}
+.hero-place-tagline {
+  margin: 22px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(251, 250, 247, 0.82);
+  animation: rise 1s 0.18s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Wayfinding legend: a map-legend-scale index of the two branches so
+   the location names are scannable beside the headline, before the
+   eye reaches the photography. Kept deliberately subordinate. */
+.hero-place-legend {
+  display: grid;
+  margin: 26px 0 0;
+  padding: 0;
+  max-width: 330px;
+  list-style: none;
+  animation: rise 1s 0.26s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-place-legend li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(251, 250, 247, 0.12);
+  color: rgba(251, 250, 247, 0.72);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.hero-place-legend li:last-child {
+  border-bottom: 1px solid rgba(251, 250, 247, 0.12);
+}
+.hero-place-legend span {
+  color: var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- The atlas ---- */
+.hero-place-atlas {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  column-gap: clamp(16px, 2.2vw, 34px);
+  align-items: start;
+  min-width: 0;
+}
+
+/* Per-branch tokens are the single source of truth for this
+   composition. Each tier below redeclares only these — the numeral,
+   band, frame offset, plate shape and inset all derive from them, so
+   they cannot drift apart at any width. */
+.hero-place-branch {
+  /* The numeral's own box height plus a breathing gap. Deriving the band
+     from --place-ghost-size means the numeral is always fully legible
+     inside its band (never half-swallowed by the plate below it), AND
+     that the two branches' numeral SIZES are the single lever producing
+     the vertical stagger. One token, two jobs, nothing to keep in sync. */
+  --place-band: calc(
+    var(--place-ghost-size) * 0.78 + clamp(8px, 1.4svh, 18px)
+  );
+  --place-plate-ratio: 3 / 3.75;
+  --place-frame-offset: clamp(10px, 1.1vw, 16px);
+  /* Insets are sized from the plate's HEIGHT, not its width. A
+     width-derived inset could grow taller than a plate whose height had
+     been clamped on a short viewport, and then be clipped by the plate's
+     own overflow:hidden. Height-derived, it is always a fixed fraction
+     of the space it sits in. */
+  --place-inset-ratio: 3 / 4;
+  --place-inset-gap: clamp(12px, 1.3vw, 18px);
+}
+.hero-place-branch-a {
+  --place-ghost-size: clamp(72px, 10svh, 124px);
+  --place-plate-max-h: clamp(215px, 44svh, 400px);
+  --place-inset-height: 45%;
+  /* Edge burn-in for this plate only: the real waiting-lounge photograph
+     carries a loud red/white poster along its left edge that no crop can
+     reach, so it is graded back into the canvas instead. */
+  --place-veil-edge: linear-gradient(
+    90deg,
+    rgba(22, 28, 30, 0.58) 0%,
+    rgba(22, 28, 30, 0.14) 17%,
+    transparent 33%
+  );
+}
+.hero-place-branch-b {
+  --place-ghost-size: clamp(124px, 19svh, 210px);
+  --place-plate-ratio: 4 / 2.86;
+  --place-plate-max-h: clamp(180px, 34svh, 320px);
+  --place-inset-height: 58%;
+}
+.hero-place-branch {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: clamp(12px, 1.8svh, 20px);
+  margin: 0;
+  min-width: 0;
+  /* Reserved band at the top of the column for this branch's outlined
+     numeral. The two bands are intentionally different heights: that
+     difference IS the vertical stagger, so the second plate is offset
+     without a single negative margin or transform. */
+  padding-top: var(--place-band);
+}
+.hero-place-ghost {
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  font-family: var(--app-font-serif);
+  font-size: var(--place-ghost-size);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  /* Same values as Slide 01's 30+ mark. */
+  color: rgba(215, 25, 32, 0.13);
+  -webkit-text-stroke: 1px rgba(215, 25, 32, 0.24);
+  user-select: none;
+  pointer-events: none;
+  animation: founderMarkIn 1.3s 0.2s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-place-branch-a .hero-place-ghost {
+  left: 0;
+}
+.hero-place-branch-b .hero-place-ghost {
+  right: 0;
+}
+
+.hero-place-stack {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  animation: founderFrameIn 1.1s 0.18s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* The offset red hairline. The stack's own padding IS the frame
+   offset, so the line sits outside the photograph with no negative
+   values and nothing to clip. The two branches offset on opposite
+   diagonals. */
+.hero-place-branch-a .hero-place-stack {
+  padding: var(--place-frame-offset) 0 0 var(--place-frame-offset);
+}
+.hero-place-branch-b .hero-place-stack {
+  padding: 0 var(--place-frame-offset) var(--place-frame-offset) 0;
+}
+.hero-place-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(215, 25, 32, 0.38);
+  transition: border-color 0.45s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Corner registration tick — same language as .hero-founder-frame-tick. */
+.hero-place-stack::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--neodent-red);
+  opacity: 0.85;
+}
+.hero-place-branch-a .hero-place-stack::after {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+}
+.hero-place-branch-b .hero-place-stack::after {
+  right: 0;
+  bottom: 0;
+  border-bottom: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+.hero-place-plate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--place-plate-ratio);
+  /* Height ceiling so the whole composition still resolves to one
+     screen on short viewports: object-fit:cover simply crops a little
+     more rather than letting the column push past the fold. */
+  max-height: var(--place-plate-max-h);
+  overflow: hidden;
+  border: 1px solid rgba(251, 250, 247, 0.14);
+  background: var(--neodent-ink);
+}
+.hero-place-photo {
+  object-fit: cover;
+  filter: saturate(0.84) contrast(1.05) brightness(0.94);
+  transition: transform 1.1s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Crops chosen against the actual files: 01 keeps the lounge ceiling
+   and seating, 02 keeps the street signage and entrance. */
+.hero-place-branch-a .hero-place-plate > .hero-place-photo {
+  object-position: 50% 44%;
+}
+.hero-place-branch-b .hero-place-plate > .hero-place-photo {
+  object-position: 50% 40%;
+}
+/* Tonal veil. These are bright, high-colour clinic photographs; the
+   vignette plus top/bottom darkening seats them inside the charcoal
+   canvas instead of letting them read as lit rectangles pasted on it. */
+.hero-place-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    var(--place-veil-edge, linear-gradient(90deg, transparent, transparent)),
+    linear-gradient(
+      180deg,
+      rgba(22, 28, 30, 0.44) 0%,
+      rgba(22, 28, 30, 0.04) 40%,
+      rgba(22, 28, 30, 0.42) 100%
+    ),
+    radial-gradient(
+      118% 92% at 50% 48%,
+      transparent 42%,
+      rgba(22, 28, 30, 0.42) 100%
+    );
+}
+.hero-place-inset {
+  position: absolute;
+  z-index: 2;
+  height: var(--place-inset-height);
+  aspect-ratio: var(--place-inset-ratio);
+  overflow: hidden;
+  /* Charcoal "mount" ring drawn with a spread shadow so the second
+     image plane separates from the photograph behind it without
+     costing a layout box (same technique as .brand-mark). */
+  box-shadow:
+    0 0 0 4px var(--neodent-charcoal),
+    0 16px 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.55s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-place-branch-a .hero-place-inset {
+  right: var(--place-inset-gap);
+  bottom: var(--place-inset-gap);
+}
+.hero-place-branch-b .hero-place-inset {
+  left: var(--place-inset-gap);
+  bottom: var(--place-inset-gap);
+}
+.hero-place-photo-inset {
+  filter: saturate(0.88) contrast(1.04) brightness(0.97);
+}
+
+.hero-place-caption {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(10px, 1vw, 14px);
+  padding-top: clamp(10px, 1.4svh, 14px);
+  border-top: 1px solid rgba(215, 25, 32, 0.5);
+  animation: rise 1s 0.34s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Mirrored reading direction, echoing the mirrored frame offsets. */
+.hero-place-branch-b .hero-place-caption {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.hero-place-caption-index {
+  flex: 0 0 auto;
+  color: var(--neodent-red);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.hero-place-caption-text {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.hero-place-name {
+  margin: 0;
+  font-family: var(--app-font-serif);
+  font-weight: 400;
+  font-size: clamp(19px, 1.9vw, 27px);
+  line-height: 1.06;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--neodent-ivory);
+}
+.hero-place-meta {
+  color: rgba(251, 250, 247, 0.55);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* Three restrained hover cues: the photograph breathes, the offset
+   hairline warms, the second plane lifts. Nothing moves far. */
+@media (hover: hover) {
+  .hero-place-branch:hover .hero-place-plate > .hero-place-photo {
+    transform: scale(1.035);
+  }
+  .hero-place-branch:hover .hero-place-stack::before {
+    border-color: rgba(215, 25, 32, 0.78);
+  }
+  .hero-place-branch:hover .hero-place-inset {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-place-ghost,
+  .hero-place-stack,
+  .hero-place-caption,
+  .hero-place-tagline,
+  .hero-place-legend {
+    animation: none;
+  }
+  .hero-place-photo,
+  .hero-place-inset {
+    transition: none;
+  }
+  .hero-place-branch:hover .hero-place-plate > .hero-place-photo,
+  .hero-place-branch:hover .hero-place-inset {
+    transform: none;
+  }
+}
+
+/* Retired at the same width as Slide 01's edge label, where the
+   composition gets close to the viewport edge. */
+@media (max-width: 1279px) {
+  .hero-place-vertical-label {
+    display: none;
+  }
+}
+
+/* ---- Slide 02 — small laptop (1024px–1199px) ---- */
+@media (max-width: 1199px) {
+  .hero-place-inner {
+    --place-gap: clamp(24px, 3.4vw, 44px);
+  }
+  .hero-place-copy {
+    max-width: 400px;
+  }
+  .hero-place-branch-b {
+    --place-ghost-size: clamp(108px, 16svh, 168px);
+  }
+}
+
+/* ---- Slide 02 — tablet (≤1023px, tall enough to stack) ----
+   Same design language, simplified arrangement: the copy stacks above
+   the atlas, and the atlas keeps its two staggered, unequal plates
+   rather than collapsing into a list. The legend becomes a single
+   metadata strip so the copy block stays short.
+
+   The min-height condition is deliberate. Stacking buys horizontal room
+   at the cost of vertical room, so it is only the right trade when the
+   viewport actually has vertical room to spend. On short-and-wide
+   viewports (a 900x700 window, say) this tier is skipped entirely and
+   the far more height-efficient two-column composition above is kept,
+   which is why that case fits one screen instead of running ~200px past
+   the fold. The 940px floor is measured, not guessed: it is the point
+   below which the stacked block stops resolving to a single screen at
+   these widths. Real portrait tablets (768x1024, 810x1080, 820x1180)
+   sit comfortably above it. */
+@media (max-width: 1023px) and (min-height: 940px) {
+  .hero-place-inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(18px, 3svh, 28px);
+    padding: calc(var(--nav-height-desktop) + clamp(16px, 3svh, 34px)) 0
+      clamp(74px, 8.6svh, 90px);
+  }
+  /* The spine is a two-column device. Once the copy stacks above the
+     atlas there is no seam for it to stand on, so it is retired and the
+     legend's own rule becomes this tier's horizontal datum instead. */
+  .hero-place-inner::before {
+    display: none;
+  }
+  .hero-place-copy {
+    width: 100%;
+    max-width: 620px;
+  }
+  /* Height-awareness for this tier now lives on --type-hero-supporting,
+     whose matching `≤1023px and (min-height: 940px)` step caps the
+     headline against viewport HEIGHT as well as width -- the stacked
+     composition's biggest consumer of vertical space. */
+  .hero-place-tagline {
+    margin-top: 18px;
+    max-width: 100%;
+  }
+  .hero-place-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(16px, 3vw, 28px);
+    margin-top: 14px;
+    padding-top: 10px;
+    max-width: 100%;
+    border-top: 1px solid rgba(251, 250, 247, 0.12);
+  }
+  .hero-place-legend li {
+    padding: 0;
+    border-top: 0;
+  }
+  .hero-place-legend li:last-child {
+    border-bottom: 0;
+  }
+  .hero-place-atlas {
+    width: 100%;
+    column-gap: clamp(14px, 2.6vw, 26px);
+  }
+  .hero-place-branch-a {
+    --place-ghost-size: clamp(58px, 7.6svh, 96px);
+    --place-plate-max-h: clamp(210px, 30svh, 320px);
+  }
+  .hero-place-branch-b {
+    --place-ghost-size: clamp(96px, 13.5svh, 156px);
+    --place-plate-max-h: clamp(170px, 26svh, 262px);
+  }
+  .hero-place-stack::after {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Hero sizing must switch to the mobile nav-height variable at the
+   exact width where .nav-inner itself switches (900px), so Slide 02's
+   height model and the real navbar height never drift apart. */
+@media (max-width: 900px) {
+  .hero:has(.hero-slide-place.hero-slide-active) {
+    min-height: calc(100svh - var(--nav-height-mobile));
+  }
+  /* The one-viewport floor lives on .hero-place-inner (see the sizing
+     model at the top of this section), so it is the element that has to
+     switch nav-height variables here. */
+  .hero-place-inner {
+    min-height: calc(100svh - var(--nav-height-mobile));
+    padding-top: calc(var(--nav-height-mobile) + clamp(16px, 3svh, 34px));
+  }
+}
+
+/* ---- Slide 02 — mobile (≤767px) ----
+   Deliberately NOT four stacked full-width photographs. Each branch
+   becomes a compact horizontal band: the plate on one side, the
+   outlined numeral and name on the other, with the two bands mirrored
+   so the screen still reads as art direction rather than a list. */
+@media (max-width: 767px) {
+  /* This tier declares its own single-column grid rather than inheriting
+     one from the tablet block above, which is height-conditional and
+     therefore cannot be relied on at narrow-and-short sizes. */
+  .hero-place-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(18px, 3svh, 28px);
+    padding: calc(var(--nav-height-mobile) + clamp(10px, 2svh, 22px)) 0
+      clamp(56px, 7.5svh, 70px);
+  }
+  /* No column seam in a single-column layout. */
+  .hero-place-inner::before {
+    display: none;
+  }
+  .hero-place-copy {
+    max-width: 100%;
+  }
+  .hero-place-title {
+    margin-top: 14px;
+    line-height: 1;
+  }
+  .hero-place-tagline {
+    margin-top: 14px;
+    font-size: 13.5px;
+  }
+  .hero-place-legend {
+    display: none;
+  }
+  .hero-place-atlas {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(16px, 2.6svh, 24px);
+  }
+  .hero-place-branch {
+    grid-template-rows: auto;
+    grid-template-columns: minmax(0, 0.56fr) minmax(0, 0.44fr);
+    column-gap: clamp(12px, 3.6vw, 20px);
+    align-items: stretch;
+    padding-top: 0;
+  }
+  .hero-place-branch-b {
+    grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.62fr);
+  }
+  .hero-place-branch-b .hero-place-stack {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .hero-place-branch-b .hero-place-caption {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  /* The numeral moves to the top of each branch's TEXT column, which
+     is the outer edge on both sides because the bands are mirrored. */
+  .hero-place-branch-a .hero-place-ghost {
+    left: auto;
+    right: 0;
+  }
+  .hero-place-branch-b .hero-place-ghost {
+    right: auto;
+    left: 0;
+  }
+  /* Pushes the caption's red datum line clear of the numeral above it,
+     derived from the numeral's own box (font-size x line-height). */
+  /* The name group bottoms out against the plate's lower edge, and the
+     red datum rule travels DOWN with it (onto the index) instead of
+     staying at the top of the column, where it was left stranded under
+     the numeral with a void beneath it. padding-top reserves the
+     numeral's own box so the group can never ride up into it. */
+  .hero-place-caption {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 5px;
+    padding-top: calc(var(--place-ghost-size) * 0.78 + 6px);
+    border-top: 0;
+  }
+  .hero-place-branch-b .hero-place-caption {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .hero-place-caption-index {
+    align-self: stretch;
+    padding-top: 8px;
+    border-top: 1px solid rgba(215, 25, 32, 0.5);
+  }
+  .hero-place-branch {
+    --place-band: 0px;
+    --place-ghost-size: clamp(46px, 13vw, 64px);
+    --place-frame-offset: clamp(7px, 2.2vw, 11px);
+    --place-inset-gap: clamp(7px, 2vw, 10px);
+  }
+  .hero-place-branch-a {
+    --place-plate-ratio: 3 / 3.8;
+    --place-plate-max-h: clamp(160px, 26svh, 250px);
+    --place-inset-height: 52%;
+  }
+  .hero-place-branch-b {
+    --place-plate-ratio: 4 / 3.1;
+    --place-plate-max-h: clamp(130px, 21svh, 210px);
+    --place-inset-height: 58%;
+  }
+  .hero-place-stack::after {
+    width: 11px;
+    height: 11px;
+  }
+  .hero-place-inset {
+    box-shadow:
+      0 0 0 3px var(--neodent-charcoal),
+      0 10px 20px rgba(0, 0, 0, 0.45);
+  }
+  .hero-place-caption-index {
+    font-size: 9.5px;
+  }
+  .hero-place-name {
+    font-size: clamp(16px, 4.6vw, 21px);
+    letter-spacing: 0.045em;
+  }
+  .hero-place-meta {
+    font-size: 8.5px;
+    letter-spacing: 0.11em;
+  }
+}
+
+@media (max-width: 430px) {
+  /* Slide 02/03 headline size: --type-hero-supporting, ≤430px tier. */
+  .hero-place-tagline {
+    font-size: 12.5px;
+  }
+  .hero-place-branch-a {
+    --place-plate-max-h: clamp(150px, 24svh, 226px);
+  }
+  .hero-place-branch-b {
+    --place-plate-max-h: clamp(122px, 19.5svh, 190px);
+  }
+}
+
+/* ========================================
+   HERO — SLIDE 03 · "RECOGNISED BEYOND THE CLINIC"
+   The credibility chapter of the same editorial hero, closing the
+   WHO (01) -> WHERE (02) -> WHY TRUST (03) arc.
+
+   INHERITED FROM SLIDES 01/02 (deliberately, line for line):
+     - the charcoal canvas + red radial wash + 64px technical grid
+     - the offset red hairline + corner registration tick frame
+       language, produced by PADDING on a wrapper (.hero-record-stack)
+       exactly as .hero-place-stack does it, so there is never a
+       negative value for a parent's overflow to clip
+     - the oversized outlined serif numeral, here 03, at the same
+       colour, stroke, line-height and letter-spacing as
+       .hero-place-ghost and .hero-founder-mark
+     - the italic serif tagline on a 2px red rule
+       (.hero-founder-tagline / .hero-place-tagline)
+     - the red-dash eyebrow, the rotated edge label, the uppercase
+       metadata treatment, the ivory/red type palette, and the same
+       `rise` / `founderFrameIn` / `founderMarkIn` curves
+     - the same nav-height-aware, one-viewport, never-clip sizing model
+     - the charcoal "mount ring" box-shadow used by .hero-place-inset
+       to separate one image plane from another
+     - no CTA, matching Slide 02. The global CTA system already covers
+       this (.hero-actions on Slide 01, .floating-cta, .mobile-bar).
+
+   NOT inherited: the LAYOUT. Slide 01 is a centred portrait stage and
+   Slide 02 is a two-branch location atlas. Slide 03 is a copy column
+   plus a "dossier": ONE dominant press artifact with two smaller
+   planes stepping down and to the right behind it, so the evidence
+   reads as one focal point with supporting layers rather than as a
+   row of equal cards or a newspaper collage.
+
+   SUBJECT DISCIPLINE: the slide is about the institution. No doctor's
+   name appears in any visible string here or in the markup's copy;
+   captions name the OUTLET only. See the notes above heroRecordItems
+   in lib/site-data.ts for the content-accuracy rules, including which
+   legible award titles are deliberately never quoted.
+   ======================================== */
+
+/* ---- Sizing model ----
+   Same contract as Slide 02, scoped to Slide 03 through :has() so
+   Slides 01/02 keep their own behaviour untouched. min-height holds
+   the normal first-screen composition (using whichever navbar height
+   is actually active at this width); height:auto lets the box grow
+   past that floor on unusually short viewports so any residual
+   overflow scrolls the PAGE rather than being clipped by .hero's
+   overflow:hidden or nesting a scrollbar inside the hero. */
+.hero:has(.hero-slide-record.hero-slide-active) {
+  height: auto;
+  min-height: calc(100svh - var(--nav-height-desktop));
+  align-items: flex-start;
+}
+.hero:has(.hero-slide-record.hero-slide-active) .hero-slides {
+  height: auto;
+}
+.hero:has(.hero-slide-record.hero-slide-active)
+  .hero-slide-record.hero-slide-active {
+  position: relative;
+  height: auto;
+}
+.hero-slide-record {
+  display: block;
+  padding: 0;
+}
+.hero-record {
+  position: relative;
+  display: grid;
+  width: 100%;
+  /* align-content:start is load-bearing, not cosmetic — see the
+     identical note on .hero-place. A stretched row would size to
+     min-height and then stretch .hero-record-inner into it, so the
+     inner's own content could overflow a box that can no longer grow,
+     and .hero's overflow:hidden would clip it. */
+  align-content: start;
+}
+
+/* ---- Canvas ---- */
+.hero-record-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.hero-record-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Same two-wash recipe as Slides 01/02, re-aimed: the red glow sits
+     low-right under the dossier so the evidence is lit from beneath,
+     and the black falloff sits top-left where the headline needs the
+     most contrast behind it. */
+  background:
+    radial-gradient(
+      52% 58% at 68% 76%,
+      rgba(215, 25, 32, 0.11) 0%,
+      rgba(215, 25, 32, 0.03) 46%,
+      transparent 76%
+    ),
+    radial-gradient(
+      70% 58% at 2% 6%,
+      rgba(0, 0, 0, 0.48) 0%,
+      transparent 64%
+    );
+}
+.hero-record-gridlines {
+  position: absolute;
+  inset: 0;
+  /* Identical grid values to .hero-founder-gridlines and
+     .hero-place-gridlines — only the mask angle differs (Slide 02 uses
+     62deg), so the same technical language reads as a third
+     composition rather than a repeat. */
+  background-image:
+    linear-gradient(90deg, rgba(251, 250, 247, 0.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(251, 250, 247, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(
+    118deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.32) 46%,
+    transparent 78%
+  );
+}
+.hero-record-vertical-label {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(251, 250, 247, 0.34);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- The 03 numeral ----
+   One numeral for the whole slide (Slide 02 carries one per branch).
+   Anchored to the full-bleed .hero-record rather than to the container
+   so a small NEGATIVE right inset pushes its outer edge past the
+   viewport edge, where .hero's overflow:hidden crops it. That crop is
+   the point: the glyph reads as a partially seen background mark. The
+   negative value can never produce a horizontal scrollbar precisely
+   because .hero clips it.
+
+   The offset lives in `right`, not in a transform: founderMarkIn ends
+   on transform:translateY(0), so any transform-based positioning would
+   be wiped by the animation's final frame (the same trap documented on
+   @keyframes founderPortraitIn). */
+.hero-record-ghost {
+  --record-ghost-size: clamp(150px, 30svh, 300px);
+  position: absolute;
+  top: 15%;
+  right: calc(clamp(6px, 1.6vw, 30px) * -1);
+  z-index: 0;
+  font-family: var(--app-font-serif);
+  font-size: var(--record-ghost-size);
+  line-height: 0.78;
+  letter-spacing: -0.04em;
+  /* Same values as Slide 01's 30+ mark and Slide 02's 01/02. */
+  color: rgba(215, 25, 32, 0.13);
+  -webkit-text-stroke: 1px rgba(215, 25, 32, 0.24);
+  user-select: none;
+  pointer-events: none;
+  animation: founderMarkIn 1.3s 0.2s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+
+/* ---- Composition ---- */
+.hero-record-inner {
+  --record-gap: clamp(28px, 4vw, 64px);
+  /* Copy column share of the 0.62 / 1.38 split. Declared once so the
+     architectural spine below can resolve the exact column seam. */
+  --record-copy-share: 0.31;
+  /* How far the secondary stack is pulled back over the dominant
+     plate. Pulls INWARD from the right, so it can never create
+     horizontal overflow. Must exceed the dossier's column-gap to
+     produce a real overlap rather than just closing the gap. */
+  --record-overlap: clamp(0px, 3.6vw, 62px);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
+  align-content: center;
+  align-items: center;
+  gap: var(--record-gap);
+  /* The one-viewport floor lives here (see .hero-record above). Top
+     clearance is derived from the shared nav-height variable so it can
+     never drift out of sync with the real navbar; bottom clearance is
+     sized to clear the absolutely positioned .hero-nav carousel
+     controls (bottom:28px + ~34px control height). */
+  min-height: calc(100svh - var(--nav-height-desktop));
+  padding: calc(var(--nav-height-desktop) + clamp(20px, 3.6svh, 40px)) 0
+    clamp(74px, 9svh, 96px);
+}
+/* The architectural spine: one vertical red hairline standing exactly
+   on the seam between the copy column and the dossier. Anchored to the
+   grid's own track maths rather than a viewport percentage, so it
+   tracks the seam at every width. Same gradient fade as Slides 01/02. */
+.hero-record-inner::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: calc(
+    (100% - var(--record-gap)) * var(--record-copy-share) + var(--record-gap) / 2
+  );
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(215, 25, 32, 0.22) 18%,
+    rgba(215, 25, 32, 0.22) 82%,
+    transparent 100%
+  );
+}
+
+/* ---- Copy column ---- */
+.hero-record-copy {
+  min-width: 0;
+  max-width: 440px;
+  align-self: center;
+}
+.hero-record-copy .hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.hero-record-copy .hero-eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--neodent-red);
+}
+/* Inherits .hero-title (scale, weight, `rise` entrance and the red
+   .serif accent); only the stacked three-line setting is new, matching
+   Slide 02's .hero-place-title. */
+.hero-record-title {
+  margin: 20px 0 0;
+  font-size: var(--type-hero-supporting);
+  line-height: 0.96;
+  letter-spacing: -0.018em;
+}
+.hero-record-title span {
+  display: block;
+}
+/* Set as two deliberate lines (one span per sentence) rather than left
+   to wrap luck. */
+.hero-record-tagline span {
+  display: block;
+}
+.hero-record-tagline {
+  margin: 22px 0 0;
+  padding-left: 14px;
+  border-left: 2px solid var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-style: italic;
+  font-size: 15.5px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(251, 250, 247, 0.82);
+  animation: rise 1s 0.18s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Channel index: a contents-page-scale list of the three kinds of
+   recognition, so the story is scannable beside the headline before
+   the eye reaches the artifacts. Same treatment as Slide 02's
+   wayfinding legend, and kept just as subordinate. The outlet names
+   live on the plates' own captions, not here — this list answers
+   "what kinds of proof", the captions answer "from whom". */
+.hero-record-index {
+  display: grid;
+  margin: 26px 0 0;
+  padding: 0;
+  max-width: 330px;
+  list-style: none;
+  animation: rise 1s 0.26s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-record-index li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(251, 250, 247, 0.12);
+  color: rgba(251, 250, 247, 0.72);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.hero-record-index li:last-child {
+  border-bottom: 1px solid rgba(251, 250, 247, 0.12);
+}
+.hero-record-index span {
+  color: var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- The dossier ---- */
+.hero-record-dossier {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  column-gap: clamp(16px, 2.2vw, 34px);
+  align-items: start;
+  min-width: 0;
+}
+/* The two secondary planes are gathered into their own element rather
+   than grid-placed as siblings of the dominant plate. The dominant
+   plate is taller than the two secondaries combined, so spanning it
+   across two grid rows would stretch those rows to match its height
+   and blow the stack apart. A wrapper keeps the row-gap literal.
+
+   padding-top steps the whole stack down from the dominant plate's top
+   edge; the negative margin-left pulls it back over that plate's right
+   edge. z-index puts it in front, and the mount ring on the broadcast
+   plate below separates the two planes. */
+.hero-record-stack-group {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  row-gap: clamp(14px, 2svh, 24px);
+  min-width: 0;
+  margin-left: calc(var(--record-overlap) * -1);
+  /* No step. The recognition plate below is a tall portrait, so the
+     stack already fills its column — any step here pushes it past the
+     dominant plate and inverts the hierarchy. The offset that makes the
+     composition read as stepped comes from the recognition plate's own
+     left margin instead. */
+  padding-top: 0;
+}
+
+
+/* Per-plate tokens are the single source of truth for this
+   composition. Each tier below redeclares only these — the frame
+   offset, plate shape and height ceiling all derive from them, so they
+   cannot drift apart at any width. */
+.hero-record-item {
+  --record-frame-offset: clamp(10px, 1.1vw, 16px);
+  --record-tick-size: 18px;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: clamp(10px, 1.4svh, 14px);
+  margin: 0;
+  min-width: 0;
+}
+.hero-record-item-press {
+  --record-plate-ratio: 3 / 4.05;
+  --record-plate-max-h: clamp(300px, 58svh, 520px);
+}
+.hero-record-item-media {
+  /* This letterbox ratio is load-bearing, not styling, and it is
+     derived rather than chosen. The source frame is 1279x718 (ratio
+     1.78) and its unrelated "BIG BREAKING" chyron begins at 77% of its
+     height. object-fit:cover on a box WIDER than the source keeps the
+     full width and shows 1.78 / (plate ratio) of the height, so
+     cropping at exactly 77% means plate ratio = 1.78 / 0.77 = 2.31,
+     i.e. 16 / 6.9. Anything shallower than that leaves the chyron in
+     frame — 16 / 7.4 did, which is why it is no longer used.
+     Do not retune this per breakpoint: the crop is content, not
+     styling, and the chyron would reappear. */
+  --record-plate-ratio: 16 / 6.9;
+  --record-plate-max-h: clamp(90px, 14svh, 130px);
+}
+/* PORTRAIT, and the taller of the two secondary planes by a wide
+   margin. This is a content requirement, not a preference.
+
+   The source photograph is a tall 3:4 frame whose meaning is vertical
+   accumulation: a framed award high on the wall, a certificate below
+   it, an oval plaque beside that, then a full front row of trophies
+   standing on the counter. The VALUE of the image is how much of it
+   there is. Every landscape treatment of it — and this plate went
+   through two — slices that column into a horizontal strip, cuts every
+   trophy off at the knees, and reduces the whole thing to an abstract
+   gold smear. A portrait plate at close to the source's own proportion
+   is the only shape that carries the subject.
+
+   It stays narrow (see the step margin below) rather than wide, because
+   the height has to come from somewhere: a wide portrait plate here
+   would out-measure the dominant press artifact and invert the
+   hierarchy. Narrow-and-tall buys the vertical extent while leaving the
+   press plate the largest object on the slide. */
+.hero-record-item-award {
+  --record-plate-ratio: 4 / 4.9;
+  --record-plate-max-h: clamp(220px, 44svh, 400px);
+  /* This declaration must stay BELOW `.hero-record-item { margin: 0 }`.
+     Both are single-class selectors, so the shorthand wins on order —
+     declared above it, this margin is silently reset to zero, the plate
+     goes full-column-width, and --record-plate-max-h then squashes the
+     portrait back into the landscape band this plate is not allowed to
+     be. That is a real bug that shipped once; do not move this up.
+
+     In a single-column grid a left margin shrinks the item and holds its
+     right edge, so it does two jobs with no extra boxes: it reads as a
+     deliberate step in from the broadcast plate above, and it is what
+     keeps this plate narrow enough to be tall without overpowering the
+     press artifact. */
+  margin-left: clamp(40px, 7vw, 110px);
+}
+
+/* ---- Frames ----
+   The stack's own padding IS the frame offset, so the red hairline
+   sits outside the photograph with no negative values and nothing to
+   clip (Slide 02's technique). The dominant plate offsets up-left; the
+   two secondaries offset down-right, so the group has one direction
+   and its supporting layers have another. */
+.hero-record-stack {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  animation: founderFrameIn 1.1s 0.18s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-record-item-press .hero-record-stack {
+  padding: var(--record-frame-offset) 0 0 var(--record-frame-offset);
+}
+.hero-record-item-media .hero-record-stack,
+.hero-record-item-award .hero-record-stack {
+  padding: 0 var(--record-frame-offset) var(--record-frame-offset) 0;
+}
+.hero-record-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(215, 25, 32, 0.38);
+  transition: border-color 0.45s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Corner registration tick — same language as .hero-founder-frame-tick
+   and .hero-place-stack::after. Only the dominant plate and the
+   broadcast plate carry one; a third would be noise. */
+.hero-record-item-press .hero-record-stack::after,
+.hero-record-item-media .hero-record-stack::after {
+  content: "";
+  position: absolute;
+  width: var(--record-tick-size);
+  height: var(--record-tick-size);
+  border-color: var(--neodent-red);
+  opacity: 0.85;
+}
+.hero-record-item-press .hero-record-stack::after {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+}
+.hero-record-item-media .hero-record-stack::after {
+  right: 0;
+  bottom: 0;
+  border-bottom: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+.hero-record-plate {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--record-plate-ratio);
+  /* Height ceiling so the whole composition still resolves to one
+     screen on short viewports: object-fit:cover simply crops a little
+     more rather than letting the column push past the fold. */
+  max-height: var(--record-plate-max-h);
+  overflow: hidden;
+  border: 1px solid rgba(251, 250, 247, 0.14);
+  background: var(--neodent-ink);
+}
+/* Charcoal mount ring on the plane that overlaps the dominant plate,
+   so the two separate without costing a layout box (same technique as
+   .hero-place-inset and .brand-mark). */
+.hero-record-item-media .hero-record-plate {
+  box-shadow:
+    0 0 0 4px var(--neodent-charcoal),
+    0 18px 34px rgba(0, 0, 0, 0.5);
+}
+/* The hover breath is carried in a variable rather than declared
+   directly on :hover, so a plate that ever needs its own base transform
+   can add one without the hover rule silently replacing it. */
+.hero-record-photo {
+  --record-hover-zoom: 1;
+  object-fit: cover;
+  transform: scale(var(--record-hover-zoom));
+  transition: transform 1.1s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+/* Tonal veil. Three of the loudest source images in the project — a
+   near-white newsprint scan, a saturated broadcast frame and a wall of
+   gold plaques — are being asked to sit on charcoal. The veil seats
+   them in the canvas instead of letting them read as lit rectangles
+   pasted onto it. Per-plate escape hatches let one plate soften the
+   recipe without forking it. */
+.hero-record-plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    var(--record-veil-edge, linear-gradient(90deg, transparent, transparent)),
+    var(
+      --record-veil-vertical,
+      linear-gradient(
+        180deg,
+        rgba(22, 28, 30, 0.44) 0%,
+        rgba(22, 28, 30, 0.04) 40%,
+        rgba(22, 28, 30, 0.42) 100%
+      )
+    ),
+    radial-gradient(
+      118% 92% at 50% 48%,
+      transparent 42%,
+      var(--record-veil-vignette, rgba(22, 28, 30, 0.42)) 100%
+    );
+}
+
+/* ---- Per-plate crops and grades ----
+   The crops are art direction with a constraint: the Siasat masthead
+   must stay whole and legible, and no crop may change what an artifact
+   means. */
+
+/* PRESS. Lightest grade of the three, and a deliberately gentler top
+   veil, because the masthead lives in the top fifth of the frame and
+   has to stay readable. Newsprint white against charcoal is the
+   intended read: paper on a dark table, not a glowing rectangle.
+   object-position keeps the masthead, the Hyderabad skyline device,
+   the Urdu headline and the photo strip, and drops only the second,
+   unrelated article at the foot of the clipping. */
+/* Anchored to the top of the clipping. The masthead — the Urdu logotype,
+   the Hyderabad skyline device and "The Siasat Daily" — occupies the top
+   fifth of the source and is the single element that has to survive
+   whole, so there is nothing above it to spend. At this plate's
+   proportions cover shows roughly the top two thirds of the clipping,
+   which lands on masthead, Urdu headline, body text and the clinical
+   photo strip, and discards only the second, unrelated article at the
+   foot. A mid-frame anchor (this was 22%) shaves the top of the masthead
+   off, which is exactly what must not happen. */
+.hero-record-item-press .hero-record-photo {
+  object-position: 50% 1%;
+  filter: saturate(0.5) contrast(1.06) brightness(0.94);
+}
+.hero-record-item-press .hero-record-plate {
+  --record-veil-vertical: linear-gradient(
+    180deg,
+    rgba(22, 28, 30, 0.2) 0%,
+    rgba(22, 28, 30, 0.02) 34%,
+    rgba(22, 28, 30, 0.4) 100%
+  );
+  --record-veil-vignette: rgba(22, 28, 30, 0.3);
+}
+
+/* PUBLIC MEDIA. The letterbox ratio plus this object-position keep the
+   channel bug, the Urdu strap, the subject and the programme band, and
+   crop the unrelated breaking-news chyron out completely. The edge
+   burn-in grades the frame's saturated red border back into the
+   canvas — the same escape hatch Slide 02 uses for the Mehdipatnam
+   poster. */
+/* Anchored to the TOP of the source, which is what makes the ratio
+   above sufficient on its own: everything the plate discards comes off
+   the bottom, where the chyron is. It keeps the channel bug, the Urdu
+   strap, the subject and the programme band, full width, so both the
+   left and right on-screen identifications survive. Any extra cropping
+   forced by --record-plate-max-h on a short viewport also comes off the
+   bottom, so the crop can only ever get safer, never leak. */
+.hero-record-item-media .hero-record-photo {
+  object-position: 50% 0%;
+  filter: saturate(0.62) contrast(1.05) brightness(0.9);
+}
+.hero-record-item-media .hero-record-plate {
+  --record-veil-edge: linear-gradient(
+    90deg,
+    rgba(22, 28, 30, 0.5) 0%,
+    transparent 14%,
+    transparent 86%,
+    rgba(22, 28, 30, 0.5) 100%
+  );
+}
+
+/* RECOGNITION. Deliberately the least-cropped plate on the slide.
+
+   The plate's proportion (4 / 4.9 ≈ 0.816) sits just above the source's
+   own (768 / 1024 = 0.75), so cover keeps the FULL WIDTH of the
+   photograph and trims only about 8% of its height, split top and
+   bottom. Practically nothing is discarded: the framed award at the top
+   of the wall, the certificate beneath it, the oval plaques, the globe,
+   the whole standing front row and the counter they sit on are all in
+   frame, in one continuous vertical read. That accumulation IS the
+   evidence — a count of recognitions rather than any single one — so
+   the correct crop here is almost no crop.
+
+   Two earlier attempts are recorded here as a warning. A shallow
+   landscape band (4 / 2.6, then 4 / 3.15) fitted the layout neatly and
+   destroyed the subject, halving every trophy. Adding a crop zoom to
+   exclude the decorative painting on the wall's upper left tightened
+   onto a handful of awards but threw most of the display away, which
+   cost more than the painting ever did. The painting now stays, muted
+   by the grade, and reads as what it is: a picture on the wall of the
+   room where these awards are kept.
+
+   The grade is the lightest this plate has had. It was previously the
+   most suppressed of the three, which took the gold to a muddy brown
+   and cost the plate its subject. Gold reading as gold is the point;
+   the veil below does the seating work instead. */
+.hero-record-item-award .hero-record-photo {
+  object-position: 50% 50%;
+  filter: saturate(0.58) contrast(1.04) brightness(0.9);
+}
+.hero-record-item-award .hero-record-plate {
+  /* Gentle top/bottom veil only. No edge burn-in: there is nothing left
+     to suppress, and darkening the left edge would eat the standing
+     glass trophy that sits there. */
+  --record-veil-vertical: linear-gradient(
+    180deg,
+    rgba(22, 28, 30, 0.3) 0%,
+    rgba(22, 28, 30, 0.04) 38%,
+    rgba(22, 28, 30, 0.34) 100%
+  );
+  --record-veil-vignette: rgba(22, 28, 30, 0.34);
+}
+
+/* ---- Captions ----
+   Outlet only, never a person. Mirrored alignment echoes the mirrored
+   frame offsets. */
+.hero-record-source {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(8px, 1.2svh, 12px);
+  border-top: 1px solid rgba(215, 25, 32, 0.5);
+  color: rgba(251, 250, 247, 0.55);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  animation: rise 1s 0.34s both cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.hero-record-item-media .hero-record-source,
+.hero-record-item-award .hero-record-source {
+  text-align: right;
+}
+
+/* Two restrained hover cues, the same pair Slide 02 uses: the
+   photograph breathes, the offset hairline warms. Nothing moves far. */
+/* Two restrained hover cues, the same pair Slide 02 uses: the
+   photograph breathes, the offset hairline warms. Nothing moves far.
+   The breath is applied through --record-hover-zoom rather than a
+   `transform` declaration so it multiplies with any crop zoom instead
+   of replacing it. */
+@media (hover: hover) {
+  .hero-record-item:hover .hero-record-photo {
+    --record-hover-zoom: 1.035;
+  }
+  .hero-record-item:hover .hero-record-stack::before {
+    border-color: rgba(215, 25, 32, 0.78);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-record-ghost,
+  .hero-record-stack,
+  .hero-record-source,
+  .hero-record-tagline,
+  .hero-record-index,
+  .hero-record-title {
+    animation: none;
+  }
+  .hero-record-photo {
+    transition: none;
+  }
+  .hero-record-item:hover .hero-record-photo {
+    --record-hover-zoom: 1;
+  }
+}
+
+/* Retired at the same width as Slides 01/02's edge labels, where the
+   composition gets close to the viewport edge. */
+@media (max-width: 1279px) {
+  .hero-record-vertical-label {
+    display: none;
+  }
+}
+
+/* ---- Slide 03 — small laptop (1024px–1199px) ---- */
+@media (max-width: 1199px) {
+  .hero-record-inner {
+    --record-gap: clamp(24px, 3.4vw, 44px);
+    /* The overlap is retired first: at these widths the dossier's own
+       columns are narrow enough that pulling one over the other starts
+       hiding meaningful parts of the clipping rather than adding
+       depth. */
+    --record-overlap: 0px;
+  }
+  .hero-record-copy {
+    max-width: 400px;
+  }
+  .hero-record-ghost {
+    --record-ghost-size: clamp(120px, 24svh, 210px);
+  }
+  .hero-record-item-press {
+    --record-plate-max-h: clamp(240px, 44svh, 360px);
+  }
+  .hero-record-item-media {
+    --record-plate-max-h: clamp(92px, 15svh, 138px);
+  }
+  .hero-record-item-award {
+    --record-plate-max-h: clamp(180px, 34svh, 290px);
+  }
+}
+
+/* ---- Slide 03 — tablet (≤1023px, tall enough to stack) ----
+   Same design language, simplified arrangement: the copy stacks above
+   the dossier, and the dossier keeps its 1+2 composition rather than
+   collapsing into a list, so the focal point survives. The index
+   becomes a single metadata strip so the copy block stays short.
+
+   The min-height condition is deliberate and is the same measured
+   trade Slide 02 documents: stacking buys horizontal room at the cost
+   of vertical room, so it is only the right call when the viewport
+   actually has vertical room to spend. On short-and-wide viewports a
+   900x700 window, say — this tier is skipped entirely and the far
+   more height-efficient two-column composition above is kept. */
+@media (max-width: 1023px) and (min-height: 940px) {
+  .hero-record-inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(18px, 3svh, 28px);
+    padding: calc(var(--nav-height-desktop) + clamp(16px, 3svh, 34px)) 0
+      clamp(74px, 8.6svh, 90px);
+  }
+  /* The spine is a two-column device. Once the copy stacks above the
+     dossier there is no seam for it to stand on, so it is retired and
+     the index's own rules become this tier's horizontal datum. */
+  .hero-record-inner::before {
+    display: none;
+  }
+  .hero-record-copy {
+    width: 100%;
+    max-width: 620px;
+  }
+  /* Height-awareness for this tier now lives on --type-hero-supporting
+     (see Slide 02's matching note). */
+  .hero-record-tagline {
+    margin-top: 18px;
+    max-width: 100%;
+  }
+  .hero-record-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(16px, 3vw, 28px);
+    margin-top: 14px;
+    padding-top: 10px;
+    max-width: 100%;
+    border-top: 1px solid rgba(251, 250, 247, 0.12);
+  }
+  .hero-record-index li {
+    padding: 0;
+    border-top: 0;
+  }
+  .hero-record-index li:last-child {
+    border-bottom: 0;
+  }
+  .hero-record-dossier {
+    width: 100%;
+    column-gap: clamp(14px, 2.6vw, 26px);
+  }
+  .hero-record-stack-group {
+    padding-top: 0;
+  }
+  /* Once the copy stacks, the top right of the slide is empty, so the
+     numeral has nothing in front of it and stops reading as a
+     background mark — at the desktop size and position it competes
+     with the headline outright. It moves down to sit behind the
+     dossier, where the plates occlude it again, and shrinks. */
+  .hero-record-ghost {
+    --record-ghost-size: clamp(96px, 15svh, 140px);
+    top: 36%;
+  }
+  /* Tall enough to keep the clinical photograph in the clipping, not
+     just the masthead. Capped below that and cover — anchored at the
+     top — trims from the bottom until the plate is a masthead and
+     nothing else, which loses the evidence that the coverage is about
+     a dental camp. */
+  .hero-record-item-press {
+    --record-plate-max-h: clamp(280px, 38svh, 420px);
+  }
+  .hero-record-item-media {
+    --record-plate-max-h: clamp(84px, 11svh, 126px);
+  }
+  /* The dossier has the full container width at this tier, so without a
+     much larger step this plate's portrait proportion would make it
+     taller than the dominant press artifact. The step keeps it narrow;
+     the ratio keeps it portrait. */
+  .hero-record-item-award {
+    margin-left: clamp(90px, 19vw, 240px);
+    --record-plate-max-h: clamp(180px, 26svh, 280px);
+  }
+  .hero-record-item {
+    --record-tick-size: 14px;
+  }
+}
+
+/* Hero sizing must switch to the mobile nav-height variable at the
+   exact width where .nav-inner itself switches (900px), so Slide 03's
+   height model and the real navbar height never drift apart. */
+@media (max-width: 900px) {
+  .hero:has(.hero-slide-record.hero-slide-active) {
+    min-height: calc(100svh - var(--nav-height-mobile));
+  }
+  /* The one-viewport floor lives on .hero-record-inner (see the sizing
+     model at the top of this section), so it is the element that has to
+     switch nav-height variables here. */
+  .hero-record-inner {
+    min-height: calc(100svh - var(--nav-height-mobile));
+    padding-top: calc(var(--nav-height-mobile) + clamp(16px, 3svh, 34px));
+  }
+}
+
+/* ---- Slide 03 — mobile (≤767px) ----
+   Deliberately NOT three stacked full-width photographs. The dossier
+   compresses into a single band that keeps the desktop idea intact:
+   the dominant clipping on one side, the two smaller planes stacked on
+   the other. All three sources survive at a size where each is still
+   identifiable.
+
+   The visual leads and the copy follows, which is the same order
+   Slide 01's mobile composition uses. It is done with `order` rather
+   than by reordering the markup, so the DOM keeps a sensible reading
+   order for assistive tech and for a stylesheet-less render. */
+@media (max-width: 767px) {
+  /* This tier declares its own single-column grid rather than
+     inheriting one from the tablet block above, which is
+     height-conditional and therefore cannot be relied on at
+     narrow-and-short sizes. */
+  .hero-record-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(16px, 2.6svh, 24px);
+    padding: calc(var(--nav-height-mobile) + clamp(10px, 2svh, 22px)) 0
+      clamp(56px, 7.5svh, 70px);
+    --record-overlap: 0px;
+  }
+  /* No column seam in a single-column layout. */
+  .hero-record-inner::before {
+    display: none;
+  }
+  .hero-record-dossier {
+    order: 1;
+    width: 100%;
+    grid-template-columns: minmax(0, 0.54fr) minmax(0, 0.46fr);
+    column-gap: clamp(10px, 3vw, 16px);
+  }
+  .hero-record-copy {
+    order: 2;
+    max-width: 100%;
+  }
+  .hero-record-title {
+    margin-top: 14px;
+    line-height: 1;
+  }
+  .hero-record-tagline {
+    margin-top: 14px;
+    font-size: 13.5px;
+  }
+  /* Hidden here for the same reason Slide 02 hides its legend at this
+     width: the plates' own captions already carry the credibility, and
+     the vertical budget is better spent on the headline. */
+  .hero-record-index {
+    display: none;
+  }
+  .hero-record-stack-group {
+    margin-left: 0;
+    padding-top: 0;
+    row-gap: clamp(10px, 1.8svh, 16px);
+  }
+  .hero-record-item-award {
+    margin-left: 0;
+  }
+  .hero-record-item {
+    --record-frame-offset: clamp(7px, 2.2vw, 11px);
+    --record-tick-size: 11px;
+    row-gap: clamp(7px, 1svh, 10px);
+  }
+  .hero-record-item-press {
+    --record-plate-ratio: 3 / 3.95;
+    --record-plate-max-h: clamp(150px, 24svh, 230px);
+  }
+  /* Ratio intentionally NOT redeclared here — see the derivation on
+     .hero-record-item-media. A shallower box at this width would put the
+     breaking-news chyron back on screen. */
+  .hero-record-item-media {
+    --record-plate-max-h: clamp(66px, 11svh, 104px);
+  }
+  /* Stays portrait on a phone, just slightly less tall so the band as a
+     whole still resolves to one screen. 4 / 4.4 still keeps the full
+     width of the photograph and about 82% of its height, so the wall
+     still reads top to bottom. */
+  .hero-record-item-award {
+    --record-plate-ratio: 4 / 4.4;
+    --record-plate-max-h: clamp(130px, 20svh, 180px);
+  }
+  /* The mount ring shrinks with everything else — at 4px it read as a
+     border rather than a separation at this scale. */
+  .hero-record-item-media .hero-record-plate {
+    box-shadow:
+      0 0 0 3px var(--neodent-charcoal),
+      0 10px 20px rgba(0, 0, 0, 0.45);
+  }
+  .hero-record-source {
+    font-size: 8.5px;
+    letter-spacing: 0.11em;
+  }
+  .hero-record-ghost {
+    --record-ghost-size: clamp(46px, 13vw, 66px);
+    top: calc(var(--nav-height-mobile) + clamp(4px, 1.4svh, 14px));
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-record-tagline {
+    font-size: 12.5px;
+  }
+  .hero-record-item-press {
+    --record-plate-max-h: clamp(140px, 22svh, 208px);
+  }
+  .hero-record-item-media {
+    --record-plate-max-h: clamp(56px, 9svh, 84px);
+  }
+  .hero-record-item-award {
+    --record-plate-max-h: clamp(118px, 18svh, 162px);
   }
 }
 
@@ -6523,7 +8560,7 @@ button {
     width: min(100% - 42px, 700px);
   }
   .nav-inner {
-    height: 68px;
+    height: var(--nav-height-mobile);
   }
   .nav-links,
   .nav > .container > .button {
@@ -6583,10 +8620,12 @@ button {
     width: 100%;
     padding: 100px 0 85px;
   }
-  .hero h1 {
+  /* Transplanted from the deleted legacy `.hero h1` rule that used to sit
+     here. Its font-size is now --type-hero-primary's ≤900px tier; the
+     measure and margins are Slide-01-specific and stay. */
+  .hero-founder-title {
     max-width: 620px;
     margin: 10px 0 14px;
-    font-size: clamp(48px, 13vw, 60px);
   }
   .hero-copy {
     max-width: 420px;
@@ -6913,9 +8952,21 @@ button {
   }
   .brand {
     min-width: auto;
+    gap: 10px;
   }
-  .brand-word {
-    font-size: 9px;
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    padding: 3px;
+  }
+  .brand-word-name {
+    font-size: 16px;
+    letter-spacing: 0.06em;
+  }
+  .brand-word-sub {
+    font-size: 7.5px;
+    letter-spacing: 0.2em;
   }
   .hero-image {
     inset: 72px 0 auto;
@@ -6932,11 +8983,12 @@ button {
   .hero-content {
     padding: 48px 0 32px;
   }
-  .hero h1 {
-    font-size: clamp(48px, 12vw, 62px);
-    line-height: 0.96;
+  /* Transplanted from the deleted legacy `.hero h1` rule that used to sit
+     here. Of its four declarations only letter-spacing ever rendered --
+     `.hero-founder-copy .hero-title` (0,2,0) already outranked it for
+     size, leading and margin at this width. So only the tracking moves. */
+  .hero-founder-title {
     letter-spacing: -0.048em;
-    margin: 20px 0 26px;
   }
   .hero p {
     font-size: 16px;
@@ -7453,5 +9505,647 @@ button {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ========================================
+   HERO CAROUSEL CONTROLS vs. THE FIXED MOBILE CTA BAR
+   Functional fix, not a redesign.
+
+   .mobile-bar becomes position:fixed at the bottom of the viewport at
+   <=560px (see the .mobile-bar block in the 560px tier above). Its
+   height is 9 + 43 + 9 + safe-area ≈ 62px, which is corroborated by
+   the .site { padding-bottom: 62px } that sits beside it and exists to
+   keep document content clear of it.
+
+   .hero-nav, meanwhile, is at bottom:18px from @media (max-width:860px)
+   — i.e. underneath that bar. The carousel arrows, dots and the
+   "01 / 03" index were therefore unreachable on phones on ALL THREE
+   slides.
+
+   This block only moves them. Their size, colour, spacing, alignment
+   and hover behaviour are untouched, and the change is applied at the
+   end of the stylesheet so it wins on cascade order without editing
+   any approved rule in place.
+
+   The matching padding-bottom on each slide's inner wrapper keeps copy
+   from colliding with the raised controls. padding-bottom is set on its
+   own — never via the padding shorthand — so each slide keeps the
+   padding-top and horizontal values it was approved with.
+
+   Safe by construction: all three slides size with min-height plus
+   height:auto and declare no overflow-y, so extra bottom padding can
+   only grow the hero and scroll the PAGE. It cannot clip content or
+   nest a scrollbar inside the hero.
+
+   No new collision with .floating-cta: at this width it is right:14px /
+   bottom calc(92px + safe-area) and about 48px wide, so it occupies the
+   far right of the viewport, while .hero-nav is centred. They do not
+   overlap horizontally.
+   ======================================== */
+@media (max-width: 560px) {
+  .hero-nav {
+    bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  .hero-founder-inner {
+    padding-bottom: calc(clamp(56px, 8.5svh, 72px) + 62px);
+  }
+  .hero-place-inner {
+    padding-bottom: calc(clamp(56px, 7.5svh, 70px) + 62px);
+  }
+  .hero-record-inner {
+    padding-bottom: calc(clamp(56px, 7.5svh, 70px) + 62px);
+  }
+}
+
+/* ========================================
+   HOMEPAGE SECTION 01 — "THE NEODENT EXPERIENCE" (ExperienceIntro)
+   The first calm editorial chapter after the Hero. Inherits the Hero's
+   charcoal/ivory/red palette and technical-grid restraint, but is
+   deliberately calmer: no scroll-linked parallax, no cinematic stakes,
+   one moving image rather than a dossier of them.
+
+   Fully namespaced under .exp-intro* (confirmed unused elsewhere in
+   this file) and its own local custom properties, so nothing here can
+   collide with or redefine any Hero/.hero-founder-* rule or :root
+   token above. Hero Slides 01–03 are untouched by this block.
+   ======================================== */
+
+.exp-intro {
+  position: relative;
+  background: var(--neodent-charcoal);
+  color: var(--neodent-ivory);
+  overflow: hidden;
+  /* Top padding increased from clamp(76px, 9vw, 110px) so the section
+     visibly starts BELOW the threshold hairline instead of continuing
+     the Hero's own rhythm -- see the CHAPTER THRESHOLD note below. */
+  padding: clamp(108px, 13vw, 148px) 0 clamp(76px, 9vw, 110px);
+}
+/* THE CHAPTER THRESHOLD. Before this section had NO visual event at its
+   own top edge: Hero ends charcoal, Section 01 begins charcoal, same red
+   hairlines, same ghost serif numeral, same ivory-on-charcoal type --
+   scrolling past the Hero produced no signal that a new chapter had
+   started. `.trust` (the section immediately after this one) already
+   opens with exactly this device -- a centred, max-width, faded-at-the-
+   edges gradient hairline at its top edge (see `.trust::before` above).
+   This is that same device, transposed into THIS section's dark
+   palette (ivory/red on charcoal instead of teal/gold on paper) rather
+   than invented from scratch, so the page's own "a new section begins"
+   vocabulary now brackets Section 01 on both ends instead of only one.
+   A pseudo-element, not a new DOM node -- purely a rule line, nothing
+   for assistive tech or pointer events to encounter. */
+.exp-intro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1320px;
+  height: 1px;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 250, 247, 0.14) 15%,
+    rgba(215, 25, 32, 0.4) 50%,
+    rgba(251, 250, 247, 0.14) 85%,
+    transparent 100%
+  );
+}
+
+/* Atmospheric depth layer: a real clinic interior, heavily desaturated
+   and dimmed, sitting behind a charcoal wash so it reads as texture
+   and environment rather than a photograph. Deliberately NOT one of
+   Slide 02's Mehdipatnam/Nampally-specific plates -- this is a generic
+   interior so it never repeats that slide's location story. */
+.exp-intro-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  /* Purely decorative full-bleed layer -- must never intercept clicks
+     meant for the copy column, video or CTA above it. */
+  pointer-events: none;
+}
+/* ---- Crop, at ≥1025px (this file's ".exp-intro" desktop/tablet tier
+   boundary is 1024px -- reused here rather than a new breakpoint).
+
+   The section box is WIDE AND SHORT relative to the source photograph
+   (3024x4032, a 0.75 ratio portrait). At these widths the box's own
+   ratio is > 0.75, so `cover` scales the image to fill the box's WIDTH
+   and crops its HEIGHT -- the full horizontal extent is always shown;
+   only the vertical BAND is a choice, made by object-position's Y term.
+
+   `center 78%` was chosen by walking the actual photograph (verified by
+   viewing the file directly, not assumed): the visible window this
+   produces at 1440px is roughly the image's 38%-90% vertical band. That
+   deliberately excludes the ceiling/downlights/mezzanine railing (0-35%,
+   the least dental-specific part of the frame) and instead centres the
+   "CONSULTATION CHAMBER" / "IMPLANT · RVG/XRAY" glazed doors, the
+   doctor nameplates, the NEODENT reception counter and its tooth-mark
+   logo, and the dental chair visible through the open treatment-room
+   doorway -- i.e. the band that actually reads as a dental hospital. */
+.exp-intro-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 78%;
+  /* Grayscale is relaxed from 0.85 to 0.4 and brightness lifted from
+     0.42 to 0.56 so the room's own NeoDent red -- the counter, the
+     door frames, the upholstery -- survives as colour rather than being
+     desaturated to grey. This is graded for RECOGNISABILITY, not for
+     brightness: the veil below still does the heavy lifting of keeping
+     the layer dark and subordinate to the copy. */
+  filter: grayscale(0.4) brightness(0.56) contrast(1.08) saturate(1.1);
+  opacity: 0.62;
+}
+/* ---- Crop, at ≤1024px. The box's ratio flips below the photo's own
+   (0.75): the box is now TALLER than the photo relative to its width,
+   so `cover` fills the box's HEIGHT instead and crops WIDTH -- the full
+   vertical extent (ceiling to floor) is always shown, and the Y term
+   above stops doing anything. `38%` on X was chosen the same way: the
+   reception counter and its tooth-mark logo sit in the photo's left
+   third, the glazed "CONSULTATION CHAMBER" doors occupy the middle, so
+   38% keeps the counter/logo in frame while still reaching into the
+   door signage rather than centring on the plain floor between them. */
+@media (max-width: 1024px) {
+  .exp-intro-backdrop img {
+    object-position: 38% center;
+  }
+}
+/* Below 900px the box narrows further and 38% starts pushing the
+   reception counter/logo out of frame on the left, leaving mostly the
+   plain "CONSULTATION CHAMBER" door glazing centred; 30% keeps the
+   counter, the doctor nameplates and the red armchairs all inside the
+   visible band (verified against the rendered crop, not the source
+   photo alone). */
+@media (max-width: 900px) {
+  .exp-intro-backdrop img {
+    object-position: 30% center;
+  }
+}
+.exp-intro-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    /* Primary veil: heavy under the copy column, opening up across the
+       seam into the video column -- the APERTURE the composition is
+       built around. Still fully opaque-reading at 0%; the clinic is
+       never competing with the headline. */
+    linear-gradient(
+      100deg,
+      rgba(22, 28, 30, 0.95) 0%,
+      rgba(22, 28, 30, 0.82) 36%,
+      rgba(22, 28, 30, 0.46) 64%,
+      rgba(22, 28, 30, 0.3) 88%,
+      rgba(22, 28, 30, 0.38) 100%
+    ),
+    /* Floor fade: darkens the section's bottom edge back toward
+       charcoal so the seam into TrustStrip (paper-toned) reads as a
+       deliberate close, not a hard cut. */
+    linear-gradient(180deg, transparent 68%, rgba(22, 28, 30, 0.5) 100%),
+    radial-gradient(
+      60% 70% at 12% 12%,
+      rgba(215, 25, 32, 0.08) 0%,
+      transparent 60%
+    );
+}
+
+/* Restrained ghost "01" -- deliberately MUCH more subordinate than any
+   Hero numeral (Hero's --founder-mark/--place-ghost/--record-ghost all
+   sit in the 150-340px / ~0.13 alpha range and are a primary
+   compositional device on their slide). This is a homepage SECTION
+   marker, not a Hero slide, so it must read as quieter than the Hero's
+   own numerals, not just smaller: capped at 120px against the Hero's
+   150px floor, and at roughly half the Hero's opacity (0.045 vs 0.07,
+   which itself was already below Hero's ~0.13). Sits below the
+   threshold hairline and behind the copy column only -- never behind
+   or competing with the video, eyebrow or CTA. */
+.exp-intro-ghost {
+  position: absolute;
+  left: 0;
+  top: clamp(64px, 9vw, 112px);
+  z-index: 0;
+  font-family: var(--app-font-serif);
+  font-size: clamp(72px, 7.5vw, 120px);
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+  color: rgba(215, 25, 32, 0.045);
+  -webkit-text-stroke: 1px rgba(215, 25, 32, 0.1);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* THE APERTURE. Column 1 (copy, then secondary) used to occupy the same
+   two-row track as column 2's video with `align-items: center` -- since
+   the video ran ~300px taller than the two text blocks combined, that
+   centred the whole text column inside the video's height and split the
+   ~300px surplus into two accidental, equal voids above and below it.
+
+   The fix reuses that same surplus but gives it ONE deliberate address:
+   the middle `1fr` row. `.exp-intro-copy` and `.exp-intro-secondary` are
+   pinned to the FIRST and LAST rows (auto-sized to their own content),
+   `.exp-intro-visual` spans all three, and CSS's own grid track-sizing
+   algorithm distributes exactly the leftover height -- item height minus
+   the two auto rows -- into that middle track. No JS measurement, and it
+   stays correct if the copy's length or the video's aspect ratio ever
+   changes. The eyebrow row's top edge and the values row's bottom edge
+   now land on the video frame's top/bottom automatically (asserted by
+   `scripts/section01-probe.mjs`'s datum-delta check).
+
+   The gap this produces is the section's negative space, and it is now
+   the WINDOW onto the backdrop photograph rather than dead track -- the
+   composition's whitespace and its clinical-context storytelling share
+   the same real estate on purpose. */
+.exp-intro-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.68fr);
+  grid-template-rows: auto minmax(32px, 1fr) auto;
+  align-items: start;
+  gap: clamp(24px, 3.4vw, 40px) clamp(40px, 5vw, 80px);
+}
+.exp-intro-copy {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1),
+    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1);
+}
+.exp-intro-visible .exp-intro-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+.exp-intro-visual {
+  grid-column: 2;
+  grid-row: 1 / 4;
+}
+.exp-intro-secondary {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  min-width: 0;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.06s,
+    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.06s;
+}
+.exp-intro-visible .exp-intro-secondary {
+  opacity: 1;
+  transform: translateY(0);
+}
+.exp-intro-eyebrow-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.exp-intro .exp-intro-copy .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(251, 250, 247, 0.62);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.exp-intro .exp-intro-copy .eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--neodent-red);
+}
+/* Tiny clinical descriptor -- editorial metadata, not a feature
+   heading. Grounds the section as a dental hospital specifically
+   without duplicating the CALM / PRECISE / PERSONAL trio below. */
+.exp-intro-clinical {
+  padding-left: 14px;
+  border-left: 1px solid rgba(215, 25, 32, 0.55);
+  color: rgba(251, 250, 247, 0.46);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+/* Level 3. The size is the token's job, not this rule's -- see TYPE SCALE.
+   The slightly OPEN leading (1.05 against the Hero's 0.92/0.96) is
+   deliberate and is half of what separates a content chapter from a hero
+   statement: hero type is set tight and monumental, section type is set
+   calmer and more readable. */
+.exp-intro-title {
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--type-section-title);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+.exp-intro-title span {
+  display: block;
+}
+.exp-intro-title .serif {
+  color: var(--neodent-red);
+}
+.exp-intro-lede {
+  margin: 18px 0 0;
+  /* Widened from 400px now that .exp-intro-copy's own cap moved to
+     560px -- was leaving ~150px of dead track between the lede's text
+     and the column's actual width. 460px keeps the measure inside
+     readable line-length territory (roughly 70-80 characters at this
+     font size) while using the column it's actually given. */
+  max-width: 460px;
+  color: rgba(251, 250, 247, 0.72);
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+/* Philosophy micro-values: restrained editorial metadata, explicitly
+   not cards or icons. Fine red hairlines (not plain dots) separate
+   the three words. */
+.exp-intro-values {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(251, 250, 247, 0.68);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.exp-intro-values li {
+  position: relative;
+  padding: 0 16px;
+}
+.exp-intro-values li:first-child {
+  padding-left: 0;
+}
+.exp-intro-values li + li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  width: 1px;
+  background: rgba(215, 25, 32, 0.55);
+}
+
+.exp-intro .exp-intro-cta {
+  margin-top: 30px;
+  color: rgba(251, 250, 247, 0.78);
+  cursor: default;
+}
+.exp-intro .exp-intro-cta:hover {
+  color: rgba(251, 250, 247, 0.78);
+  gap: 11px;
+}
+.exp-intro .exp-intro-cta::after {
+  display: none;
+}
+.exp-intro .exp-intro-cta svg {
+  display: none;
+}
+
+/* ---- Video column: the editorial object ----
+   Width-driven (not height-driven): the real 9:16 clinic footage is
+   the primary visual proof for this section, so its ON-SCREEN WIDTH
+   is the lever that makes it feel substantial, with height following
+   from the real aspect ratio. */
+.exp-intro-visual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.12s,
+    transform 0.9s cubic-bezier(0.16, 0.72, 0.2, 1) 0.12s;
+}
+.exp-intro-visible .exp-intro-visual {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The offset red hairline is produced by padding on this wrapper --
+   exactly the technique .hero-founder-frame/.hero-place-stack already
+   use -- so the frame sits outside the video with no negative values
+   and nothing for a parent's overflow to clip. No rounded corners, no
+   drop shadow, no card chrome. */
+.exp-intro-frame {
+  --tour-video-ratio: 9 / 16;
+  position: relative;
+  padding: 14px 0 0 14px;
+  /* Narrowed from clamp(340px, 30vw, 440px). At 9:16 a 440px-wide frame
+     runs ~780px tall, roughly 360px taller than the copy column -- the
+     surplus the middle grid row now absorbs. Narrowing the video keeps
+     that surplus (and the aperture it creates) proportionate rather than
+     letting the video dwarf the text column at wide desktop sizes. */
+  width: clamp(280px, 24vw, 360px);
+  max-width: 100%;
+}
+.exp-intro-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(215, 25, 32, 0.4);
+}
+.exp-intro-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-top: 1.5px solid var(--neodent-red);
+  border-left: 1.5px solid var(--neodent-red);
+  opacity: 0.85;
+}
+.exp-intro-video {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 74vh;
+  aspect-ratio: var(--tour-video-ratio);
+  /* The box is sized to the video's OWN real ratio, so cover and
+     contain are visually equivalent here -- no crop occurs either
+     way. cover is kept only as a defensive fallback against float
+     rounding between the aspect-ratio box and the file's true ratio. */
+  object-fit: cover;
+  background: var(--neodent-ink);
+  border: 1px solid rgba(251, 250, 247, 0.14);
+}
+
+.exp-intro-video-toggle {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(251, 250, 247, 0.4);
+  background: rgba(22, 28, 30, 0.55);
+  color: var(--neodent-ivory);
+  backdrop-filter: blur(4px);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.exp-intro-video-toggle:hover,
+.exp-intro-video-toggle:focus-visible {
+  border-color: var(--neodent-red);
+  background: rgba(215, 25, 32, 0.22);
+}
+
+.exp-intro-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 4px;
+  color: rgba(251, 250, 247, 0.42);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.exp-intro-meta span + span {
+  padding-left: 10px;
+  border-left: 1px solid rgba(251, 250, 247, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-intro-copy,
+  .exp-intro-visual {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+  }
+  .exp-intro-visible .exp-intro-copy,
+  .exp-intro-visible .exp-intro-visual {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---- Tablet (768px–1024px): single column, copy first, video still
+   substantial and width-driven -- the clinic footage stays the
+   dominant visual even after the grid collapses to one column. ---- */
+@media (max-width: 1024px) {
+  .exp-intro {
+    padding: 96px 0 84px;
+  }
+  /* Rescaled down with the new desktop base -- was clamp(80px, 15vw,
+     130px), which had grown LARGER than the (former) 96-176px desktop
+     ghost. That inverted the "much more subordinate than Hero" goal at
+     exactly the width where Hero's own numerals are also shrinking. */
+  .exp-intro-ghost {
+    font-size: clamp(60px, 11vw, 96px);
+    top: clamp(48px, 7vw, 72px);
+  }
+  /* Same 80%-of-base ratio the original tablet override used, scaled to
+     the new higher base opacity (0.62 rather than 0.5). */
+  .exp-intro-backdrop img {
+    opacity: 0.5;
+  }
+  .exp-intro-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 32px;
+  }
+  .exp-intro-copy,
+  .exp-intro-secondary {
+    grid-column: 1;
+    max-width: 560px;
+  }
+  .exp-intro-copy {
+    grid-row: 1;
+  }
+  .exp-intro-visual {
+    grid-column: 1;
+    grid-row: 2;
+    align-items: center;
+  }
+  .exp-intro-secondary {
+    grid-row: 3;
+  }
+  .exp-intro-frame {
+    width: min(52vw, 380px);
+  }
+}
+
+/* ---- Mobile (<768px): eyebrow -> headline -> copy -> video -> values -> CTA.
+   The video switches to a HEIGHT-driven target here (clamped to the
+   viewport height) rather than width-driven, since on a narrow phone
+   viewport that is what keeps it visually prominent without forcing
+   the frame wider than the screen. */
+@media (max-width: 767px) {
+  .exp-intro {
+    padding: 72px 0 64px;
+  }
+  /* Rescaled down with the desktop base, same reasoning as the tablet
+     tier above -- was clamp(56px, 20vw, 84px). */
+  .exp-intro-ghost {
+    font-size: clamp(44px, 14vw, 68px);
+    top: clamp(36px, 8vw, 52px);
+  }
+  /* Same ~64%-of-base ratio the original mobile override used, scaled
+     to the new higher base opacity. */
+  .exp-intro-backdrop img {
+    opacity: 0.4;
+  }
+  .exp-intro-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .exp-intro-copy {
+    order: 1;
+    max-width: 100%;
+  }
+  .exp-intro-visual {
+    order: 2;
+    align-items: center;
+    width: 100%;
+  }
+  .exp-intro-secondary {
+    order: 3;
+    max-width: 100%;
+  }
+  .exp-intro-frame {
+    width: auto;
+    max-width: 100%;
+  }
+  .exp-intro-video {
+    width: auto;
+    max-width: 100%;
+    height: clamp(460px, 64vh, 560px);
+  }
+}
+
+@media (max-width: 430px) {
+  /* Headline size: --type-section-title, ≤430px tier. */
+  .exp-intro-video {
+    height: clamp(420px, 60vh, 500px);
   }
 }
