@@ -197,6 +197,9 @@ export function ExperienceIntro() {
             through a procedure. That same continuity carries from your first
             visit through to the care that follows.
           </p>
+          <p className="exp-intro-lede">
+            Every detail is considered to make your visit feel calmer, clearer and more personal — from arrival to care.
+          </p>
         </div>
 
         <div className="exp-intro-visual">
