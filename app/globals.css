@@ -11737,6 +11737,31 @@ button {
   .treatment-atlas-copy h2 { font-size: clamp(2.35rem, 11.5vw, 3.1rem); }
 }
 
+.treatment-atlas-comparison {
+  position: relative;
+  width: min(100%, 560px);
+  height: clamp(320px, 53vh, 470px);
+  margin-left: auto;
+  overflow: hidden;
+  touch-action: none;
+  cursor: ew-resize;
+  border: 1px solid rgba(241,238,231,.25);
+  background: #242628;
+  box-shadow: 18px 20px 34px rgba(0,0,0,.22);
+  outline: none;
+}
+.treatment-atlas-comparison:focus-visible { box-shadow: 0 0 0 2px #d71920, 18px 20px 34px rgba(0,0,0,.22); }
+.treatment-atlas-comparison-image { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; pointer-events: none; filter: saturate(.82) contrast(1.06); }
+.treatment-atlas-comparison-after { position: absolute; inset: 0; overflow: hidden; }
+.treatment-atlas-comparison-divider { position: absolute; top: 0; bottom: 0; width: 1px; background: #d71920; transform: translateX(-.5px); pointer-events: none; }
+.treatment-atlas-comparison-handle { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(241,238,231,.9); border-radius: 50%; background: #242628; color: #f1eee7; font-size: 18px; line-height: 1; transform: translate(-50%, -50%); }
+.treatment-atlas-comparison-label { position: absolute; bottom: 16px; padding: 5px 7px; background: rgba(36,38,40,.82); color: rgba(241,238,231,.82); font-size: 8px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; pointer-events: none; }
+.treatment-atlas-comparison-before-label { left: 16px; }
+.treatment-atlas-comparison-after-label { right: 16px; }
+.treatment-atlas-comparison-affordance { position: absolute; top: 50%; left: 50%; padding: 6px 10px; border: 1px solid rgba(241,238,231,.46); background: rgba(36,38,40,.7); color: rgba(241,238,231,.86); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; transform: translate(-50%, 34px); pointer-events: none; animation: atlas-affordance 2.4s ease-in-out infinite; }
+@keyframes atlas-affordance { 0%, 100% { opacity: .46; } 50% { opacity: .9; } }
+@media (prefers-reduced-motion: reduce) { .treatment-atlas-comparison-affordance { animation: none; } }
+
 /* Section 03: the dark punctuation between heritage and care. */
 .treatment-atlas {
   background: #242628;
