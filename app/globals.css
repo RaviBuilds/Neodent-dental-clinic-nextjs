@@ -11524,9 +11524,10 @@ button {
 }
 .exp-intro-backdrop img {
   position: absolute;
-  left: clamp(12px, 4vw, 72px);
-  bottom: clamp(-24px, -1.5vw, 0px);
-  width: min(76vw, 920px);
+  left: clamp(12px, 7vw, 112px);
+  top: clamp(178px, 17vw, 252px);
+  bottom: auto;
+  width: min(82vw, 1000px);
   height: auto;
   max-width: none;
   object-fit: contain;
@@ -11549,16 +11550,18 @@ button {
 }
 @media (max-width: 1024px) {
   .exp-intro-backdrop img {
-    left: 0;
-    bottom: -14px;
+    left: 22px;
+    top: 190px;
+    bottom: auto;
     width: min(78vw, 720px);
     opacity: 0.19;
   }
 }
 @media (max-width: 767px) {
   .exp-intro-backdrop img {
-    left: -38px;
-    bottom: -20px;
+    left: -28px;
+    top: 220px;
+    bottom: auto;
     width: 142vw;
     opacity: 0.16;
   }
@@ -11568,8 +11571,9 @@ button {
 }
 @media (max-width: 430px) {
   .exp-intro-backdrop img {
-    left: -48px;
-    bottom: -16px;
+    left: -34px;
+    top: 214px;
+    bottom: auto;
     width: 158vw;
     opacity: 0.14;
   }
