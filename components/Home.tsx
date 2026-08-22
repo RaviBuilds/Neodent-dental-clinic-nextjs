@@ -11,6 +11,7 @@ import { LegacyStory } from "@/components/sections/LegacyStory";
 import { About } from "@/components/sections/About";
 import { WhyNeodent } from "@/components/sections/WhyNeodent";
 import { Expertise } from "@/components/sections/Expertise";
+import { ClinicalLeadership } from "@/components/sections/ClinicalLeadership";
 import { Doctor } from "@/components/sections/Doctor";
 import { Recognition } from "@/components/sections/Recognition";
 import { Gallery } from "@/components/sections/Gallery";
@@ -81,6 +82,7 @@ export function Home() {
         <ExperienceIntro />
         <LegacyStory />
         <Expertise />
+        <ClinicalLeadership />
         <TrustStrip />
         <About />
         <WhyNeodent />
