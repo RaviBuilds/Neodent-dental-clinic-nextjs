@@ -11640,6 +11640,13 @@ button {
 .treatment-atlas-copy h2 {
   max-width: 550px;
   margin: 20px 0 0;
+  /* Matched to Sections 01/02/04's title pattern (.exp-intro-title /
+     .archive-title / ClinicalLeadership's .header h2): the ENTIRE
+     heading is set in the serif family, not just the red emphasis
+     span, so this section's title no longer renders in a visibly
+     different typeface from its siblings. */
+  font-family: var(--app-font-serif);
+  font-weight: 400;
   font-size: clamp(2.9rem, 5vw, 5.3rem);
   line-height: .98;
   letter-spacing: -.045em;
