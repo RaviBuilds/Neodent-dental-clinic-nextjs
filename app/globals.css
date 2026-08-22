@@ -11736,3 +11736,90 @@ button {
   .treatment-atlas-stage-media { height: 290px; }
   .treatment-atlas-copy h2 { font-size: clamp(2.35rem, 11.5vw, 3.1rem); }
 }
+
+/* Section 03: the dark punctuation between heritage and care. */
+.treatment-atlas {
+  background: #242628;
+  color: #f1eee7;
+  padding: clamp(88px, 8vw, 122px) 0 clamp(72px, 7vw, 104px);
+}
+.treatment-atlas::before {
+  background: radial-gradient(ellipse at 75% 38%, rgba(215,25,32,.08), transparent 38%), #242628;
+}
+.treatment-atlas-geometry {
+  top: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  opacity: .8;
+  background:
+    linear-gradient(rgba(241,238,231,.035) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(90deg, rgba(241,238,231,.035) 1px, transparent 1px) 0 0 / 72px 72px;
+}
+.treatment-atlas-geometry::before,
+.treatment-atlas-geometry::after { border-color: rgba(215,25,32,.18); }
+.treatment-atlas-number {
+  color: rgba(241,238,231,.1);
+  font-family: var(--font-serif, Georgia), serif;
+  font-size: clamp(10rem, 20vw, 18rem);
+  font-weight: 400;
+}
+.treatment-atlas-copy .eyebrow { color: rgba(241,238,231,.62); }
+.treatment-atlas-copy .eyebrow span { color: #d71920; }
+.treatment-atlas-copy h2 { max-width: 520px; }
+.treatment-atlas-copy h2 .serif { color: #d71920; }
+.treatment-atlas-copy p { color: rgba(241,238,231,.63); }
+.treatment-atlas-item {
+  border-top-color: rgba(241,238,231,.16);
+  color: rgba(241,238,231,.52);
+}
+.treatment-atlas-item:last-child { border-bottom-color: rgba(241,238,231,.16); }
+.treatment-atlas-item.is-active { color: #f1eee7; }
+.treatment-atlas-item.is-active > span { color: #d71920; }
+.treatment-atlas-stage { min-height: 0; padding-left: 34px; }
+.treatment-atlas-stage-backdrop { inset: -16px 30px 28px 0; border-color: rgba(241,238,231,.18); }
+.treatment-atlas-stage-backdrop::after { border-color: rgba(215,25,32,.34); }
+.treatment-atlas-stage-media {
+  width: min(100%, 560px);
+  height: clamp(320px, 53vh, 470px);
+  border-color: rgba(241,238,231,.25);
+  box-shadow: 18px 20px 34px rgba(0,0,0,.22);
+}
+.treatment-atlas-stage-media img,
+.treatment-atlas-stage-media video { filter: saturate(.82) contrast(1.06); }
+.treatment-atlas-stage-label { color: rgba(241,238,231,.78); }
+.treatment-atlas-before-after {
+  width: min(100%, 490px);
+  margin: -42px 18px 0 auto;
+  padding: 8px;
+  background: #242628;
+}
+.treatment-atlas-before-after figure { border-color: rgba(241,238,231,.2); }
+.treatment-atlas-before-after figcaption { background: rgba(36,38,40,.86); color: rgba(241,238,231,.8); }
+.treatment-atlas-stage-meta { color: rgba(241,238,231,.42); }
+.treatment-atlas-detail {
+  width: min(100%, 490px);
+  margin: 16px 18px 0 auto;
+  padding: 22px 0 0 24px;
+  background: #242628;
+}
+.treatment-atlas-detail h3 { color: #f1eee7; }
+.treatment-atlas-detail p { color: rgba(241,238,231,.64); }
+.treatment-atlas-kicker { color: rgba(241,238,231,.46); }
+.treatment-atlas-proof { color: rgba(215,25,32,.9); }
+.treatment-atlas-link, .treatment-atlas-all { color: #f1eee7; }
+.treatment-atlas-all { border-top-color: rgba(241,238,231,.16); }
+.treatment-atlas-all:hover, .treatment-atlas-link:hover { color: #d71920; }
+@media (max-width: 1024px) {
+  .treatment-atlas-stage { padding-left: 12px; }
+  .treatment-atlas-stage-media { height: 380px; }
+}
+@media (max-width: 767px) {
+  .treatment-atlas { padding: 72px 0 64px; }
+  .treatment-atlas-geometry { width: 100%; }
+  .treatment-atlas-number { font-size: 8.5rem; }
+  .treatment-atlas-stage { padding-left: 0; }
+  .treatment-atlas-stage-media { height: 310px; }
+  .treatment-atlas-before-after { margin: -18px 0 0 12px; width: calc(100% - 12px); }
+  .treatment-atlas-detail { margin: 16px 0 0 12px; width: calc(100% - 12px); }
+}
