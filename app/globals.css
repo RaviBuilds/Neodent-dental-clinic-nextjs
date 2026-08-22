@@ -11923,6 +11923,78 @@ button {
   .treatment-atlas-item em { font-size: 10px; }
 }
 
+/* Section 03 fixed-height treatment index */
+.treatment-atlas-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 86px;
+  align-items: stretch;
+  height: 82px;
+  min-height: 82px;
+  padding: 0;
+  overflow: hidden;
+  transition: color .3s ease, padding-left .3s ease;
+}
+.treatment-atlas-item-number {
+  align-self: center;
+  padding-top: 0;
+  transition: color .3s ease, transform .3s ease;
+}
+.treatment-atlas-item-main {
+  position: relative;
+  display: block;
+  min-width: 0;
+  height: 100%;
+}
+.treatment-atlas-item strong {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 86px;
+  width: auto;
+  margin: 0;
+  transform: translateY(-50%);
+  transition: top .3s cubic-bezier(.22,.61,.36,1), transform .3s cubic-bezier(.22,.61,.36,1), font-size .3s ease;
+}
+.treatment-atlas-item small {
+  position: absolute;
+  top: 50%;
+  right: -86px;
+  width: 76px;
+  text-align: right;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  transition: color .3s ease;
+}
+.treatment-atlas-item em {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  max-height: none;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.treatment-atlas-item > svg {
+  align-self: center;
+  margin: 0;
+  justify-self: end;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.treatment-atlas-item.is-active { padding-left: 0; }
+.treatment-atlas-item.is-active strong { top: 25px; transform: translateY(-50%); font-size: 12px; }
+.treatment-atlas-item.is-active em { opacity: 1; transform: translateY(0); }
+.treatment-atlas-item.is-active > svg { transform: translateX(4px); }
+@media (max-width: 767px) {
+  .treatment-atlas-item { grid-template-columns: 30px minmax(0, 1fr) 72px; height: 82px; min-height: 82px; }
+  .treatment-atlas-item strong { right: 72px; font-size: 12px; }
+  .treatment-atlas-item small { right: -72px; width: 64px; font-size: 8px; }
+  .treatment-atlas-item.is-active strong { font-size: 11px; }
+  .treatment-atlas-item em { top: 48px; right: 72px; font-size: 10px; }
+}
+
 /* Section 03 final dark atlas polish */
 .treatment-atlas-stage-meta { margin-top: 10px; }
 .treatment-atlas-detail { margin-top: 12px; padding-top: 18px; }
