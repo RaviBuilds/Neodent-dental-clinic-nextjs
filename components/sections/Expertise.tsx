@@ -211,7 +211,7 @@ export function Expertise() {
                 {!hasInteracted && <span className="treatment-atlas-comparison-affordance">Drag to compare</span>}
               </div>
             ) : (
-              <div className="treatment-atlas-stage-media">
+              <div key={active.number} className="treatment-atlas-stage-media">
                 {active.video ? (
                   <video src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
                 ) : (

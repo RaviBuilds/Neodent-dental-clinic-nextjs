@@ -11762,6 +11762,52 @@ button {
 @keyframes atlas-affordance { 0%, 100% { opacity: .46; } 50% { opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .treatment-atlas-comparison-affordance { animation: none; } }
 
+/* Section 03 final polish */
+.treatment-atlas-header { margin-bottom: clamp(38px, 5vw, 64px); }
+.treatment-atlas-grid { gap: clamp(34px, 6vw, 88px); }
+.treatment-atlas-stage { min-height: 0; }
+.treatment-atlas-stage-backdrop { inset: -14px 26px 30px 0; }
+.treatment-atlas-comparison,
+.treatment-atlas-stage-media { height: clamp(300px, 47vh, 430px); }
+.treatment-atlas-comparison-handle { width: 40px; height: 40px; transition: transform .2s ease, border-color .2s ease, background-color .2s ease; }
+.treatment-atlas-comparison:hover .treatment-atlas-comparison-handle { transform: translate(-50%, -50%) scale(1.06); border-color: #d71920; }
+.treatment-atlas-comparison:active .treatment-atlas-comparison-handle { background: #d71920; color: #f1eee7; transform: translate(-50%, -50%) scale(1.1); }
+.treatment-atlas-comparison-divider { box-shadow: 0 0 0 1px rgba(215,25,32,.14); }
+.treatment-atlas-stage-meta { margin-top: 10px; }
+.treatment-atlas-detail { margin-top: 12px; padding-top: 18px; }
+.treatment-atlas-detail h3 { line-height: 1.05; }
+.treatment-atlas-detail p { line-height: 1.55; }
+.treatment-atlas-copy,
+.treatment-atlas-index,
+.treatment-atlas-stage { will-change: opacity, transform; }
+.treatment-atlas-stage-media,
+.treatment-atlas-comparison { animation: atlas-media-in .45s ease both; }
+@keyframes atlas-media-in { from { opacity: .35; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .treatment-atlas-stage-media,
+  .treatment-atlas-comparison { animation: none; }
+  .treatment-atlas-comparison-handle { transition: none; }
+}
+@media (max-width: 1024px) {
+  .treatment-atlas-grid { gap: 34px; }
+  .treatment-atlas-stage { padding-left: 16px; }
+  .treatment-atlas-comparison,
+  .treatment-atlas-stage-media { height: clamp(290px, 42vh, 370px); }
+}
+@media (max-width: 767px) {
+  .treatment-atlas-header { margin-bottom: 34px; }
+  .treatment-atlas-grid { gap: 28px; }
+  .treatment-atlas-stage { padding-left: 0; }
+  .treatment-atlas-comparison,
+  .treatment-atlas-stage-media { height: 290px; }
+  .treatment-atlas-stage-meta { margin-top: 8px; }
+  .treatment-atlas-detail { margin-top: 10px; padding-top: 16px; }
+}
+@media (max-width: 430px) {
+  .treatment-atlas-comparison,
+  .treatment-atlas-stage-media { height: 270px; }
+}
+
 /* Section 03: the dark punctuation between heritage and care. */
 .treatment-atlas {
   background: #242628;
@@ -11844,7 +11890,27 @@ button {
   .treatment-atlas-geometry { width: 100%; }
   .treatment-atlas-number { font-size: 8.5rem; }
   .treatment-atlas-stage { padding-left: 0; }
-  .treatment-atlas-stage-media { height: 310px; }
+  .treatment-atlas-stage-media { height: 290px; }
+  .treatment-atlas-comparison { height: 290px; }
   .treatment-atlas-before-after { margin: -18px 0 0 12px; width: calc(100% - 12px); }
-  .treatment-atlas-detail { margin: 16px 0 0 12px; width: calc(100% - 12px); }
+  .treatment-atlas-detail { margin: 10px 0 0 12px; width: calc(100% - 12px); }
+}
+@media (max-width: 430px) {
+  .treatment-atlas-stage-media, .treatment-atlas-comparison { height: 270px; }
+}
+
+/* Section 03 final dark atlas polish */
+.treatment-atlas-stage-meta { margin-top: 10px; }
+.treatment-atlas-detail { margin-top: 12px; padding-top: 18px; }
+.treatment-atlas-detail h3 { line-height: 1.05; }
+.treatment-atlas-detail p { line-height: 1.55; }
+.treatment-atlas-comparison-handle { width: 40px; height: 40px; transition: transform .2s ease, border-color .2s ease, background-color .2s ease; }
+.treatment-atlas-comparison:hover .treatment-atlas-comparison-handle { transform: translate(-50%, -50%) scale(1.06); border-color: #d71920; }
+.treatment-atlas-comparison:active .treatment-atlas-comparison-handle { background: #d71920; color: #f1eee7; transform: translate(-50%, -50%) scale(1.1); }
+.treatment-atlas-comparison-divider { box-shadow: 0 0 0 1px rgba(215,25,32,.14); }
+.treatment-atlas-stage-media, .treatment-atlas-comparison { animation: atlas-media-in .45s ease both; }
+@keyframes atlas-media-in { from { opacity: .35; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .treatment-atlas-stage-media, .treatment-atlas-comparison { animation: none; }
+  .treatment-atlas-comparison-handle { transition: none; }
 }
