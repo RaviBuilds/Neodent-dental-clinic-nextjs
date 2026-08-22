@@ -7,6 +7,8 @@ const treatmentVideo = "/assets/neodent clinic treatment video for homepage sect
 type Treatment = {
   number: string;
   title: string;
+  intent: string;
+  summary: string;
   description: string;
   proof?: string;
   visual: string;
@@ -19,7 +21,22 @@ type Treatment = {
 const treatments: Treatment[] = [
   {
     number: "01",
+    title: "Composite build-up",
+    intent: "REPAIR",
+    summary: "Restore damaged or worn teeth.",
+    description: "Conservative restorative detail for small changes that can make a meaningful difference to a smile.",
+    proof: "REAL CASE / COMPOSITE SMILE DESIGN",
+    visual: "/assets/Neodent dental hospital Treatment - Composite build up smile design after.jpg",
+    before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
+    alt: "Composite build-up smile design after treatment",
+    beforeAlt: "Smile before composite build-up treatment",
+    video: true,
+  },
+  {
+    number: "02",
     title: "Dental implants",
+    intent: "REPLACE",
+    summary: "Replace missing teeth with planned restorative care.",
     description: "Carefully planned restorative treatment for missing teeth, built around function and a natural-looking result.",
     visual: "/assets/Neodent dental hospital Nampally - Upper Arch Rehab with implants - after surgery.jpg",
     before: "/assets/Neodent dental hospital Nampally - Upper Arch Rehab with implants - before surgery.jpg",
@@ -28,8 +45,10 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / UPPER ARCH REHABILITATION",
   },
   {
-    number: "02",
+    number: "03",
     title: "Root canal treatment",
+    intent: "PRESERVE",
+    summary: "Treat infection while preserving the tooth.",
     description: "Focused care to help preserve a natural tooth and bring comfort back to everyday life.",
     visual: "/assets/after treatment.jpg",
     before: "/assets/before treatment.jpg",
@@ -38,8 +57,10 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / RESTORATIVE CARE",
   },
   {
-    number: "03",
+    number: "04",
     title: "Braces & orthodontics",
+    intent: "ALIGN",
+    summary: "Improve alignment and bite over time.",
     description: "Measured orthodontic care for a healthier bite and a smile that feels like your own.",
     visual: "/assets/Neodent dental hospital Hyderabad - after treatment.jpg",
     before: "/assets/Neodent dental hospital Hyderabad - before treatment.jpg",
@@ -48,8 +69,10 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / SMILE ALIGNMENT",
   },
   {
-    number: "04",
+    number: "05",
     title: "Smile design",
+    intent: "REFINE",
+    summary: "Refine the appearance of your smile.",
     description: "Subtle cosmetic planning that respects your features while refining the way your smile comes together.",
     proof: "REAL CASE / ZIRCONIA CROWNS",
     visual: "/assets/Neodent dental hospital Hyderabad - Anterior Smile design of an accident case with zirconia crowns -after treatment.jpg",
@@ -58,8 +81,10 @@ const treatments: Treatment[] = [
     beforeAlt: "Anterior smile before zirconia crown treatment",
   },
   {
-    number: "05",
+    number: "06",
     title: "Full mouth rehabilitation",
+    intent: "REBUILD",
+    summary: "Rebuild function across complex restorative needs.",
     description: "Comprehensive restorative care when several parts of your smile need to work together again.",
     visual: "/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg",
     before: "/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - before surgery.jpg",
@@ -68,25 +93,16 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / FULL MOUTH REHABILITATION",
   },
   {
-    number: "06",
+    number: "07",
     title: "Scaling & polishing",
+    intent: "MAINTAIN",
+    summary: "Professional cleaning for a healthier-feeling mouth.",
     description: "A considered clean that supports gum health and leaves your mouth feeling fresh and cared for.",
     visual: "/assets/neodent dental hospital mehdipatnam - scaling and polishing treatment after.jpg",
     before: "/assets/neodent dental hospital mehdipatnam - scaling and polishing treatment before.jpg",
     alt: "Scaling and polishing result at Neodent Dental Hospitals",
     beforeAlt: "Teeth before scaling and polishing at Neodent Dental Hospitals",
     proof: "REAL CASE / GUM HEALTH",
-  },
-  {
-    number: "07",
-    title: "Composite build-up",
-    description: "Conservative restorative detail for small changes that can make a meaningful difference to a smile.",
-    proof: "REAL CASE / COMPOSITE SMILE DESIGN",
-    visual: "/assets/Neodent dental hospital Treatment - Composite build up smile design after.jpg",
-    before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
-    alt: "Composite build-up smile design after treatment",
-    beforeAlt: "Smile before composite build-up treatment",
-    video: true,
   },
 ];
 
@@ -97,6 +113,7 @@ export function Expertise() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const comparisonRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const draggingRef = useRef(false);
   const active = treatments[activeIndex];
 
@@ -126,14 +143,18 @@ export function Expertise() {
     const node = sectionRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible((visible) => visible || entry.isIntersecting);
+      const video = videoRef.current;
+      if (!video || !active.video) return;
       if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.unobserve(node);
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
       }
-    }, { threshold: 0.15 });
+    }, { threshold: [0, 0.15] });
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [active.video]);
 
   return (
     <section
@@ -156,17 +177,27 @@ export function Expertise() {
 
         <div className="treatment-atlas-grid">
           <nav className="treatment-atlas-index" aria-label="Featured treatment areas">
+            <div className="treatment-atlas-index-intro">
+              <span className="treatment-atlas-index-label">7 areas of care</span>
+              <span className="treatment-atlas-index-helper">Select a treatment to view a real case.</span>
+              <span className="treatment-atlas-progress">{active.number} / 07</span>
+            </div>
             {treatments.map((treatment, index) => (
               <button
                 key={treatment.number}
                 type="button"
                 className={`treatment-atlas-item ${index === activeIndex ? "is-active" : ""}`}
                 aria-pressed={index === activeIndex}
+                aria-label={`${treatment.title}: ${treatment.intent}`}
                 onClick={() => setActiveIndex(index)}
                 onMouseEnter={() => setActiveIndex(index)}
               >
-                <span>{treatment.number}</span>
-                <strong>{treatment.title}</strong>
+                <span className="treatment-atlas-item-number">{treatment.number}</span>
+                <span className="treatment-atlas-item-main">
+                  <strong>{treatment.title}</strong>
+                  <small>{treatment.intent}</small>
+                  <em>{treatment.summary}</em>
+                </span>
                 <ArrowRight aria-hidden="true" />
               </button>
             ))}
@@ -213,7 +244,7 @@ export function Expertise() {
             ) : (
               <div key={active.number} className="treatment-atlas-stage-media">
                 {active.video ? (
-                  <video src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
+                  <video ref={videoRef} src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={active.visual} alt={active.alt} />
