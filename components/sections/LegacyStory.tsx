@@ -74,7 +74,10 @@ export function LegacyStory() {
           <p className="archive-narrative">
             Established in 1994, NeoDent has grown through decades of clinical
             practice, specialist-led care and a commitment to making dentistry
-            more reassuring, personal and precise.
+            more reassuring, personal and precise. For patients, that
+            continuity means every visit draws on years of accumulated
+            clinical experience. The same specialist-led approach that shaped
+            NeoDent from the beginning still guides treatment today.
           </p>
         </div>
 

@@ -192,7 +192,10 @@ export function ExperienceIntro() {
           <p className="exp-intro-lede">
             From the first step inside to every stage of treatment, NeoDent is
             designed around a calmer, more reassuring dental experience —
-            where clinical expertise meets thoughtful care.
+            where clinical expertise meets thoughtful care. You&apos;re guided
+            through each stage with clear explanations, not simply moved
+            through a procedure. That same continuity carries from your first
+            visit through to the care that follows.
           </p>
         </div>
 
