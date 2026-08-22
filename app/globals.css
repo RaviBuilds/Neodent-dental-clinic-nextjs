@@ -11985,15 +11985,32 @@ button {
   transition: opacity .3s ease, transform .3s ease;
 }
 .treatment-atlas-item.is-active { padding-left: 0; }
-.treatment-atlas-item.is-active strong { top: 19px; transform: translateY(-50%); font-size: 13px; }
-.treatment-atlas-item.is-active em { top: 41px; opacity: 1; transform: translateY(0); transition-delay: 80ms; }
+.treatment-atlas-item.is-active .treatment-atlas-item-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+}
+.treatment-atlas-item.is-active strong {
+  position: static;
+  width: auto;
+  transform: none;
+  font-size: 13px;
+}
+.treatment-atlas-item.is-active em {
+  position: static;
+  max-height: none;
+  opacity: 1;
+  transform: none;
+  transition-delay: 80ms;
+}
 .treatment-atlas-item.is-active > svg { transform: translateX(4px); }
 @media (max-width: 767px) {
   .treatment-atlas-item { grid-template-columns: 30px minmax(0, 1fr) 72px; height: 82px; min-height: 82px; }
   .treatment-atlas-item strong { right: 72px; font-size: 15px; }
   .treatment-atlas-item small { right: -72px; width: 64px; font-size: 8px; }
-  .treatment-atlas-item.is-active strong { top: 19px; font-size: 12px; }
-  .treatment-atlas-item.is-active em { top: 41px; right: 72px; font-size: 10px; }
+  .treatment-atlas-item.is-active strong { font-size: 12px; }
+  .treatment-atlas-item.is-active em { right: 72px; font-size: 10px; }
 }
 
 /* Section 03 final dark atlas polish */
