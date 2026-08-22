@@ -18,30 +18,68 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  /* Slightly deeper/cooler than Section 03's #242628 dark canvas so the
-     two adjacent dark sections don't read as one continuous surface. */
-  background: #1c1e1f;
+  /* Moderate step down from Section 03's #242628 -- a genuinely
+     distinct dark value (not the ~2% difference the old #1c1e1f
+     produced), so the two adjacent dark sections read as separate
+     chapters rather than one continuous surface. */
+  background: #15171a;
   color: var(--ivory);
   padding: clamp(72px, 8vw, 108px) 0 clamp(88px, 10vw, 140px);
-  opacity: 0;
-  transform: translateY(22px);
-  transition:
-    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .section::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  /* Own radial cast (top-left, cool) instead of Section 03's
-     top-right warm-red glow -- a distinct surface, same family. */
-  background: radial-gradient(ellipse at 18% 0%, rgba(215, 25, 32, 0.07), transparent 42%), #1c1e1f;
+  /* New cast entering from the top-right, distinct from both Section
+     03's top-right warm-red glow position/strength and the previous
+     top-left cast, plus a faint cool lift bottom-left so the surface
+     doesn't read as a flat, dead block. */
+  background:
+    radial-gradient(ellipse at 84% 3%, rgba(215, 25, 32, 0.1), transparent 44%),
+    radial-gradient(ellipse at 6% 96%, rgba(241, 238, 231, 0.035), transparent 55%),
+    #15171a;
 }
-.visible {
-  opacity: 1;
-  transform: none;
+
+/* Chapter-start seam: a compact top hairline (red-accented at the
+   edges, ivory at the centre) plus a short registration tick bleeding
+   down from its centre. This is the section's "new chapter" signal --
+   deliberately thin and contained so it never becomes a blank
+   transition band. */
+.seam {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 0;
+  z-index: 1;
+  pointer-events: none;
 }
+.seam::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(215, 25, 32, 0.55) 12%,
+    rgba(241, 238, 231, 0.2) 50%,
+    rgba(215, 25, 32, 0.55) 88%,
+    transparent
+  );
+}
+.seam::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 15px;
+  background: linear-gradient(180deg, rgba(215, 25, 32, 0.6), transparent);
+  transform: translateX(-50%);
+}
+
 .container {
   width: min(1180px, calc(100% - 48px));
   margin: 0 auto;
@@ -49,29 +87,13 @@
   z-index: 1;
 }
 
-/* Chapter numeral -- same visual language as Section 02's .archive-year:
-   oversized serif, very low opacity, watermark treatment. Recomposed
-   for a dark surface (ivory tint instead of ink tint) and placed
-   behind the opening header rather than the intro copy specifically,
-   but the scale/opacity philosophy is identical. */
-.numeral {
-  position: absolute;
-  top: clamp(24px, 4vw, 48px);
-  right: max(0px, calc((100% - 1180px) / 2 + 12px));
-  z-index: 0;
-  color: rgba(241, 238, 231, 0.055);
-  font-family: var(--app-font-serif);
-  font-size: clamp(6.5rem, 12vw, 13rem);
-  font-weight: 400;
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  pointer-events: none;
-  user-select: none;
-}
-
 /* Leadership-specific drafting motif: vertical registration lines +
-   a crosshair, standing for portrait framing rather than Section 03's
-   treatment-atlas grid geometry. */
+   two mirrored crosshairs (top-left / bottom-right), standing for
+   portrait framing -- as if two corners of a photograph are being
+   registered -- rather than Section 03's treatment-atlas grid
+   geometry. A quiet mono micro-label sits near the seam, echoing the
+   "technical micro-label" vocabulary without repeating the eyebrow
+   copy below it. */
 .guide {
   position: absolute;
   inset: 0;
@@ -109,19 +131,65 @@
   border-left: 1px solid var(--red);
   border-top: 1px solid var(--red);
 }
+.guide b {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  bottom: 18%;
+  right: 12%;
+  border-right: 1px solid var(--red);
+  border-bottom: 1px solid var(--red);
+}
+.guideLabel {
+  position: absolute;
+  top: clamp(18px, 2.6vw, 30px);
+  left: max(0px, calc((100% - 1180px) / 2 + 24px));
+  z-index: 0;
+  color: rgba(241, 238, 231, 0.3);
+  font: 9px/1 var(--app-font-mono, monospace);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
 
 /* Header -- eyebrow + heading directly inherit Section 02's
    .archive-eyebrow / .archive-title tokens (size, spacing, hairline,
-   serif family, tracking, line-height). Heading scale is deliberately
-   kept below Section 02's own ceiling (5.2rem / 83px) so it reads as
-   "another section heading", not a second Hero, and doesn't outweigh
-   Miftah's identity block below it. */
+   serif family, tracking, line-height). The heading scale is kept
+   below Section 02's own ceiling and its bottom margin has been
+   tightened so this opens as one connected beat leading straight into
+   Miftah's identity, instead of resolving like a second, separate
+   hero screen before the actual doctor appears. */
 .header {
   position: relative;
   max-width: 700px;
-  margin-bottom: clamp(48px, 6vw, 76px);
+  margin-bottom: clamp(30px, 3.6vw, 46px);
+}
+
+/* Chapter numeral -- moved inside the header's own stacking context so
+   it bleeds behind the eyebrow/heading exactly like Section 02's
+   .archive-year bleeds behind .archive-intro (there, the effect comes
+   from DOM order inside an overlapping grid area; here .header has no
+   grid overlap, so the same "watermark behind text" result is
+   produced with position:absolute + a lower z-index, while the text
+   siblings are lifted to z-index:1 so readability is never at risk). */
+.numeral {
+  position: absolute;
+  top: clamp(-22px, -1.6vw, 2px);
+  right: clamp(-6px, 1.4vw, 14px);
+  z-index: 0;
+  color: rgba(241, 238, 231, 0.06);
+  font-family: var(--app-font-serif);
+  font-size: clamp(5.5rem, 9.5vw, 10.5rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  user-select: none;
 }
 .eyebrow {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -140,6 +208,8 @@
   flex-shrink: 0;
 }
 .metaLine {
+  position: relative;
+  z-index: 1;
   margin: 0 0 20px;
   color: rgba(241, 238, 231, 0.4);
   font: 10px/1.4 var(--app-font-mono, monospace);
@@ -147,9 +217,11 @@
   text-transform: uppercase;
 }
 .header h2 {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-family: var(--app-font-serif);
-  font-size: clamp(2.7rem, 4.4vw, 4.5rem);
+  font-size: clamp(2.5rem, 3.8vw, 3.9rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 0.98;
@@ -160,8 +232,18 @@
   font-style: italic;
 }
 
-.feature { display: grid; grid-template-columns: .78fr 1.35fr; grid-template-rows: auto auto; gap: 42px 72px; align-items: end; }
-.identity { grid-column: 1; grid-row: 1; padding-bottom: 16px; }
+/* Feature grid -- fixed dead-space bug: .identity and .proofs now
+   live inside one flex column (.column) that sizes to its own
+   content, completely independent of .film's height. Previously
+   `.identity`/`.proofs` sat in two auto grid rows with `.film`
+   spanning both, so the implicit row track followed the tall video
+   and stranded the proof markers far below the identity copy. Any
+   remaining height difference between the column and the portrait
+   film is now genuine, intentional editorial whitespace (an
+   asymmetric composition), not an unresolved layout gap. */
+.feature { display: grid; grid-template-columns: .78fr 1.35fr; gap: 42px 72px; align-items: start; }
+.column { display: flex; flex-direction: column; gap: clamp(30px, 4.4vw, 46px); }
+.identity { }
 .kicker, .teamHeader span, .filmTop, .member > span { color: var(--red); font: 10px/1.4 var(--app-font-mono, monospace); letter-spacing: .16em; text-transform: uppercase; }
 /* Identity heading kept in the shared serif family for consistency with
    the section headline, but at its own smaller scale -- this is a name,
@@ -174,21 +256,29 @@
 .link { display: inline-flex; align-items: center; gap: 9px; color: var(--ivory); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; transition: color .2s ease, gap .2s ease; }
 .link:hover { color: var(--red); gap: 13px; }
 
-.film { grid-column: 2; grid-row: 1 / span 2; margin: 0; position: relative; }
+.film { grid-column: 2; margin: 0; position: relative; }
 .filmFrame { position: relative; aspect-ratio: 4 / 5; max-height: 650px; overflow: hidden; border: 1px solid rgba(241,238,231,.24); background: #17191a; }
 .filmFrame video { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8) contrast(1.04); }
 /* Thin registration mark connecting the media frame to the section's
    editorial geometry -- linework, not a heavy border. */
 .filmRegistration { position: absolute; top: -18px; left: 24px; width: 1px; height: 18px; background: linear-gradient(180deg, transparent, var(--red)); z-index: 2; }
-.filmTop { position: absolute; inset: 17px 18px auto; display: flex; justify-content: space-between; color: var(--ivory); }
+/* Minimal, temporary mitigation for the burned-in caption baked into
+   the only available Miftah profile clip (see TODO in
+   ClinicalLeadership.tsx). Confined to the lower ~17% of the frame and
+   tinted to the frame's own charcoal rather than pure black, so the
+   clip does not read as noticeably darker overall and no clinical
+   content above the caption band is obscured. Remove once a
+   caption-free clip is supplied. */
+.filmCaptionMask { position: absolute; left: 0; right: 0; bottom: 0; height: 17%; z-index: 1; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(23, 25, 26, 0.55) 60%, rgba(23, 25, 26, 0.72)); }
+.filmTop { position: absolute; inset: 17px 18px auto; display: flex; justify-content: space-between; color: var(--ivory); z-index: 2; }
 .filmTop span:last-child { color: rgba(241,238,231,.46); }
-.control { position: absolute; right: 17px; bottom: 17px; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid rgba(241,238,231,.7); border-radius: 50%; background: rgba(36,38,40,.72); color: var(--ivory); cursor: pointer; }
+.control { position: absolute; right: 17px; bottom: 17px; z-index: 2; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid rgba(241,238,231,.7); border-radius: 50%; background: rgba(36,38,40,.72); color: var(--ivory); cursor: pointer; }
 .film figcaption { margin-top: 11px; color: var(--muted); font: 10px/1.4 var(--app-font-mono, monospace); letter-spacing: .14em; text-transform: uppercase; }
 
 /* Proof markers restyled as editorial annotations -- thin lines, small
    mono labels, red numerals, ivory values -- matching Section 02's
    metadata language rather than reading as UI cards. */
-.proofs { grid-column: 1; grid-row: 2; display: grid; gap: 0; border-top: 1px solid rgba(241,238,231,.18); }
+.proofs { display: grid; gap: 0; border-top: 1px solid rgba(241,238,231,.18); }
 .proof { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(241,238,231,.14); }
 .proof > span { color: var(--red); font: 10px var(--app-font-mono, monospace); }
 .proof small { display: block; margin-bottom: 5px; color: var(--muted); font: 9px var(--app-font-mono, monospace); letter-spacing: .16em; text-transform: uppercase; }
@@ -199,16 +289,23 @@
 
 /* Editorial roster: an asymmetric team composition rather than four
    identical cards. Siraj (senior leadership) is widest with the
-   largest portrait; Muti gets a medium portrait; Asiya and Safoora
-   stay typography-led, matched to the same metadata language as the
-   proof markers above so they read as intentional profiles, not
-   broken image placeholders. */
+   largest portrait; Muti gets a medium real portrait; Asiya and
+   Safoora stay typography-led, matched to the same metadata language
+   as the proof markers above so they read as intentional profiles,
+   not broken image placeholders. The size step between senior/medium
+   portraits is deliberately pronounced so the hierarchy reads at a
+   glance, not just from the metadata label. */
 .team { display: grid; grid-template-columns: 1.5fr 1fr 0.85fr 0.85fr; gap: 20px; align-items: start; }
 .member { min-height: 220px; padding: 20px 0 0; border-bottom: 1px solid rgba(241,238,231,.16); transition: transform .25s ease, border-color .25s ease; }
 .member:hover, .member:focus-within { transform: translateY(-5px); border-color: var(--red); }
-.memberImage { height: 240px; margin: -20px 0 18px; overflow: hidden; }
-.medium .memberImage { height: 190px; }
+.memberImage { height: 250px; margin: -20px 0 18px; overflow: hidden; }
+.medium .memberImage { height: 175px; }
 .memberImage img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: grayscale(.15) saturate(.75); }
+/* Metadata label: same shared rule for all four members (mono,
+   tracked, uppercase, muted -- see the combined selector above for
+   size/family/tracking) so the four labels read as one typographic
+   system, while each keeps its own hierarchy-specific wording
+   ("Senior clinical leadership" vs "NeoDent team" vs "Clinical team"). */
 .member > span { display: block; color: var(--muted); font-size: 9px; }
 .member h3 { margin: 13px 0 10px; font-family: var(--app-font-serif); font-size: 19px; font-weight: 400; line-height: 1.02; letter-spacing: -.01em; }
 .member p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
@@ -218,6 +315,34 @@
 .initials { display: none; }
 .member:not(.senior):not(.medium) { padding-top: 26px; border-top: 1px solid rgba(215,25,32,.35); margin-top: 6px; }
 
+/* Restrained staggered entrance: header, then the identity/proofs
+   column, then the film, then the team header and roster. Opacity +
+   translateY only, no bounce/parallax. The section shell itself no
+   longer animates as a single block -- each beat reveals in its own
+   short window so the section reads as a directed, editorial sequence
+   rather than one flat fade. */
+.header,
+.column,
+.film,
+.teamHeader,
+.team {
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section:not(.visible) .header,
+.section:not(.visible) .column,
+.section:not(.visible) .film,
+.section:not(.visible) .teamHeader,
+.section:not(.visible) .team {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.column { transition-delay: 90ms; }
+.film { transition-delay: 170ms; }
+.teamHeader { transition-delay: 260ms; }
+.team { transition-delay: 340ms; }
+
 @media (max-width: 900px) {
   .team { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .senior { grid-column: 1 / -1; }
@@ -226,22 +351,29 @@
   .container { width: min(100% - 32px, 600px); }
   .header h2 { max-width: 100%; }
   .feature { grid-template-columns: 1fr; gap: 34px; }
-  .identity, .film, .proofs { grid-column: 1; grid-row: auto; }
-  .film { order: 2; }
-  .identity { order: 1; }
-  .proofs { order: 3; }
+  .column { order: 1; gap: 28px; }
+  .film { grid-column: 1; order: 2; }
   .filmFrame { aspect-ratio: 4 / 5; max-height: none; }
   .teamHeader { align-items: flex-start; flex-direction: column; gap: 8px; margin-top: 56px; }
   .team { grid-template-columns: 1fr 1fr; gap: 24px 16px; }
   .senior { grid-column: 1 / -1; }
   .memberImage { height: 260px; }
   .medium .memberImage { height: 220px; }
-  .numeral { font-size: clamp(4.5rem, 22vw, 7rem); top: 12px; }
+  .numeral { font-size: clamp(4.2rem, 20vw, 6.5rem); top: -10px; right: -4px; }
+  .guideLabel { left: 16px; }
 }
 @media (max-width: 430px) {
   .team { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .section, .link, .member { transition: none; }
-  .section { opacity: 1; transform: none; }
+  .link, .member { transition: none; }
+  .header,
+  .column,
+  .film,
+  .teamHeader,
+  .team {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
 }
