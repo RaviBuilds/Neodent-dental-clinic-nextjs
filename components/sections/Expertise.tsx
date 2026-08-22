@@ -87,52 +87,6 @@ const treatments: Treatment[] = [
     alt: "Composite build-up smile design after treatment",
     beforeAlt: "Smile before composite build-up treatment",
   },
-  {
-    number: "02",
-    title: "Root canal treatment",
-    description: "Focused care to help preserve a natural tooth and bring comfort back to everyday life.",
-    visual: "/assets/Neodent dental hospital Interior.jpg",
-    alt: "Dental treatment equipment at Neodent Dental Hospitals",
-  },
-  {
-    number: "03",
-    title: "Braces & orthodontics",
-    description: "Measured orthodontic care for a healthier bite and a smile that feels like your own.",
-    visual: "/assets/Neodent dental hospital Interior.jpg",
-    alt: "Neodent Dental Hospitals clinical interior",
-  },
-  {
-    number: "04",
-    title: "Smile design",
-    description: "Subtle cosmetic planning that respects your features while refining the way your smile comes together.",
-    proof: "REAL CASE / SMILE DESIGN",
-    visual: "/assets/neodent-media-siasat-01.jpg",
-    alt: "The Siasat Daily feature about Neodent Dental Hospitals",
-  },
-  {
-    number: "05",
-    title: "Full mouth rehabilitation",
-    description: "Comprehensive restorative care when several parts of your smile need to work together again.",
-    proof: "REAL CASE / FULL MOUTH CARE",
-    visual: "/assets/Neodent dental hospital Interior.jpg",
-    alt: "Treatment room at Neodent Dental Hospitals",
-  },
-  {
-    number: "06",
-    title: "Scaling & polishing",
-    description: "A considered clean that supports gum health and leaves your mouth feeling fresh and cared for.",
-    visual: "/assets/Neodent dental hospital Interior.jpg",
-    alt: "Neodent Dental Hospitals clinical equipment",
-  },
-  {
-    number: "07",
-    title: "Composite build-up",
-    description: "Conservative restorative detail for small changes that can make a meaningful difference to a smile.",
-    proof: "REAL CASE / COMPOSITE SMILE DESIGN",
-    visual: "/assets/Neodent dental hospital Interior.jpg",
-    alt: "Clinical interior at Neodent Dental Hospitals",
-    video: true,
-  },
 ];
 
 export function Expertise() {
