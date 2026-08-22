@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowRight, Play } from "lucide-react";
+import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
 const treatmentVideo = "/assets/neodent clinic treatment video for homepage section3.mp4";
 
 type Treatment = {
@@ -173,10 +174,20 @@ export function Expertise() {
             <h2 id="treatment-atlas-title">What can we <span className="serif">help you with?</span></h2>
             <p>
               Focused care for the dental problems that bring patients to us.
-              Each concern is met with the specialist-led expertise it calls
-              for, within one clinical environment. The right approach is
-              matched to what each patient needs, from routine care to more
-              complex treatment.
+              Each concern is met with the{" "}
+              <EditorialHighlight tone="primary">
+                specialist-led expertise
+              </EditorialHighlight>{" "}
+              it calls for, within{" "}
+              <EditorialHighlight tone="secondary">
+                one clinical environment
+              </EditorialHighlight>
+              . The right approach is matched to what each patient needs,
+              from routine care to{" "}
+              <EditorialHighlight tone="quiet">
+                more complex treatment
+              </EditorialHighlight>
+              .
             </p>
           </div>
         </div>

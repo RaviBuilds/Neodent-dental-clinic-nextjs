@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import styles from "./ClinicalLeadership.module.css";
+import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
 
 const proofs = [
   ["01", "Credentials", "BDS · MDS · FICOI (U.S.A.)"],
@@ -120,8 +121,38 @@ export function ClinicalLeadership() {
             <p className={styles.kicker}>A trusted face of NeoDent</p>
             <h3>Dr. Md. Miftah<br />Ur Rahman</h3>
             <p className={styles.role}>Prosthodontist &amp; Implantologist<br />Assistant Director · NeoDent</p>
-            <p className={styles.copy}>Alongside his clinical practice, Dr. Miftah brings an academic perspective through his role as an Assistant Professor at SB Patil Dental College & Hospital. His specialist training in prosthodontics and implantology, together with years of clinical experience and recognition for his work, reflects the blend of clinical practice, teaching and leadership he brings to NeoDent.</p>
-            <p className={styles.copy}>Dr. Miftah brings a careful, contemporary perspective to an established clinical practice. His work is grounded in precision, clear conversations and care that stays personal.</p>
+            <p className={styles.copy}>
+              Alongside his clinical practice, Dr. Miftah brings an{" "}
+              <EditorialHighlight tone="primary" onDark>
+                academic perspective
+              </EditorialHighlight>{" "}
+              through his role as an Assistant Professor at SB Patil Dental
+              College &amp; Hospital. His specialist training in{" "}
+              <EditorialHighlight tone="secondary" onDark>
+                prosthodontics and implantology
+              </EditorialHighlight>
+              , together with years of clinical experience and recognition
+              for his work, reflects the blend of{" "}
+              <EditorialHighlight tone="quiet" onDark>
+                clinical practice, teaching and leadership
+              </EditorialHighlight>{" "}
+              he brings to NeoDent.
+            </p>
+            <p className={styles.copy}>
+              Dr. Miftah brings a{" "}
+              <EditorialHighlight tone="primary" onDark>
+                careful, contemporary perspective
+              </EditorialHighlight>{" "}
+              to an established clinical practice. His work is grounded in{" "}
+              <EditorialHighlight tone="secondary" onDark>
+                precision
+              </EditorialHighlight>
+              , clear conversations and{" "}
+              <EditorialHighlight tone="quiet" onDark>
+                care that stays personal
+              </EditorialHighlight>
+              .
+            </p>
             <a className={styles.link} href="#doctor">Explore Dr. Miftah <ArrowRight size={15} aria-hidden="true" /></a>
           </div>
 

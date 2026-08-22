@@ -7,6 +7,7 @@ import {
   legacyPressImage,
   recognitionImage,
 } from "@/lib/site-data";
+import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
 
 /* ------------------------------------------------------------------
    Homepage Section 02 — "The NeoDent Archive".
@@ -72,15 +73,40 @@ export function LegacyStory() {
             Founded by Dr. Mohd. Siraj Ur Rahman.
           </p>
           <p className="archive-narrative">
-            Established in 1994, NeoDent has grown through decades of clinical
-            practice, specialist-led care and a commitment to making dentistry
-            more reassuring, personal and precise. For patients, that
-            continuity means every visit draws on years of accumulated
-            clinical experience. The same specialist-led approach that shaped
-            NeoDent from the beginning still guides treatment today.
+            Established in 1994, NeoDent has grown through{" "}
+            <EditorialHighlight tone="primary">
+              decades of clinical practice
+            </EditorialHighlight>
+            , specialist-led care and a commitment to making dentistry more
+            reassuring, personal and precise. For patients, that continuity
+            means every visit draws on years of{" "}
+            <EditorialHighlight tone="secondary">
+              accumulated clinical experience
+            </EditorialHighlight>
+            . The same{" "}
+            <EditorialHighlight tone="quiet">
+              specialist-led approach
+            </EditorialHighlight>{" "}
+            that shaped NeoDent from the beginning still guides treatment
+            today.
           </p>
           <p className="archive-narrative">
-            Founded and led by Dr. Mohd. Siraj Ur Rahman, NeoDent's clinical philosophy has been shaped by more than 35 years of experience in dentistry. A dental surgeon, prosthodontist and implantologist, and Professor at Osmania Government Dental College & Hospital, Hyderabad, Dr. Siraj brings together specialist clinical practice and academic experience — a foundation that continues to guide the care delivered at NeoDent.
+            Founded and led by Dr. Mohd. Siraj Ur Rahman, NeoDent&apos;s
+            clinical philosophy has been shaped by more than{" "}
+            <EditorialHighlight tone="primary">
+              35 years of experience
+            </EditorialHighlight>{" "}
+            in dentistry. A dental surgeon,{" "}
+            <EditorialHighlight tone="secondary">
+              prosthodontist and implantologist
+            </EditorialHighlight>
+            , and Professor at Osmania Government Dental College & Hospital,
+            Hyderabad, Dr. Siraj brings together specialist{" "}
+            <EditorialHighlight tone="quiet">
+              clinical practice and academic experience
+            </EditorialHighlight>{" "}
+            — a foundation that continues to guide the care delivered at
+            NeoDent.
           </p>
         </div>
 

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { tourVideo } from "@/lib/site-data";
+import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
 
 const philosophyValues = ["Calm", "Precise", "Personal"];
 
@@ -191,14 +192,25 @@ export function ExperienceIntro() {
           </h2>
           <p className="exp-intro-lede">
             From the first step inside to every stage of treatment, NeoDent is
-            designed around a calmer, more reassuring dental experience —
-            where clinical expertise meets thoughtful care. You&apos;re guided
-            through each stage with clear explanations, not simply moved
-            through a procedure. That same continuity carries from your first
-            visit through to the care that follows.
+            designed around a{" "}
+            <EditorialHighlight tone="primary">
+              calmer, more reassuring
+            </EditorialHighlight>{" "}
+            dental experience — where clinical expertise meets thoughtful
+            care. You&apos;re guided through each stage with{" "}
+            <EditorialHighlight tone="secondary">
+              clear explanations
+            </EditorialHighlight>
+            , not simply moved through a procedure. That same{" "}
+            <EditorialHighlight tone="quiet">continuity</EditorialHighlight>{" "}
+            carries from your first visit through to the care that follows.
           </p>
           <p className="exp-intro-lede">
-            Every detail is considered to make your visit feel calmer, clearer and more personal — from arrival to care.
+            Every detail is considered to make your visit feel{" "}
+            <EditorialHighlight tone="primary">
+              calmer, clearer and more personal
+            </EditorialHighlight>{" "}
+            — from arrival to care.
           </p>
         </div>
 
