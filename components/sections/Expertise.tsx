@@ -19,6 +19,17 @@ type Treatment = {
 const treatments: Treatment[] = [
   {
     number: "01",
+    title: "Composite build-up",
+    description: "Conservative restorative detail for small changes that can make a meaningful difference to a smile.",
+    proof: "REAL CASE / COMPOSITE SMILE DESIGN",
+    visual: "/assets/Neodent dental hospital Treatment - Composite build up smile design after.jpg",
+    before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
+    alt: "Composite build-up smile design after treatment",
+    beforeAlt: "Smile before composite build-up treatment",
+    video: true,
+  },
+  {
+    number: "02",
     title: "Dental implants",
     description: "Carefully planned restorative treatment for missing teeth, built around function and a natural-looking result.",
     visual: "/assets/Neodent dental hospital Nampally - Upper Arch Rehab with implants - after surgery.jpg",
@@ -28,7 +39,7 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / UPPER ARCH REHABILITATION",
   },
   {
-    number: "02",
+    number: "03",
     title: "Root canal treatment",
     description: "Focused care to help preserve a natural tooth and bring comfort back to everyday life.",
     visual: "/assets/after treatment.jpg",
@@ -38,7 +49,7 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / RESTORATIVE CARE",
   },
   {
-    number: "03",
+    number: "04",
     title: "Braces & orthodontics",
     description: "Measured orthodontic care for a healthier bite and a smile that feels like your own.",
     visual: "/assets/Neodent dental hospital Hyderabad - after treatment.jpg",
@@ -48,7 +59,7 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / SMILE ALIGNMENT",
   },
   {
-    number: "04",
+    number: "05",
     title: "Smile design",
     description: "Subtle cosmetic planning that respects your features while refining the way your smile comes together.",
     proof: "REAL CASE / ZIRCONIA CROWNS",
@@ -58,7 +69,7 @@ const treatments: Treatment[] = [
     beforeAlt: "Anterior smile before zirconia crown treatment",
   },
   {
-    number: "05",
+    number: "06",
     title: "Full mouth rehabilitation",
     description: "Comprehensive restorative care when several parts of your smile need to work together again.",
     visual: "/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg",
@@ -68,7 +79,7 @@ const treatments: Treatment[] = [
     proof: "REAL CASE / FULL MOUTH REHABILITATION",
   },
   {
-    number: "06",
+    number: "07",
     title: "Scaling & polishing",
     description: "A considered clean that supports gum health and leaves your mouth feeling fresh and cared for.",
     visual: "/assets/neodent dental hospital mehdipatnam - scaling and polishing treatment after.jpg",
@@ -76,17 +87,6 @@ const treatments: Treatment[] = [
     alt: "Scaling and polishing result at Neodent Dental Hospitals",
     beforeAlt: "Teeth before scaling and polishing at Neodent Dental Hospitals",
     proof: "REAL CASE / GUM HEALTH",
-  },
-  {
-    number: "07",
-    title: "Composite build-up",
-    description: "Conservative restorative detail for small changes that can make a meaningful difference to a smile.",
-    proof: "REAL CASE / COMPOSITE SMILE DESIGN",
-    visual: "/assets/Neodent dental hospital Treatment - Composite build up smile design after.jpg",
-    before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
-    alt: "Composite build-up smile design after treatment",
-    beforeAlt: "Smile before composite build-up treatment",
-    video: true,
   },
 ];
 
@@ -97,6 +97,7 @@ export function Expertise() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const comparisonRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const draggingRef = useRef(false);
   const active = treatments[activeIndex];
 
@@ -126,14 +127,18 @@ export function Expertise() {
     const node = sectionRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible((visible) => visible || entry.isIntersecting);
+      const video = videoRef.current;
+      if (!video || !active.video) return;
       if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.unobserve(node);
+        void video.play().catch(() => undefined);
+      } else {
+        video.pause();
       }
-    }, { threshold: 0.15 });
+    }, { threshold: [0, 0.15] });
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [active.video]);
 
   return (
     <section
@@ -213,7 +218,7 @@ export function Expertise() {
             ) : (
               <div key={active.number} className="treatment-atlas-stage-media">
                 {active.video ? (
-                  <video src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
+                  <video ref={videoRef} src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={active.visual} alt={active.alt} />
