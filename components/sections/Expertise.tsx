@@ -171,7 +171,13 @@ export function Expertise() {
           <div className="treatment-atlas-copy">
             <div className="eyebrow">Dental care <span>/</span> Featured treatment atlas</div>
             <h2 id="treatment-atlas-title">What can we <span className="serif">help you with?</span></h2>
-            <p>Focused care for the dental problems that bring patients to us.</p>
+            <p>
+              Focused care for the dental problems that bring patients to us.
+              Each concern is met with the specialist-led expertise it calls
+              for, within one clinical environment. The right approach is
+              matched to what each patient needs, from routine care to more
+              complex treatment.
+            </p>
           </div>
         </div>
 
