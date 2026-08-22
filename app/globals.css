@@ -11954,7 +11954,8 @@ button {
   width: auto;
   margin: 0;
   transform: translateY(-50%);
-  transition: top .3s cubic-bezier(.22,.61,.36,1), transform .3s cubic-bezier(.22,.61,.36,1), font-size .3s ease;
+  font-size: 16px;
+  transition: top 560ms cubic-bezier(.22,1,.36,1), transform 560ms cubic-bezier(.22,1,.36,1), font-size 560ms cubic-bezier(.22,1,.36,1);
 }
 .treatment-atlas-item small {
   position: absolute;
@@ -11975,7 +11976,7 @@ button {
   margin: 0;
   opacity: 0;
   transform: translateY(5px);
-  transition: opacity .3s ease, transform .3s ease;
+  transition: opacity 500ms cubic-bezier(.22,1,.36,1) 70ms, transform 500ms cubic-bezier(.22,1,.36,1) 70ms;
 }
 .treatment-atlas-item > svg {
   align-self: center;
@@ -11984,15 +11985,15 @@ button {
   transition: opacity .3s ease, transform .3s ease;
 }
 .treatment-atlas-item.is-active { padding-left: 0; }
-.treatment-atlas-item.is-active strong { top: 25px; transform: translateY(-50%); font-size: 12px; }
-.treatment-atlas-item.is-active em { opacity: 1; transform: translateY(0); }
+.treatment-atlas-item.is-active strong { top: 29px; transform: translateY(-50%); font-size: 13px; }
+.treatment-atlas-item.is-active em { opacity: 1; transform: translateY(0); transition-delay: 80ms; }
 .treatment-atlas-item.is-active > svg { transform: translateX(4px); }
 @media (max-width: 767px) {
   .treatment-atlas-item { grid-template-columns: 30px minmax(0, 1fr) 72px; height: 82px; min-height: 82px; }
-  .treatment-atlas-item strong { right: 72px; font-size: 12px; }
+  .treatment-atlas-item strong { right: 72px; font-size: 15px; }
   .treatment-atlas-item small { right: -72px; width: 64px; font-size: 8px; }
-  .treatment-atlas-item.is-active strong { font-size: 11px; }
-  .treatment-atlas-item em { top: 48px; right: 72px; font-size: 10px; }
+  .treatment-atlas-item.is-active strong { top: 29px; font-size: 12px; }
+  .treatment-atlas-item em { top: 51px; right: 72px; font-size: 10px; }
 }
 
 /* Section 03 final dark atlas polish */
@@ -12009,4 +12010,8 @@ button {
 @media (prefers-reduced-motion: reduce) {
   .treatment-atlas-stage-media, .treatment-atlas-comparison { animation: none; }
   .treatment-atlas-comparison-handle { transition: none; }
+  .treatment-atlas-item strong,
+  .treatment-atlas-item em,
+  .treatment-atlas-item,
+  .treatment-atlas-item > svg { transition-duration: 1ms; transition-delay: 0ms; }
 }
