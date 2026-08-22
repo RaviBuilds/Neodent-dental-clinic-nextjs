@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowRight, Play } from "lucide-react";
-import { treatmentVideo } from "@/lib/site-data";
+const treatmentVideo = "/assets/neodent clinic treatment video for homepage section3.mp4";
 
 type Treatment = {
   number: string;
@@ -86,14 +86,41 @@ const treatments: Treatment[] = [
     before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
     alt: "Composite build-up smile design after treatment",
     beforeAlt: "Smile before composite build-up treatment",
+    video: true,
   },
 ];
 
 export function Expertise() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [comparisonPosition, setComparisonPosition] = useState(50);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const comparisonRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
   const active = treatments[activeIndex];
+
+  const updateComparison = (clientX: number) => {
+    const bounds = comparisonRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    setComparisonPosition(Math.min(100, Math.max(0, ((clientX - bounds.left) / bounds.width) * 100)));
+    setHasInteracted(true);
+  };
+
+  const handleComparisonKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const step = event.shiftKey ? 10 : 5;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      setComparisonPosition((position) => Math.min(100, Math.max(0, position + (event.key === "ArrowRight" ? step : -step))));
+      setHasInteracted(true);
+    }
+  };
+
+  useEffect(() => {
+    const stopDragging = () => { draggingRef.current = false; };
+    window.addEventListener("pointerup", stopDragging);
+    return () => window.removeEventListener("pointerup", stopDragging);
+  }, []);
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -147,28 +174,52 @@ export function Expertise() {
 
           <div className="treatment-atlas-stage" aria-live="polite">
             <div className="treatment-atlas-stage-backdrop" aria-hidden="true" />
-            <div className="treatment-atlas-stage-media">
-              {active.video ? (
-                <video src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
-              ) : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={active.visual} alt={active.alt} />
-              )}
-              <span className="treatment-atlas-stage-label">{active.video ? "Treatment film" : "In practice"}</span>
-              {active.video && <span className="treatment-atlas-play"><Play fill="currentColor" aria-hidden="true" /></span>}
-            </div>
-            {active.before && (
-              <div className="treatment-atlas-before-after" aria-label="Before and after treatment images">
-                <figure>
+            {active.before && !active.video ? (
+              <div
+                key={active.number}
+                ref={comparisonRef}
+                className="treatment-atlas-comparison"
+                role="slider"
+                tabIndex={0}
+                aria-label={`Compare before and after ${active.title}`}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(comparisonPosition)}
+                aria-valuetext={`${Math.round(comparisonPosition)} percent after treatment visible`}
+                onKeyDown={handleComparisonKeyDown}
+                onPointerDown={(event) => {
+                  draggingRef.current = true;
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                  updateComparison(event.clientX);
+                }}
+                onPointerMove={(event) => {
+                  if (draggingRef.current) updateComparison(event.clientX);
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img className="treatment-atlas-comparison-image" src={active.before} alt={active.beforeAlt} draggable={false} />
+                <div className="treatment-atlas-comparison-after" style={{ clipPath: `inset(0 ${100 - comparisonPosition}% 0 0)` }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={active.before} alt={active.beforeAlt} />
-                  <figcaption>Before</figcaption>
-                </figure>
-                <figure>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="treatment-atlas-comparison-image" src={active.visual} alt={active.alt} draggable={false} />
+                </div>
+                <span className="treatment-atlas-stage-label">Clinical comparison</span>
+                <span className="treatment-atlas-comparison-label treatment-atlas-comparison-before-label">Before</span>
+                <span className="treatment-atlas-comparison-label treatment-atlas-comparison-after-label">After</span>
+                <span className="treatment-atlas-comparison-divider" style={{ left: `${comparisonPosition}%` }}>
+                  <span className="treatment-atlas-comparison-handle" aria-hidden="true">↔</span>
+                </span>
+                {!hasInteracted && <span className="treatment-atlas-comparison-affordance">Drag to compare</span>}
+              </div>
+            ) : (
+              <div key={active.number} className="treatment-atlas-stage-media">
+                {active.video ? (
+                  <video src={treatmentVideo} muted loop playsInline autoPlay preload="metadata" aria-label="Neodent clinical treatment film" />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={active.visual} alt={active.alt} />
-                  <figcaption>After</figcaption>
-                </figure>
+                )}
+                <span className="treatment-atlas-stage-label">{active.video ? "In practice" : "Clinical visual"}</span>
+                {active.video && <span className="treatment-atlas-play"><Play fill="currentColor" aria-hidden="true" /></span>}
               </div>
             )}
             <div className="treatment-atlas-stage-meta">
