@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, Play } from "lucide-react";
-import { treatmentVideo } from "@/lib/site-data";
+const treatmentVideo = "/assets/neodent clinic treatment video for homepage section3.mp4";
 
 type Treatment = {
   number: string;
@@ -86,6 +86,7 @@ const treatments: Treatment[] = [
     before: "/assets/Neodent dental hospital Treatment - Composite build up smile design  before.jpg",
     alt: "Composite build-up smile design after treatment",
     beforeAlt: "Smile before composite build-up treatment",
+    video: true,
   },
 ];
 
