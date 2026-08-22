@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
-import { experienceIntroBackdrop, tourVideo } from "@/lib/site-data";
+import { tourVideo } from "@/lib/site-data";
 
 const philosophyValues = ["Calm", "Precise", "Personal"];
 
@@ -154,7 +154,10 @@ export function ExperienceIntro() {
     >
       <div className="exp-intro-backdrop" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={experienceIntroBackdrop} alt="" />
+        <img
+          src="/assets/Neodent dental clinic - modern dental treatment chair.png"
+          alt=""
+        />
       </div>
       {/* Bespoke architectural linework -- Section 02's own arch/draft/
           registration vocabulary (see .archive-atmosphere in LegacyStory)
