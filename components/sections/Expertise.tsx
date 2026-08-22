@@ -166,7 +166,7 @@ export function Expertise() {
     >
       <div className="treatment-atlas-geometry" aria-hidden="true" />
       <div className="container treatment-atlas-shell">
-        <div className="treatment-atlas-header">
+        <div className="treatment-atlas-header atlas-reveal atlas-reveal-header">
           <div className="treatment-atlas-number" aria-hidden="true">03</div>
           <div className="treatment-atlas-copy">
             <div className="eyebrow">Dental care <span>/</span> Featured treatment atlas</div>
@@ -176,7 +176,7 @@ export function Expertise() {
         </div>
 
         <div className="treatment-atlas-grid">
-          <nav className="treatment-atlas-index" aria-label="Featured treatment areas">
+          <nav className="treatment-atlas-index atlas-reveal atlas-reveal-index" aria-label="Featured treatment areas">
             <div className="treatment-atlas-index-intro">
               <span className="treatment-atlas-index-label">7 areas of care</span>
               <span className="treatment-atlas-index-helper">Select a treatment to view a real case.</span>
@@ -203,7 +203,7 @@ export function Expertise() {
             ))}
           </nav>
 
-          <div className="treatment-atlas-stage" aria-live="polite">
+          <div className="treatment-atlas-stage atlas-reveal atlas-reveal-stage" aria-live="polite">
             <div className="treatment-atlas-stage-backdrop" aria-hidden="true" />
             {active.before && !active.video ? (
               <div
