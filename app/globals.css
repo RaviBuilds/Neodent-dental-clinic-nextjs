@@ -12013,6 +12013,17 @@ button {
   .treatment-atlas-item.is-active em { right: 72px; font-size: 10px; }
 }
 
+/* Section 03 viewport reveal */
+.treatment-atlas .atlas-reveal { opacity: 0; transform: translateY(18px); transition: opacity 720ms cubic-bezier(.22,1,.36,1), transform 720ms cubic-bezier(.22,1,.36,1); }
+.treatment-atlas .atlas-reveal-header { transition-delay: 60ms; }
+.treatment-atlas .atlas-reveal-index { transition-delay: 180ms; }
+.treatment-atlas .atlas-reveal-stage { transition-delay: 300ms; }
+.treatment-atlas.treatment-atlas-visible .atlas-reveal { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .treatment-atlas .atlas-reveal,
+  .treatment-atlas.treatment-atlas-visible .atlas-reveal { opacity: 1; transform: none; transition: none; }
+}
+
 /* Section 03 final dark atlas polish */
 .treatment-atlas-stage-meta { margin-top: 10px; }
 .treatment-atlas-detail { margin-top: 12px; padding-top: 18px; }
