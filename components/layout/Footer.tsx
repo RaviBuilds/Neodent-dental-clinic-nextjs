@@ -111,13 +111,13 @@ export function Footer() {
       <div className={styles.container}>
         <header className={styles.header}>
           <span className={styles.numeral} aria-hidden="true">
-            09
+            1994
           </span>
           <div className={styles.eyebrow}>NeoDent Dental Hospitals</div>
         </header>
 
         <p id="footer-title" className={styles.statement}>
-          Care that <span>stays with you.</span>
+          Changing smiles <span>since decades.</span>
         </p>
 
         <div className={styles.grid}>

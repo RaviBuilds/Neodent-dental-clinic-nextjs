@@ -34,7 +34,7 @@
 .questions {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 0;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s cubic-bezier(0.16, 0.72, 0.2, 1),
@@ -49,27 +49,54 @@
 .questionsHeader {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  /* No gap — numeral uses negative margin to bleed into eyebrow */
 }
 
+/* Ghost numeral — in-flow, negative bottom margin bleeds into eyebrow */
+.numeral {
+  display: block;
+  margin: 0 0 -0.34em -0.05em;
+  color: rgba(38, 48, 51, 0.055);
+  font-family: var(--app-font-serif);
+  font-size: clamp(5.5rem, 9.5vw, 9.5rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Eyebrow — red 34px hairline + 10px/0.2em uppercase mono */
 .eyebrow {
-  color: var(--neodent-green);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  color: var(--neodent-muted);
+  font: 700 10px/1 var(--app-font-mono, "Manrope", sans-serif);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+.eyebrowRule {
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: var(--neodent-red);
+  flex-shrink: 0;
 }
 
 .questionsTitle {
   font-family: var(--app-font-serif);
-  font-size: 42px;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-size: var(--type-section-title);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
   color: var(--neodent-ink);
-  margin: 0;
+  margin: 0 0 clamp(28px, 3.5vw, 40px);
 }
 
 .questionsTitle span {
+  display: block;
   color: var(--neodent-red);
   font-style: italic;
 }
@@ -316,8 +343,8 @@
     gap: 56px;
   }
 
-  .questionsTitle {
-    font-size: 36px;
+  .numeral {
+    font-size: clamp(4rem, 19vw, 6rem);
   }
 
   .question {

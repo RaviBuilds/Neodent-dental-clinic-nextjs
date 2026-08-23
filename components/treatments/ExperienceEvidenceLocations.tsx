@@ -1,35 +1,33 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Phone, MapPin } from "lucide-react";
-import { telPhone, whatsappLink, directions, nampallyTelPhone, nampallyDirections } from "@/lib/site-data";
 import styles from "./ExperienceEvidenceLocations.module.css";
 
-const branchRatings = [
-  { branch: "Mehdipatnam", score: "4.3", stars: "★★★★☆", reviews: "260 reviews" },
-  { branch: "Nampally", score: "4.5", stars: "★★★★½", reviews: "155 reviews" },
-];
+/* ------------------------------------------------------------------
+   Treatments page — Section 07 — Trust & Evidence.
 
-const locations = [
+   Dark charcoal surface. Three acts:
+     — Experience metrics (Established 1994, Specialist-Led, Two Locations)
+     — Patient review ratings (branch-specific, no addresses or CTAs)
+     — Quiet editorial closing statement
+
+   All location directory content (addresses, hours, phone, WhatsApp,
+   Directions) has been removed. Section 08 is the correct contact
+   destination. This section focuses on trust evidence only.
+   ------------------------------------------------------------------ */
+
+const branchRatings = [
   {
-    name: "Mehdipatnam",
-    address: ["10-3-14B/11/1, Humayun Nagar Rd", "near Azizia Masjid, Royal Colony", "Humayun Nagar", "Hyderabad, Telangana 500006"],
-    hours: "4:30 PM–8:00 PM",
-    holiday: "Sunday holiday",
-    phone: "+91 90306 48393",
-    telLink: telPhone,
-    whatsappLink: whatsappLink,
-    directionsLink: directions,
+    branch: "Mehdipatnam",
+    score: "4.3",
+    stars: "★★★★☆",
+    reviews: "260 reviews",
   },
   {
-    name: "Nampally",
-    address: ["Medwin Hospital Complex", "Pillar #A1270", "Nampally", "Hyderabad, Telangana 500001"],
-    hours: "9:30 AM–8:00 PM",
-    holiday: "Sunday holiday",
-    phone: "+91 90305 98081",
-    telLink: nampallyTelPhone,
-    whatsappLink: `https://wa.me/919030598081?text=${encodeURIComponent("Hi, I'd like to enquire about dental treatment at NeoDent Nampally.")}`,
-    directionsLink: nampallyDirections,
+    branch: "Nampally",
+    score: "4.5",
+    stars: "★★★★½",
+    reviews: "155 reviews",
   },
 ];
 
@@ -42,7 +40,7 @@ export function ExperienceEvidenceLocations() {
     if (!node) return;
     const observer = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && setVisible(true),
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -54,21 +52,26 @@ export function ExperienceEvidenceLocations() {
       className={`${styles.section} ${visible ? styles.visible : ""}`}
       aria-labelledby="experience-title"
     >
+      {/* Background geometry */}
       <div className={styles.atmosphere} aria-hidden="true">
         <span className={styles.verticalRail} />
       </div>
-      
-      <span className={styles.chapterNumeral} aria-hidden="true">07</span>
-      
+
       <div className={styles.container}>
+
+        {/* Header — ghost numeral + red-hairline eyebrow + serif heading */}
         <header className={styles.header}>
-          <div className={styles.eyebrow}>Trust & locations</div>
+          <span className={styles.numeral} aria-hidden="true">07</span>
+          <div className={styles.eyebrow}>
+            <span className={styles.eyebrowRule} aria-hidden="true" />
+            07 / Trust &amp; evidence
+          </div>
           <h2 id="experience-title" className={styles.title}>
-            Experience, evidence <span>& where to find us</span>
+            Experience, evidence<br /><span>&amp; what patients see.</span>
           </h2>
         </header>
 
-        {/* Experience */}
+        {/* Experience metrics */}
         <div className={styles.experience}>
           <div className={styles.experienceItem}>
             <strong>Established 1994</strong>
@@ -84,7 +87,7 @@ export function ExperienceEvidenceLocations() {
           </div>
         </div>
 
-        {/* Evidence - Branch-Specific Ratings */}
+        {/* Patient reviews — ratings only, no contact info */}
         <div className={styles.evidence}>
           <div className={styles.evidenceLabel}>Patient reviews</div>
           <div className={styles.ratings}>
@@ -101,44 +104,14 @@ export function ExperienceEvidenceLocations() {
           </div>
         </div>
 
-        {/* Locations */}
-        <div className={styles.locations}>
-          <div className={styles.locationsLabel}>Visit NeoDent</div>
-          <div className={styles.grid}>
-            {locations.map((location) => (
-              <article key={location.name} className={styles.card}>
-                <h3 className={styles.locationName}>{location.name}</h3>
-                <address className={styles.address}>
-                  {location.address.map((line, i) => (
-                    <span key={i}>{line}</span>
-                  ))}
-                </address>
-                <div className={styles.info}>
-                  <p className={styles.hours}>{location.hours}</p>
-                  <p className={styles.holiday}>{location.holiday}</p>
-                </div>
-                <div className={styles.contact}>
-                  <a href={location.telLink} className={styles.phone}>
-                    <Phone size={18} />
-                    {location.phone}
-                  </a>
-                </div>
-                <div className={styles.actions}>
-                  <a href={location.telLink} className={`${styles.button} ${styles.buttonPrimary}`}>
-                    Call
-                  </a>
-                  <a href={location.whatsappLink} className={`${styles.button} ${styles.buttonSecondary}`}>
-                    WhatsApp
-                  </a>
-                  <a href={location.directionsLink} className={`${styles.button} ${styles.buttonGhost}`}>
-                    <MapPin size={16} />
-                    Directions
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
+        {/* Editorial closing statement */}
+        <div className={styles.closing}>
+          <p className={styles.closingStatement}>
+            Three decades of practice, two Hyderabad locations, and a clinical
+            approach built around considered care.
+          </p>
         </div>
+
       </div>
     </section>
   );

@@ -62,9 +62,13 @@ export function QuestionsContact() {
         {/* Questions / FAQ */}
         <div className={styles.questions}>
           <header className={styles.questionsHeader}>
-            <div className={styles.eyebrow}>Common questions</div>
+            <span className={styles.numeral} aria-hidden="true">08</span>
+            <div className={styles.eyebrow}>
+              <span className={styles.eyebrowRule} aria-hidden="true" />
+              Common questions
+            </div>
             <h2 id="questions-title" className={styles.questionsTitle}>
-              Questions <span>about treatment</span>
+              Questions<br /><span>about treatment</span>
             </h2>
           </header>
 
