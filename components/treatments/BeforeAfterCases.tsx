@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
 import styles from "./BeforeAfterCases.module.css";
 
 const cases = [
@@ -62,13 +63,28 @@ export function BeforeAfterCases() {
     >
       <div className={styles.container}>
         <header className={styles.header}>
-          <div className={styles.eyebrow}>06 / Treatment outcomes</div>
+          <span className={styles.numeral} aria-hidden="true">05</span>
+          <div className={styles.eyebrow}>
+            <span className={styles.eyebrowRule} aria-hidden="true" />
+            05 / Treatment outcomes
+          </div>
           <h2 id="cases-title" className={styles.title}>
-            Real Cases. <span>Visible Outcomes.</span>
+            Real cases.<br /><span>Visible outcomes.</span>
           </h2>
           <p className={styles.lead}>
-            Explore selected NeoDent cases showing treatment outcomes across restorative, 
-            implant and smile-focused procedures.
+            Selected cases from NeoDent showing{" "}
+            <EditorialHighlight tone="primary">
+              treatment outcomes
+            </EditorialHighlight>{" "}
+            across{" "}
+            <EditorialHighlight tone="secondary">
+              restorative, implant and smile procedures
+            </EditorialHighlight>
+            . Each case reflects the{" "}
+            <EditorialHighlight tone="quiet">
+              clinical work carried out at NeoDent
+            </EditorialHighlight>
+            .
           </p>
         </header>
 
