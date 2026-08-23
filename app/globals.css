@@ -327,6 +327,10 @@ button {
 .nav-links a:hover {
   opacity: 1;
 }
+.nav-links a.active {
+  color: var(--neodent-red);
+  opacity: 1;
+}
 .nav-links a:focus-visible {
   opacity: 1;
   outline: 2px solid currentColor;
@@ -8582,6 +8586,10 @@ button {
     transition:
       background 0.2s ease,
       padding-left 0.2s ease;
+  }
+  .mobile-menu a.active {
+    color: var(--neodent-red);
+    font-weight: 600;
   }
   .mobile-menu a:active {
     background: rgba(229, 222, 204, 0.3);

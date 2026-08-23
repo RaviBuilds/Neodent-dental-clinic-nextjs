@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AppButton } from "@/components/ui/AppButton";
 import { BrandLockup } from "@/components/layout/BrandLockup";
@@ -9,6 +10,7 @@ import { navItems } from "@/lib/site-data";
 export function Navbar({ onBook }: { onBook: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28);
@@ -17,10 +19,30 @@ export function Navbar({ onBook }: { onBook: () => void }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // On internal pages, force scrolled state for dark text visibility
+  const isInternalPage = pathname !== "/";
+  const navScrolled = scrolled || isInternalPage;
+
   const closeMenu = () => setMenuOpen(false);
+
+  // Check if a nav item is active
+  const isActive = (href: string) => {
+    // Exact match for routes
+    if (href.startsWith("/")) {
+      return pathname === href;
+    }
+    // Hash anchor active only on homepage
+    if (pathname === "/" && href.startsWith("#")) {
+      // Could check scroll position here for homepage sections
+      // For now, no active state for hash anchors
+      return false;
+    }
+    return false;
+  };
+
   return (
     <header
-      className={`nav ${scrolled ? "scrolled" : ""}`}
+      className={`nav ${navScrolled ? "scrolled" : ""}`}
       data-testid="navigation-header"
     >
       <div className="container nav-inner">
@@ -30,7 +52,9 @@ export function Navbar({ onBook }: { onBook: () => void }) {
             <a
               key={item.href}
               href={item.href}
+              className={isActive(item.href) ? "active" : ""}
               data-testid={`link-nav-${item.label.toLowerCase()}`}
+              aria-current={isActive(item.href) ? "page" : undefined}
             >
               {item.label}
             </a>
@@ -54,8 +78,10 @@ export function Navbar({ onBook }: { onBook: () => void }) {
           <a
             key={item.href}
             href={item.href}
+            className={isActive(item.href) ? "active" : ""}
             onClick={closeMenu}
             data-testid={`link-mobile-${item.label.toLowerCase()}`}
+            aria-current={isActive(item.href) ? "page" : undefined}
           >
             {item.label}
           </a>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
+import { ArchiveViewer, ARCHIVE_IMAGES } from "./ArchiveViewer";
 import styles from "./LegacyAndPeople.module.css";
 
 /* ------------------------------------------------------------------
@@ -44,6 +46,7 @@ function useReveal<T extends HTMLElement>(threshold = 0.14) {
 
 export function LegacyAndPeople() {
   const [sectionRef, sectionVisible] = useReveal<HTMLElement>(0.06);
+  const [openingRef, openingVisible] = useReveal<HTMLDivElement>(0.08);
   const [introRef, introVisible] = useReveal<HTMLDivElement>();
   const [beginningRef, beginningVisible] = useReveal<HTMLDivElement>();
   const [founderRef, founderVisible] = useReveal<HTMLDivElement>();
@@ -51,6 +54,14 @@ export function LegacyAndPeople() {
   const [archiveRef, archiveVisible] = useReveal<HTMLDivElement>(0.08);
   const [recognitionRef, recognitionVisible] = useReveal<HTMLDivElement>();
   const [closingRef, closingVisible] = useReveal<HTMLDivElement>();
+
+  const [archiveOpen, setArchiveOpen] = useState(false);
+  const [archiveStartIndex, setArchiveStartIndex] = useState(0);
+
+  const openArchive = (index = 0) => {
+    setArchiveStartIndex(index);
+    setArchiveOpen(true);
+  };
 
   return (
     <section
@@ -68,69 +79,109 @@ export function LegacyAndPeople() {
       </div>
 
       <div className={styles.container}>
-        <header className={styles.header}>
-          <span className={styles.numeral} aria-hidden="true">
-            01
-          </span>
-          <div className={styles.eyebrow}>The NeoDent Legacy</div>
-          <h1 id="legacy-title" className={styles.title}>
-            Decades of changing smiles.
-            <br />
-            <span>A legacy that continues.</span>
-          </h1>
-        </header>
-
+        {/* ---- Opening editorial composition — unified title/text/image --- */}
         <div
-          ref={introRef}
-          className={`${styles.intro} ${introVisible ? styles.blockVisible : ""}`}
+          ref={openingRef}
+          className={`${styles.openingComposition} ${openingVisible ? styles.blockVisible : ""}`}
         >
-          <p>
-            NeoDent Dental Hospital was founded in Hyderabad in{" "}
-            <EditorialHighlight tone="primary">1994</EditorialHighlight> by Dr.
-            Mohd. Siraj Ur Rahman, opening its first practice in Mehdipatnam.
-            In the decades since, that single clinic has grown into{" "}
-            <EditorialHighlight tone="secondary">
-              NeoDent Dental Hospitals
-            </EditorialHighlight>
-            , now practising across{" "}
-            <EditorialHighlight tone="quiet">
-              Mehdipatnam and Nampally
-            </EditorialHighlight>
-            , built on specialist-led dental care that has shaped every year
-            since.
-          </p>
-          <p>
-            For patients, that history is not an abstraction. An appointment
-            in Mehdipatnam or Nampally today draws on{" "}
-            <EditorialHighlight tone="primary">
-              more than three decades of accumulated clinical experience
-            </EditorialHighlight>{" "}
-            — treatment planning and judgement built consultation by
-            consultation, and carried forward by{" "}
-            <EditorialHighlight tone="secondary">
-              the wider clinical team
-            </EditorialHighlight>{" "}
-            that now works alongside the practice&apos;s founder. NeoDent has
-            always centred on{" "}
-            <EditorialHighlight tone="quiet">
-              the person in the chair
-            </EditorialHighlight>
-            , not just the procedure ahead of them.
-          </p>
-          <p>
-            That continuity is what NeoDent asks every patient to trust: a{" "}
-            <EditorialHighlight tone="secondary">
-              specialist-led clinical team
-            </EditorialHighlight>
-            , a clear explanation of every treatment option, and an approach
-            that treats each visit — routine check-up or complex implant
-            work alike — with{" "}
-            <EditorialHighlight tone="primary">
-              the same attention it received in 1994
-            </EditorialHighlight>
-            .
-          </p>
+          {/* LEFT COLUMN — story */}
+          <div className={styles.openingLeft}>
+            <header className={styles.header}>
+              <span className={styles.numeral} aria-hidden="true">
+                01
+              </span>
+              <div className={styles.eyebrow}>The NeoDent Legacy</div>
+              <h1 id="legacy-title" className={styles.title}>
+                Decades of changing smiles.
+                <br />
+                <span>A legacy that continues.</span>
+              </h1>
+            </header>
+
+            <p className={styles.established}>
+              <span className={styles.establishedTick} aria-hidden="true" />
+              Established 1994 · Hyderabad
+            </p>
+
+            <div
+              ref={introRef}
+              className={`${styles.intro} ${introVisible ? styles.blockVisible : ""}`}
+            >
+              <p>
+                NeoDent Dental Hospital was founded in Hyderabad in{" "}
+                <EditorialHighlight tone="primary">1994</EditorialHighlight> by Dr.
+                Mohd. Siraj Ur Rahman, opening its first practice in Mehdipatnam.
+                In the decades since, that single clinic has grown into{" "}
+                <EditorialHighlight tone="secondary">
+                  NeoDent Dental Hospitals
+                </EditorialHighlight>
+                , now practising across{" "}
+                <EditorialHighlight tone="quiet">
+                  Mehdipatnam and Nampally
+                </EditorialHighlight>
+                , built on specialist-led dental care that has shaped every year
+                since.
+              </p>
+              <p>
+                For patients, that history is not an abstraction. An appointment
+                in Mehdipatnam or Nampally today draws on{" "}
+                <EditorialHighlight tone="primary">
+                  more than three decades of accumulated clinical experience
+                </EditorialHighlight>{" "}
+                — treatment planning and judgement built consultation by
+                consultation, and carried forward by{" "}
+                <EditorialHighlight tone="secondary">
+                  the wider clinical team
+                </EditorialHighlight>{" "}
+                that now works alongside the practice&apos;s founder. NeoDent has
+                always centred on{" "}
+                <EditorialHighlight tone="quiet">
+                  the person in the chair
+                </EditorialHighlight>
+                , not just the procedure ahead of them.
+              </p>
+              <p>
+                That continuity is what NeoDent asks every patient to trust: a{" "}
+                <EditorialHighlight tone="secondary">
+                  specialist-led clinical team
+                </EditorialHighlight>
+                , a clear explanation of every treatment option, and an approach
+                that treats each visit — routine check-up or complex implant
+                work alike — with{" "}
+                <EditorialHighlight tone="primary">
+                  the same attention it received in 1994
+                </EditorialHighlight>
+                .
+              </p>
+            </div>
+
+            {/* Clinical metadata — editorial annotation */}
+            <div className={styles.openingMeta}>
+              <span className={styles.openingMetaLabel}>Dr. Md. Miftah Ur Rahman</span>
+              <span className={styles.openingMetaSub}>Prosthodontist &amp; Implantologist</span>
+              <span className={styles.openingMetaSub}>Assistant Director · NeoDent</span>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN — clinical image */}
+          <figure className={styles.openingImage}>
+            <span className={styles.openingRegistration} aria-hidden="true" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/Dr. Md. Miftah Ur Rahman during treatment- Neodent Dental Hospital.jpg"
+              alt="Dr. Md. Miftah Ur Rahman performing a dental treatment procedure at NeoDent Dental Hospital, Hyderabad"
+              loading="eager"
+            />
+          </figure>
         </div>
+
+        {/* Intro is now embedded inside openingComposition above, but we need
+            a placeholder div here to preserve the existing reveal ref structure
+            for the acts that follow */}
+        <div
+          style={{ display: "none" }}
+          aria-hidden="true"
+        />
 
         {/* ---- Act 01 — 1994 / The Beginning ------------------------ */}
         <div
@@ -410,6 +461,22 @@ export function LegacyAndPeople() {
               <figcaption>Academic recognition</figcaption>
             </figure>
           </div>
+
+          {/* ---- Archive trigger ------------------------------------ */}
+          <div className={styles.archiveTriggerRow}>
+            <p className={styles.archiveTriggerNote}>
+              {ARCHIVE_IMAGES.length} press items in the archive
+            </p>
+            <button
+              type="button"
+              className={styles.archiveTriggerBtn}
+              onClick={() => openArchive(0)}
+              aria-label={`Open full archive — ${ARCHIVE_IMAGES.length} newspaper items`}
+            >
+              View full archive
+              <ArrowRight size={12} aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
         {/* ---- Act 05 — Recognition ----------------------------------- */}
@@ -474,6 +541,14 @@ export function LegacyAndPeople() {
           </p>
         </div>
       </div>
+
+      {/* ---- Archive viewer modal ------------------------------------ */}
+      {archiveOpen && (
+        <ArchiveViewer
+          initialIndex={archiveStartIndex}
+          onClose={() => setArchiveOpen(false)}
+        />
+      )}
     </section>
   );
 }
