@@ -9715,9 +9715,8 @@ button {
   grid-template-areas:
     "year plates"
     "intro plates"
-    "founder plates"
-    "impact plates"
-    "today plates"
+    "impact ."
+    "today ."
     "climax climax"
     "transition transition";
   column-gap: clamp(56px, 7vw, 128px);
@@ -9827,49 +9826,37 @@ button {
   line-height: 1.7;
 }
 
-/* Beat 06 — the founder, paired with his own oversized figure
-   rather than a conventional profile card. */
+/* Beat 06 — the founder. Previously its own grid row sitting BELOW
+   two full paragraphs of biography, which meant the reader had to
+   scroll past all of that copy before Dr. Siraj's face ever appeared
+   -- even though he is named in the very first line above. Now an
+   inline block inside `.archive-intro` itself, placed directly after
+   `.archive-founder-line` and before the narrative paragraphs, so the
+   name and the face arrive together and the biography that follows
+   already has a face attached to it. Compact format (not the
+   oversized card the old standalone row could afford) since it now
+   shares the 480px intro column with body copy. */
 .archive-founder {
-  grid-area: founder;
   position: relative;
   z-index: 2;
   display: flex;
   align-items: flex-end;
-  gap: 22px;
-  margin: 44px 0 0;
-}
-.archive-founder::before {
-  content: "";
-  position: absolute;
-  top: 22px;
-  left: 100%;
-  width: 26px;
-  height: 1px;
-  background: rgba(215, 25, 32, 0.4);
-}
-.archive-founder::after {
-  content: "";
-  position: absolute;
-  top: 18px;
-  left: calc(100% + 26px);
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--neodent-red);
+  gap: 16px;
+  margin: 20px 0 28px;
 }
 .archive-founder img {
-  width: 190px;
-  height: 232px;
+  width: 108px;
+  height: 132px;
   border: 1px solid rgba(36, 38, 40, 0.22);
   object-fit: cover;
   object-position: top center;
-  box-shadow: 12px 14px 26px rgba(36, 38, 40, 0.12);
+  box-shadow: 10px 12px 22px rgba(36, 38, 40, 0.12);
 }
 .archive-founder figcaption {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-bottom: 6px;
+  padding-bottom: 4px;
 }
 .archive-founder figcaption b {
   color: #242628;
@@ -9881,6 +9868,27 @@ button {
   color: rgba(36, 38, 40, 0.54);
   font-size: 10px;
   letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.archive-founder-figure {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 4px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(215, 25, 32, 0.35);
+}
+.archive-founder-figure strong {
+  color: var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+.archive-founder-figure span {
+  margin-top: 4px;
+  color: rgba(36, 38, 40, 0.56);
+  font-size: 9px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .archive-figure {
@@ -9903,8 +9911,9 @@ button {
   text-transform: uppercase;
 }
 
-/* Beat 07 — impact, offset from the founder row so the two large
-   numbers never read as a repeated stats strip. */
+/* Beat 07 — impact, indented from the intro column's own left edge
+   so the 5,000+ figure reads as a fresh beat rather than a repeat of
+   the "35+ years" figure now sitting inline up in .archive-founder. */
 .archive-impact {
   grid-area: impact;
   margin: 40px 0 0 18%;
@@ -9932,12 +9941,74 @@ button {
   letter-spacing: 0.16em;
 }
 
-/* Beat 03–05 — the archive artifacts, sharing one tall visual field
-   on the right so they fan out rather than stacking as equal cards. */
-.archive-plate {
+/* Beat 03–05 — the archive artifacts. Previously stretched to fill
+   its full grid-row span (which is as tall as the intro column's own
+   biography copy), using flex-grow to pad out that borrowed height --
+   that made the collage's internal rhythm depend on how long the
+   text next to it happened to be. Now `align-self: start` so this
+   column is exactly as tall as its own three photos + gaps, full
+   stop, regardless of what the intro column is doing. Each plate
+   keeps a fixed aspect-ratio (its own intentional size) instead of
+   growing to fill space. A single spine sits in the gutter to the
+   LEFT of the plates -- in the negative space between the text
+   column and the photos, never behind an image -- with a short tick
+   reaching each plate, so the three artifacts read as one connected
+   record instead of stray photos. */
+.archive-plates {
   grid-area: plates;
   position: relative;
   z-index: 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+}
+.archive-plates::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: clamp(-36px, -3.2vw, -24px);
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(215, 25, 32, 0.5) 8%,
+    rgba(215, 25, 32, 0.5) 92%,
+    transparent
+  );
+  z-index: 0;
+}
+.archive-plates-label {
+  position: absolute;
+  top: -32px;
+  left: clamp(-36px, -3.2vw, -24px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: rgba(36, 38, 40, 0.48);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.archive-plates-label::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neodent-red);
+  flex-shrink: 0;
+}
+.archive-plate {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   border: 1px solid rgba(36, 38, 40, 0.2);
   background: #e2ddd0;
@@ -9952,16 +10023,29 @@ button {
   opacity: 1;
   transform: translateY(0);
 }
+/* Tick reaching from the spine (in the gutter) to this plate's left
+   edge, so the connection is visible in the negative space rather
+   than drawn under the photograph where it disappears. */
+.archive-plate::after {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: clamp(-36px, -3.2vw, -24px);
+  width: clamp(20px, 2.8vw, 32px);
+  height: 1px;
+  background: rgba(215, 25, 32, 0.4);
+  z-index: 0;
+}
 .archive-plate img {
   display: block;
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 .archive-plate figcaption {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 4px;
   padding: 10px 12px 11px;
   color: rgba(36, 38, 40, 0.54);
   font-size: 9px;
@@ -9969,17 +10053,48 @@ button {
   line-height: 1.4;
   text-transform: uppercase;
 }
+.archive-plate-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
 .archive-plate figcaption b {
   color: var(--neodent-red);
   font-size: 9px;
   font-weight: 700;
 }
+.archive-plate-context {
+  color: rgba(36, 38, 40, 0.4);
+  font-size: 8.5px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+/* The corner index tag — a small serif numeral echoing the vertical
+   "01/BEGINNING…" route labels, so each plate visibly resolves to a
+   step in the same sequence rather than floating on its own. */
+.archive-plate-index {
+  position: absolute;
+  top: -11px;
+  left: -11px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(215, 25, 32, 0.45);
+  border-radius: 50%;
+  background: #ece7dc;
+  color: var(--neodent-red);
+  font-family: var(--app-font-serif);
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1;
+}
 .archive-plate-press {
-  z-index: 2;
-  justify-self: start;
-  align-self: start;
-  width: min(64%, 430px);
-  margin-top: -18px;
+  align-self: flex-start;
+  width: min(88%, 420px);
   border-color: rgba(215, 25, 32, 0.48);
   box-shadow: 20px 22px 36px rgba(36, 38, 40, 0.13);
   transform: translateY(24px) rotate(-0.6deg);
@@ -9991,11 +10106,8 @@ button {
   aspect-ratio: 0.86;
 }
 .archive-plate-tv {
-  z-index: 3;
-  justify-self: end;
-  align-self: center;
-  width: min(40%, 250px);
-  margin-top: clamp(96px, 13vw, 180px);
+  align-self: flex-end;
+  width: min(64%, 270px);
   transform: translateY(24px) rotate(0.9deg);
   transition-delay: 0.18s;
 }
@@ -10006,12 +10118,9 @@ button {
   aspect-ratio: 1.3;
 }
 .archive-plate-award {
-  z-index: 4;
-  justify-self: start;
-  align-self: end;
-  width: min(34%, 210px);
-  margin-left: 8%;
-  margin-top: -34px;
+  align-self: flex-start;
+  width: min(54%, 220px);
+  margin-left: 14%;
   transform: translateY(24px) rotate(-1.2deg);
   transition-delay: 0.32s;
 }
@@ -10992,14 +11101,14 @@ button {
     font-size: clamp(5.5rem, 13vw, 9rem);
   }
   .archive-plate-press {
-    width: min(60%, 320px);
+    width: min(74%, 320px);
   }
   .archive-plate-tv {
-    width: min(42%, 210px);
-    margin-top: clamp(90px, 18vw, 160px);
+    width: min(56%, 230px);
   }
   .archive-plate-award {
-    width: min(36%, 180px);
+    width: min(46%, 190px);
+    margin-left: 12%;
   }
   .archive-impact {
     margin-left: 8%;
@@ -11014,16 +11123,12 @@ button {
     gap: 12px;
   }
   .archive-founder img {
-    width: 136px;
-    height: 166px;
+    width: 96px;
+    height: 118px;
   }
   .archive-founder figcaption b {
-    max-width: 145px;
+    max-width: 140px;
     line-height: 1.35;
-  }
-  .archive-founder::before,
-  .archive-founder::after {
-    display: none;
   }
 }
 
@@ -11067,40 +11172,57 @@ button {
     max-width: none;
     font-size: clamp(2.6rem, 13vw, 3.6rem);
   }
-  .archive-founder {
-    order: 3;
-    margin: 0;
-    gap: 16px;
-  }
+  /* .archive-founder now lives inline inside .archive-intro (right
+     after the founding line, before the biography paragraphs), so it
+     no longer needs its own flex `order` -- it already renders in
+     that position in document order on every breakpoint. */
   .archive-founder img {
-    width: 124px;
-    height: 152px;
+    width: 96px;
+    height: 118px;
   }
   .archive-founder figcaption b {
-    max-width: 120px;
+    max-width: 130px;
     line-height: 1.35;
   }
-  .archive-founder::before,
-  .archive-founder::after {
+  .archive-plates {
+    order: 4;
+    align-items: center;
+    gap: 28px;
+    padding-top: 34px;
+  }
+  .archive-plates::before {
+    top: 0;
+    bottom: auto;
+    left: 50%;
+    height: 22px;
+    background: var(--neodent-red);
+    opacity: 0.5;
+  }
+  .archive-plates-label {
+    position: static;
+    justify-content: center;
+    margin: 0 0 4px;
+  }
+  .archive-plate::after {
     display: none;
   }
   .archive-plate-press {
-    order: 4;
     width: 100%;
     max-width: 340px;
-    margin: 0 auto;
+    flex-grow: 0;
+    margin: 0;
     transform: none !important;
   }
   .archive-plate-tv {
-    order: 5;
     width: min(72%, 300px);
-    margin: 0 auto;
+    flex-grow: 0;
+    margin: 0;
     transform: none !important;
   }
   .archive-plate-award {
-    order: 6;
     width: min(60%, 260px);
-    margin: 0 auto;
+    flex-grow: 0;
+    margin: 0;
     transform: none !important;
   }
   .archive-impact {

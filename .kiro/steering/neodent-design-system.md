@@ -95,3 +95,19 @@ Never casually invent a new global visual language.
 
 ## 16. AVOID
 Generic AI website, SaaS dashboard aesthetics, excessive glassmorphism, excessive rounded cards, random gradients, emoji-heavy UI, oversized generic icons, stock-photo collage aesthetics, overly clinical blue-white templates, repetitive two-column sections, giant text without supporting meaning.
+
+## 17. TEXT HIGHLIGHT SYSTEM
+Every substantive body paragraph (`archive-narrative`, section `.lede`/`.description`, and equivalents) must highlight a small number of key phrases using the shared `EditorialHighlight` component (`components/ui/EditorialHighlight.tsx`), not plain bold/color spans.
+
+Rules:
+- Use the existing component/CSS module. Do not create a new highlight mechanism per section.
+- Three tones only, applied by significance, not randomly:
+  - `primary` — `<strong>`, NeoDent red, no background. The single most important phrase in the paragraph. Use at most once per paragraph.
+  - `secondary` — `<mark>`, semibold, thin tapered red underline. For a notable supporting phrase (e.g. a named entity, a specific clinical term).
+  - `quiet` — `<mark>`, semibold, subtle translucent red sweep, no visible line. For a softer supporting phrase.
+- Typical paragraph pattern: one `primary` + one `secondary` + one `quiet`, distributed naturally through the sentence flow — not three highlights bunched together, not one giant highlighted clause.
+- Pass `onDark` when the paragraph sits on a dark/charcoal surface (matches the pattern already used in `ClinicalLeadership`, `ContactNextStep`, `SpacesDesignedAroundCare`).
+- Highlighted phrases must be short (2-6 words), meaningful on their own, and never the entire sentence.
+- Never highlight generic filler words (e.g. "the", "and", "a considered"). Highlight what a reader should remember: the clinic name, the key service, the reassurance/outcome phrase.
+- The underlying text must always render in full as real text — the component only adds a decorative/semantic wrapper, never hides or truncates copy.
+- When adding a new paragraph to an existing section, follow the highlight distribution already established by sibling paragraphs in that same section for consistency.

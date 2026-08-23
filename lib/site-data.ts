@@ -54,6 +54,19 @@ export const heroLocations = [
 export const directions =
   "https://www.google.com/maps/search/?api=1&query=Masjid-e-Azizia%2C%20Humayun%20Nagar%20Road%2C%20Royal%20Colony%2C%20Humayun%20Nagar%2C%20Hyderabad%2C%20Telangana%2C%20India";
 export const googleRating = { score: "4.3", count: 259 };
+
+/* ------------------------------------------------------------------
+   Section 08 (ContactNextStep) — Nampally branch contact details.
+   Mehdipatnam reuses `phone` / `telPhone` / `directions` above
+   (the primary branch number and address already established in this
+   file). Nampally is client-supplied business information; the
+   Maps query text mirrors the already-verified `heroLocations`
+   Nampally detail ("Medwin Hospital Complex, Nampally") rather than
+   inventing a street address. ------------------------------------------------------------------ */
+export const nampallyPhone = "+91 9030598081";
+export const nampallyTelPhone = "tel:+919030598081";
+export const nampallyDirections =
+  "https://www.google.com/maps/search/?api=1&query=NeoDent%20Dental%20Hospital%2C%20Medwin%20Hospital%20Complex%2C%20Nampally%2C%20Hyderabad%2C%20Telangana%2C%20India";
 export const LEAD_CAPTURE_SESSION_KEY = "neodent-lead-capture-shown";
 
 export type NavItem = { label: string; href: string };

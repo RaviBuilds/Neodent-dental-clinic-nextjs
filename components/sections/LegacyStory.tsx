@@ -72,6 +72,23 @@ export function LegacyStory() {
           <p className="archive-founder-line">
             Founded by Dr. Mohd. Siraj Ur Rahman.
           </p>
+
+          <figure className="archive-founder">
+            <img
+              src={recognitionImage}
+              alt="Dr. Mohd. Siraj Ur Rahman, founder and director of NeoDent Dental Hospitals"
+              loading="lazy"
+            />
+            <figcaption>
+              <b>Dr. Mohd. Siraj Ur Rahman</b>
+              <span>Founder · Director</span>
+            </figcaption>
+            <p className="archive-founder-figure">
+              <strong>35+</strong>
+              <span>Years</span>
+            </p>
+          </figure>
+
           <p className="archive-narrative">
             Established in 1994, NeoDent has grown through{" "}
             <EditorialHighlight tone="primary">
@@ -110,56 +127,70 @@ export function LegacyStory() {
           </p>
         </div>
 
-        <figure className="archive-founder">
-          <img
-            src={recognitionImage}
-            alt="Dr. Mohd. Siraj Ur Rahman, founder and director of NeoDent Dental Hospitals"
-            loading="lazy"
-          />
-          <figcaption>
-            <b>Dr. Mohd. Siraj Ur Rahman</b>
-            <span>Founder · Director</span>
-          </figcaption>
-          <p className="archive-figure">
-            <strong>35+</strong>
-            <span>Years</span>
+        <div className="archive-plates">
+          <p className="archive-plates-label" aria-hidden="true">
+            Three decades, on record
           </p>
-        </figure>
 
-        <figure className="archive-plate archive-plate-press">
-          <img
-            src={legacyPressImage}
-            alt="NeoDent feature in The Siasat Daily, Hyderabad"
-            loading="lazy"
-          />
-          <figcaption>
-            <b>The Siasat Daily</b>
-            <span>Hyderabad</span>
-          </figcaption>
-        </figure>
+          <figure className="archive-plate archive-plate-press">
+            <span className="archive-plate-index" aria-hidden="true">
+              i
+            </span>
+            <img
+              src={legacyPressImage}
+              alt="NeoDent feature in The Siasat Daily, Hyderabad"
+              loading="lazy"
+            />
+            <figcaption>
+              <span className="archive-plate-meta">
+                <b>The Siasat Daily</b>
+                <span>Hyderabad</span>
+              </span>
+              <span className="archive-plate-context">
+                Press feature, Urdu daily
+              </span>
+            </figcaption>
+          </figure>
 
-        <figure className="archive-plate archive-plate-tv">
-          <img
-            src={legacyInterviewImage}
-            alt="NeoDent doctor during a News18 Urdu television interview"
-            loading="lazy"
-          />
-          <figcaption>
-            <b>Television</b>
-            <span>News18 Urdu</span>
-          </figcaption>
-        </figure>
+          <figure className="archive-plate archive-plate-tv">
+            <span className="archive-plate-index" aria-hidden="true">
+              ii
+            </span>
+            <img
+              src={legacyInterviewImage}
+              alt="NeoDent doctor during a News18 Urdu television interview"
+              loading="lazy"
+            />
+            <figcaption>
+              <span className="archive-plate-meta">
+                <b>Television</b>
+                <span>News18 Urdu</span>
+              </span>
+              <span className="archive-plate-context">
+                On-air interview segment
+              </span>
+            </figcaption>
+          </figure>
 
-        <figure className="archive-plate archive-plate-award">
-          <img
-            src={legacyAwardImage}
-            alt="NeoDent recognition archive"
-            loading="lazy"
-          />
-          <figcaption>
-            <b>Recognition</b>
-          </figcaption>
-        </figure>
+          <figure className="archive-plate archive-plate-award">
+            <span className="archive-plate-index" aria-hidden="true">
+              iii
+            </span>
+            <img
+              src={legacyAwardImage}
+              alt="NeoDent recognition archive"
+              loading="lazy"
+            />
+            <figcaption>
+              <span className="archive-plate-meta">
+                <b>Recognition</b>
+              </span>
+              <span className="archive-plate-context">
+                Recognition ceremony
+              </span>
+            </figcaption>
+          </figure>
+        </div>
 
         <p className="archive-impact archive-figure archive-figure-patients">
           <strong>5,000+</strong>

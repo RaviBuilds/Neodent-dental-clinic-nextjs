@@ -6,18 +6,14 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/hero/Hero";
 import { ExperienceIntro } from "@/components/sections/ExperienceIntro";
-import { TrustStrip } from "@/components/sections/TrustStrip";
+import { BrandStatementStrip } from "@/components/sections/BrandStatementStrip";
 import { LegacyStory } from "@/components/sections/LegacyStory";
-import { About } from "@/components/sections/About";
-import { WhyNeodent } from "@/components/sections/WhyNeodent";
 import { Expertise } from "@/components/sections/Expertise";
 import { ClinicalLeadership } from "@/components/sections/ClinicalLeadership";
-import { Doctor } from "@/components/sections/Doctor";
-import { Recognition } from "@/components/sections/Recognition";
-import { Gallery } from "@/components/sections/Gallery";
-import { Experience } from "@/components/sections/Experience";
-import { Contact } from "@/components/sections/Contact";
-import { FinalCta } from "@/components/sections/FinalCta";
+import { PatientStories } from "@/components/sections/PatientStories";
+import { WhatToExpect } from "@/components/sections/WhatToExpect";
+import { SpacesDesignedAroundCare } from "@/components/sections/SpacesDesignedAroundCare";
+import { ContactNextStep } from "@/components/sections/ContactNextStep";
 import { FloatingCta } from "@/components/ui/FloatingCta";
 import { AppointmentModal } from "@/components/ui/AppointmentModal";
 import { LeadCapture } from "@/components/ui/LeadCapture";
@@ -80,18 +76,14 @@ export function Home() {
       <main>
         <Hero />
         <ExperienceIntro />
+        <BrandStatementStrip />
         <LegacyStory />
         <Expertise />
         <ClinicalLeadership />
-        <TrustStrip />
-        <About />
-        <WhyNeodent />
-        <Doctor />
-        <Recognition />
-        <Gallery onImage={(src, alt) => setLightbox({ src, alt })} />
-        <Experience />
-        <Contact onBook={() => setAppointmentOpen(true)} />
-        <FinalCta onBook={() => setAppointmentOpen(true)} />
+        <PatientStories />
+        <WhatToExpect />
+        <SpacesDesignedAroundCare />
+        <ContactNextStep />
       </main>
       <Footer />
       <FloatingCta onBook={() => setAppointmentOpen(true)} />
