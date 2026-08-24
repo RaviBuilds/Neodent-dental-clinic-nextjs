@@ -3,8 +3,8 @@
 // Keep this content in sync with the source of truth until the
 // post-migration content/SEO pass.
 
-export const entranceImage = "/assets/Neodent dental hospital Interior.jpg";
-export const waitingImage = "/assets/Neodent dental hospital Interior.jpg";
+export const entranceImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
+export const waitingImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
 export const doctorImage = "/assets/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png";
 export const recognitionImage =
   "/assets/Dr. Mohd. Siraj Ur Rahman - Neodent Dental Hospital Hyd.png";
@@ -21,15 +21,15 @@ export const tourVideo = "/assets/Neodent dental clinic tour video.mp4";
    desaturated and low-opacity behind a charcoal overlay: texture and
    environment, not a photograph. */
 export const experienceIntroBackdrop =
-  "/assets/Neodent dental hospital Interior.jpg";
-export const treatmentImage = "/assets/Neodent dental hospital Interior.jpg";
-export const equipmentImage = "/assets/Neodent dental hospital Interior.jpg";
-export const detailImage = "/assets/Neodent dental hospital Interior.jpg";
+  "/assets/Neodent dental hospital - nampally Interior.jpg";
+export const treatmentImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
+export const equipmentImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
+export const detailImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
 export const philosophyImage = "/attached_assets/our-philosophy.webp";
 export const legacyPressImage = "/assets/neodent-media-siasat-01.jpg";
 export const legacyInterviewImage = "/assets/dr-siraj-tv-interview.jpg";
 export const legacyAwardImage = "/assets/dr-miftah-award-recognition.jpg";
-export const visitImage = "/assets/Neodent dental hospital Interior.jpg";
+export const visitImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
 export const officialLogo = "/assets/Neodent dental hospital hyderabad logo.jpeg";
 
 export const phone = "+91 9030648393";

@@ -42,7 +42,7 @@ const reelFilms = [
     title: "Clinical Treatment Detail",
     context: "Real clinical treatment by the NeoDent team",
     src: "/assets/dr-miftah-neodent-clinical-treatment-detailed.mp4",
-    poster: "/assets/Neodent dental hospital Interior.jpg",
+    poster: "/assets/Neodent dental hospital - nampally Interior.jpg",
   },
   {
     id: "crown-cementation",
