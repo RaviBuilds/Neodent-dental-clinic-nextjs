@@ -27,7 +27,6 @@ export function ContactClientChrome() {
       <Navbar onBook={() => setAppointmentOpen(true)} />
       <main>
         <section className={styles.hero} aria-labelledby="contact-title">
-          <span className={styles.ghost} aria-hidden="true">08</span>
           <div className={styles.heroInner}>
             <p className={styles.kicker}>Contact / Begin here</p>
             <h1 id="contact-title">Let&apos;s make a <em>beginning.</em></h1>
