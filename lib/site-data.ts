@@ -78,7 +78,7 @@ export const navItems: NavItem[] = [
   { label: "About", href: "/about" },
   { label: "Expertise", href: "/treatments" },
   { label: "Clinic", href: "/clinic" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const galleryItems = [
