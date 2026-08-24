@@ -28,6 +28,14 @@ export function ContactClientChrome() {
               <a href={whatsappConsultLink}><MessageCircle aria-hidden="true" /> WhatsApp us</a>
             </div>
           </div>
+          <div className={styles.geometry} aria-hidden="true">
+            <span className={styles.ghost}>01</span>
+            <span className={styles.verticalRail} />
+            <span className={styles.horizontalRail} />
+            <span className={styles.arc} />
+            <span className={styles.detail} />
+            <span className={styles.registrationDot} />
+          </div>
         </section>
 
         <section className={styles.directory} aria-labelledby="directory-title">
