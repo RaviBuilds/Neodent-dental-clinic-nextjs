@@ -71,7 +71,7 @@ export function Home() {
 
   return (
     <div className="site">
-      <Navbar onBook={() => setAppointmentOpen(true)} />
+      <Navbar />
       <main>
         <Hero />
         <ExperienceIntro />

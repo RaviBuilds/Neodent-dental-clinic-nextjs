@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AppButton } from "@/components/ui/AppButton";
 import { BrandLockup } from "@/components/layout/BrandLockup";
-import { navItems, telPhone, whatsappConsultLink } from "@/lib/site-data";
+import { navItems } from "@/lib/site-data";
 
-export function Navbar({ onBook }: { onBook?: () => void }) {
+export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -40,13 +40,6 @@ export function Navbar({ onBook }: { onBook?: () => void }) {
     return false;
   };
 
-  const handleBookingClick = () => {
-    closeMenu();
-    if (onBook) {
-      onBook();
-    }
-  };
-
   return (
     <header
       className={`nav ${navScrolled ? "scrolled" : ""}`}
@@ -67,15 +60,9 @@ export function Navbar({ onBook }: { onBook?: () => void }) {
             </a>
           ))}
         </nav>
-        {onBook ? (
-          <AppButton onClick={onBook} variant="primary">
-            Book Appointment
-          </AppButton>
-        ) : (
-          <AppButton href={telPhone} variant="primary">
-            Call NeoDent
-          </AppButton>
-        )}
+        <AppButton href="/contact" variant="primary">
+          Talk to NeoDent
+        </AppButton>
         <button
           className="menu-toggle"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -99,15 +86,9 @@ export function Navbar({ onBook }: { onBook?: () => void }) {
             {item.label}
           </a>
         ))}
-        {onBook ? (
-          <AppButton onClick={handleBookingClick} variant="dark">
-            Book Appointment
-          </AppButton>
-        ) : (
-          <AppButton href={whatsappConsultLink} variant="dark">
-            WhatsApp NeoDent
-          </AppButton>
-        )}
+        <AppButton href="/contact" variant="dark" onClick={closeMenu}>
+          Talk to NeoDent
+        </AppButton>
       </div>
     </header>
   );

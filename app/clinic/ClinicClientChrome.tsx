@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { AppointmentModal } from "@/components/ui/AppointmentModal";
 import { OurClinics } from "@/components/clinic/OurClinics";
 import { ClinicalSettings } from "@/components/clinic/ClinicalSettings";
 import { InsideNeoDent } from "@/components/clinic/InsideNeoDent";
@@ -18,28 +17,15 @@ import { InsideNeoDent } from "@/components/clinic/InsideNeoDent";
    ------------------------------------------------------------------ */
 
 export function ClinicClientChrome() {
-  const [appointmentOpen, setAppointmentOpen] = useState(false);
-
-  useEffect(() => {
-    const original = document.body.style.overflow;
-    if (appointmentOpen) document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [appointmentOpen]);
-
   return (
     <div className="site">
-      <Navbar onBook={() => setAppointmentOpen(true)} />
+      <Navbar />
       <main>
         <OurClinics />
         <ClinicalSettings />
         <InsideNeoDent />
       </main>
       <Footer />
-      {appointmentOpen && (
-        <AppointmentModal onClose={() => setAppointmentOpen(false)} />
-      )}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowUpRight, Clock3, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { AppointmentModal } from "@/components/ui/AppointmentModal";
 import { address, directions, nampallyAddress, nampallyDirections, nampallyTelPhone, phone, telPhone, whatsappConsultLink } from "@/lib/site-data";
 import styles from "./contact.module.css";
 
@@ -15,16 +14,9 @@ const steps = [
 ];
 
 export function ContactClientChrome() {
-  const [appointmentOpen, setAppointmentOpen] = useState(false);
-  useEffect(() => {
-    const original = document.body.style.overflow;
-    if (appointmentOpen) document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = original; };
-  }, [appointmentOpen]);
-
   return (
     <div className="site">
-      <Navbar onBook={() => setAppointmentOpen(true)} />
+      <Navbar />
       <main>
         <section className={styles.hero} aria-labelledby="contact-title">
           <div className={styles.heroInner}>
@@ -57,7 +49,6 @@ export function ContactClientChrome() {
         </section>
       </main>
       <Footer />
-      {appointmentOpen && <AppointmentModal onClose={() => setAppointmentOpen(false)} />}
     </div>
   );
 }
