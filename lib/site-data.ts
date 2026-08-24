@@ -9,7 +9,7 @@ export const doctorImage = "/assets/Dr. Md. Miftah Ur Rahman - Neodent Dental Ho
 export const recognitionImage =
   "/assets/Dr. Mohd. Siraj Ur Rahman - Neodent Dental Hospital Hyd.png";
 export const treatmentVideo =
-  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Dr.%20Miftah%20Neodent%20dental%20clinic%20Hyderabad%20-%20treatment%20video-DGRRw5vjVc271Ni7yHPsXcNruG7QvW.mp4";
+  "/assets/Dr. Miftah Neodent dental clinic Hyderabad - treatment video.mp4";
 /* Section 01 (ExperienceIntro) primary visual: the vertical/reel-format
    hospital tour. Kept as its own export (distinct from treatmentVideo,
    which is Dr. Miftah's clinical demonstration used by Doctor.tsx)
