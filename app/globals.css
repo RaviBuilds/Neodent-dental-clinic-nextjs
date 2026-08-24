@@ -8292,7 +8292,7 @@ button {
   margin: 0 auto 24px;
 }
 
-/* Floating CTA tray — persistent Call + WhatsApp + Book Appointment, bottom-right */
+/* Floating CTA tray — persistent Call + WhatsApp, bottom-right */
 .floating-cta {
   position: fixed;
   right: 24px;
@@ -8307,8 +8307,8 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   flex: 0 0 auto;
   border-radius: 50%;
   color: var(--paper);
@@ -8333,6 +8333,13 @@ button {
 }
 .floating-cta-whatsapp:hover {
   background: #345a44;
+}
+.floating-cta-whatsapp-mark {
+  width: 25px;
+  height: 25px;
+}
+.floating-cta-icon:active {
+  transform: translateY(0) scale(0.97);
 }
 .floating-cta-icon:hover {
   transform: translateY(-2px);
@@ -8368,12 +8375,6 @@ button {
 .floating-cta-icon:focus-visible .floating-cta-tooltip {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
-}
-.floating-cta-book {
-  white-space: nowrap;
-  box-shadow:
-    0 10px 24px rgba(16, 45, 48, 0.22),
-    0 2px 8px rgba(16, 45, 48, 0.14);
 }
 @media (prefers-reduced-motion: reduce) {
   .floating-cta-icon,
@@ -9429,20 +9430,16 @@ button {
     padding-bottom: 62px;
   }
 
-  /* Floating CTA on mobile: WhatsApp only, sits above the mobile bar
-     (Call and Book Appointment are already covered by the mobile bar itself) */
+  /* Floating CTA remains a two-button contact utility on mobile */
   .floating-cta {
     right: 14px;
-    bottom: calc(92px + env(safe-area-inset-bottom));
-    gap: 0;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    gap: 10px;
   }
-  .floating-cta-book,
-  .floating-cta-call {
-    display: none;
-  }
+  .floating-cta-icon,
   .floating-cta-whatsapp {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
   .floating-cta-tooltip {
     display: none;
@@ -9773,7 +9770,7 @@ button {
   opacity: 0.7;
 }
 
-/* Beat 02 — the statement. */
+/* Beat 02 ��� the statement. */
 .archive-intro {
   grid-area: intro;
   position: relative;
