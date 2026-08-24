@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowRight, Play } from "lucide-react";
 import { EditorialHighlight } from "@/components/ui/EditorialHighlight";
-const treatmentVideo = "/assets/neodent clinic treatment video for homepage section3.mp4";
+const treatmentVideo = "/assets/dr-miftah-neodent-clinical-treatment-detailed.mp4";
 
 type Treatment = {
   number: string;
