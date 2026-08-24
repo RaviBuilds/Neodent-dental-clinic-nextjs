@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowRight, Pause, Play } from "lucide-react";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
   mehdipatnamInteriorImage,
   nampallyInteriorImage,
@@ -19,147 +19,245 @@ import styles from "./BeyondTheClinic.module.css";
    italic emphasis, 10px/.2em eyebrow, mono metadata). Nothing here
    edits globals.css or any locked homepage section.
 
-   Six editorial acts: three public-education video features (each
-   using its real on-disk .jpg as the poster, click-to-play, no
-   autoplay), Dr. Siraj's television interview as supporting media
-   evidence, the Republic Day community address, a short archive
-   continuation, and a return to present-day NeoDent across
+   Six editorial acts: a horizontal media archive of Dr. Siraj's public
+   television/education appearances (10 YouTube videos, thumbnail
+   facade -> inline iframe on click, no local MP4s), the Republic Day
+   community address with a supporting interview plate, a short press
+   archive continuation, and a return to present-day NeoDent across
    Mehdipatnam and Nampally — closing on two editorial links (no
    appointment booking). ------------------------------------------------------------------ */
 
-type VideoFeature = {
+type MediaArchiveItem = {
   index: string;
-  eyebrow: string;
+  id: string;
+  category: string;
   title: string;
-  src: string;
-  poster: string;
+  description: string;
   ariaLabel: string;
-  description: ReactNode;
 };
 
-const videoFeatures: VideoFeature[] = [
+/* Source of truth: the 10 YouTube videos supplied for this migration.
+   IDs are extracted verbatim from the mapped URLs — do not substitute. */
+const mediaArchive: MediaArchiveItem[] = [
   {
     index: "01",
-    eyebrow: "01 / Dental Education",
-    title: "Understanding children's dental health.",
-    src: "/assets/Early Childhood Dental Caries- Prevalence, Risk Factors, and Prevention - Dr Siraj Ur Rahman Neodent dental clinic hyderabad.mp4",
-    poster:
-      "/assets/Early Childhood Dental Caries- Prevalence, Risk Factors, and Prevention - Dr Siraj Ur Rahman Neodent dental clinic hyderabad.jpg",
+    id: "wyoOo4rcJyw",
+    category: "Dental Education",
+    title: "Common problems in teeth and their treatment.",
+    description:
+      "Dr. Siraj discusses common dental problems and the treatment options available for them, on Doctor Aap Ka.",
     ariaLabel:
-      "Dr. Mohd. Siraj Ur Rahman discussing early childhood dental caries",
-    description: (
-      <>
-        In this talk, Dr. Siraj addresses{" "}
-        <EditorialHighlight tone="secondary" onDark>
-          early childhood dental caries
-        </EditorialHighlight>{" "}
-        — how tooth decay develops in young children, the{" "}
-        <EditorialHighlight tone="quiet" onDark>
-          risk factors parents should be aware of
-        </EditorialHighlight>
-        , and practical steps toward prevention.
-      </>
-    ),
+      "Dr. Mohd. Siraj Ur Rahman discusses common problems in teeth and their treatment, on Doctor Aap Ka",
   },
   {
     index: "02",
-    eyebrow: "02 / Media / Dental Care",
-    title: "Talking about dental care beyond the clinic.",
-    src: "/assets/Hello Parwaz - Discussion Over Dental Care With Dr Siraj Ur Rahman Neodent dental clinic hyderabad - News18 Urdu.mp4",
-    poster:
-      "/assets/Hello Parwaz - Discussion Over Dental Care With Dr Siraj Ur Rahman Neodent dental clinic hyderabad - News18 Urdu.jpg",
+    id: "1mvFEQVS6Ng",
+    category: "Dental Education",
+    title: "Natural remedies for teeth problems.",
+    description:
+      "Dr. Siraj talks through natural remedies sometimes used for teeth problems, on Doctor Aap Ka.",
     ariaLabel:
-      "Dr. Mohd. Siraj Ur Rahman on News18 Urdu's Hello Parwaz discussing dental care",
-    description: (
-      <>
-        Appearing on{" "}
-        <EditorialHighlight tone="secondary" onDark>
-          Hello Parwaz, a live call-in programme on News18 Urdu
-        </EditorialHighlight>
-        , Dr. Siraj took viewer questions on{" "}
-        <EditorialHighlight tone="quiet" onDark>
-          everyday dental concerns
-        </EditorialHighlight>
-        , extending NeoDent&apos;s approach to patient education beyond the
-        consultation room.
-      </>
-    ),
+      "Dr. Mohd. Siraj Ur Rahman on natural remedies for teeth problems, Doctor Aap Ka",
   },
   {
     index: "03",
-    eyebrow: "03 / Oral Health Awareness",
-    title: "Connecting oral health with wider wellbeing.",
-    src: "/assets/Oral Health and Heart diseases Dr. Siraj Neodent dental clinic hyderabad.mp4",
-    poster:
-      "/assets/Oral Health and Heart diseases Dr. Siraj Neodent dental clinic hyderabad.jpg",
+    id: "fyOPiUwqlKg",
+    category: "Media / Dental Care",
+    title: "Doctor se Mulaqat with Dr. Siraj Ur Rahman.",
+    description:
+      "A televised conversation with Dr. Siraj Ur Rahman, MDS in Prosthodontics, on the programme Doctor se Mulaqat.",
     ariaLabel:
-      "Dr. Mohd. Siraj Ur Rahman discussing the link between oral health and heart disease",
-    description: (
-      <>
-        On the programme{" "}
-        <EditorialHighlight tone="secondary" onDark>
-          Health aur Hum
-        </EditorialHighlight>
-        , Dr. Siraj discusses the connection between{" "}
-        <EditorialHighlight tone="quiet" onDark>
-          oral health and cardiovascular wellbeing
-        </EditorialHighlight>
-        , part of NeoDent&apos;s broader effort to communicate why dental care
-        matters beyond the mouth alone.
-      </>
-    ),
+      "Doctor se Mulaqat — a televised conversation with Dr. Siraj Ur Rahman, MDS Prosthodontics",
+  },
+  {
+    index: "04",
+    id: "c0bN_Vp2saE",
+    category: "Media / Dental Care",
+    title: "Dr. Siraj Ur Rahman on ETV.",
+    description: "Dr. Siraj Ur Rahman featured on an ETV health programme.",
+    ariaLabel: "Dr. Siraj Ur Rahman featured on ETV",
+  },
+  {
+    index: "05",
+    id: "-FHNS50wXUY",
+    category: "Media / Dental Care",
+    title: "Aap Ki Sehat — Dr. Siraj Ur Rahman.",
+    description:
+      "Dr. Siraj appears on the televised health programme Aap Ki Sehat.",
+    ariaLabel: "Dr. Siraj Ur Rahman on the television programme Aap Ki Sehat",
+  },
+  {
+    index: "06",
+    id: "DxihwtF4SMw",
+    category: "Media / Dental Care",
+    title: "Dr. Siraj Ur Rahman, Dentist.",
+    description:
+      "A short televised feature introducing Dr. Siraj Ur Rahman's work as a dentist.",
+    ariaLabel:
+      "A televised feature introducing Dr. Siraj Ur Rahman, dentist",
+  },
+  {
+    index: "07",
+    id: "T46vwgiUvm4",
+    category: "Dental Education",
+    title: "Early childhood dental caries: prevalence, risk factors and prevention.",
+    description:
+      "Dr. Siraj discusses early childhood dental caries — how common it is, its risk factors, and prevention.",
+    ariaLabel:
+      "Dr. Siraj Ur Rahman discusses early childhood dental caries: prevalence, risk factors and prevention",
+  },
+  {
+    index: "08",
+    id: "yF-UJruuj6k",
+    category: "Oral Health Awareness",
+    title: "Diabetes and dental health.",
+    description:
+      "Dr. Siraj discusses the connection between diabetes and dental health.",
+    ariaLabel: "Dr. Siraj Ur Rahman discusses diabetes and dental health",
+  },
+  {
+    index: "09",
+    id: "u5DaLNpIHzE",
+    category: "Oral Health Awareness",
+    title: "Oral cancer — an awareness lecture.",
+    description: "A lecture by Dr. Siraj on oral cancer awareness.",
+    ariaLabel: "Dr. Siraj Ur Rahman's lecture on oral cancer awareness",
+  },
+  {
+    index: "10",
+    id: "PjNTMD_ZGy4",
+    category: "Media / Dental Care",
+    title: "Dr. Md Siraj Ur Rahman.",
+    description: "A televised feature on Dr. Md Siraj Ur Rahman.",
+    ariaLabel: "A televised feature on Dr. Md Siraj Ur Rahman",
   },
 ];
 
-function VideoCard({ feature }: { feature: VideoFeature }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const toggle = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      void video.play().catch(() => undefined);
-      setPlaying(true);
-    } else {
-      video.pause();
-      setPlaying(false);
-    }
-  };
+function MediaArchiveCard({ item }: { item: MediaArchiveItem }) {
+  const [activated, setActivated] = useState(false);
+  const thumbnail = `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`;
 
   return (
-    <article className={styles.videoCard}>
+    <article className={styles.videoCard} role="listitem">
       <div className={styles.videoCopy}>
-        <p className={styles.actEyebrow}>{feature.eyebrow}</p>
-        <h3 className={styles.videoTitle}>{feature.title}</h3>
-        <p className={styles.videoText}>{feature.description}</p>
+        <p className={styles.actEyebrow}>
+          {item.index} / {item.category}
+        </p>
+        <h3 className={styles.videoTitle}>{item.title}</h3>
+        <p className={styles.videoText}>{item.description}</p>
       </div>
       <figure className={styles.videoFrame}>
         <span className={styles.videoRegistration} aria-hidden="true" />
-        <video
-          ref={videoRef}
-          src={feature.src}
-          poster={feature.poster}
-          aria-label={feature.ariaLabel}
-          playsInline
-          preload="metadata"
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
-          onEnded={() => setPlaying(false)}
-        />
-        <div className={styles.videoTop}>
-          <span>{feature.index} / DENTAL EDUCATION</span>
-        </div>
-        <button
-          type="button"
-          className={styles.videoControl}
-          onClick={toggle}
-          aria-label={playing ? `Pause: ${feature.title}` : `Play: ${feature.title}`}
-        >
-          {playing ? <Pause size={14} /> : <Play size={14} />}
-        </button>
+        {activated ? (
+          <iframe
+            className={styles.mediaIframe}
+            src={`https://www.youtube-nocookie.com/embed/${item.id}?rel=0`}
+            title={item.ariaLabel}
+            loading="lazy"
+            allow="accelerometer; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+        ) : (
+          <>
+            <button
+              type="button"
+              className={styles.mediaFacade}
+              onClick={() => setActivated(true)}
+              aria-label={`Play: ${item.ariaLabel}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={thumbnail} alt="" loading="lazy" />
+              <span className={styles.mediaPlayButton} aria-hidden="true">
+                <Play size={16} />
+              </span>
+            </button>
+            <div className={styles.videoTop}>
+              <span>
+                {item.index} / {item.category}
+              </span>
+            </div>
+          </>
+        )}
       </figure>
     </article>
+  );
+}
+
+function MediaArchiveCarousel({
+  containerRef,
+  visible,
+}: {
+  containerRef: RefObject<HTMLDivElement | null>;
+  visible: boolean;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setAtStart(el.scrollLeft <= 4);
+      setAtEnd(el.scrollLeft >= max - 4);
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  const scrollByCard = (direction: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: direction * el.clientWidth * 0.86, behavior: "smooth" });
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={`${styles.archiveBlock} ${visible ? styles.blockVisible : ""}`}
+    >
+      <div className={styles.archiveHead}>
+        <div>
+          <p className={styles.actEyebrow}>Media Archive</p>
+          <h2 className={styles.actTitle}>
+            A public conversation about dental care.
+          </h2>
+        </div>
+        <div className={styles.archiveNav}>
+          <button
+            type="button"
+            className={styles.archiveNavBtn}
+            onClick={() => scrollByCard(-1)}
+            disabled={atStart}
+            aria-label="Scroll to previous videos"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            className={styles.archiveNavBtn}
+            onClick={() => scrollByCard(1)}
+            disabled={atEnd}
+            aria-label="Scroll to next videos"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+      <div ref={trackRef} className={styles.videoGrid} role="list">
+        {mediaArchive.map((item) => (
+          <MediaArchiveCard item={item} key={item.id} />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -245,15 +343,8 @@ export function BeyondTheClinic() {
           </p>
         </div>
 
-        {/* ---- Acts 01-03 — Video features -------------------------- */}
-        <div
-          ref={videosRef}
-          className={`${styles.videoGrid} ${videosVisible ? styles.blockVisible : ""}`}
-        >
-          {videoFeatures.map((feature) => (
-            <VideoCard feature={feature} key={feature.index} />
-          ))}
-        </div>
+        {/* ---- Act 01 — YouTube media archive -------------------------- */}
+        <MediaArchiveCarousel containerRef={videosRef} visible={videosVisible} />
 
         {/* ---- Act 04 — Community presence + TV interview ------------ */}
         <div

@@ -198,11 +198,9 @@
   text-underline-offset: 2px;
 }
 
-/* ---- Acts 01-03 — Video grid ------------------------------------------ */
-.videoGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(24px, 3vw, 40px);
+/* ---- Act 01 — YouTube media archive ------------------------------------ */
+.archiveBlock {
+  --archive-gap: clamp(20px, 2.4vw, 32px);
   margin-top: clamp(64px, 7vw, 96px);
   padding-top: clamp(48px, 6vw, 72px);
   border-top: 1px solid rgba(241, 238, 231, 0.14);
@@ -210,9 +208,65 @@
   transform: translateY(16px);
   transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+.archiveHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(28px, 3.4vw, 40px);
+}
+.archiveHead .actTitle {
+  margin-bottom: 0;
+  max-width: 480px;
+}
+.archiveNav {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.archiveNavBtn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(241, 238, 231, 0.28);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ivory);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.archiveNavBtn:hover:not(:disabled),
+.archiveNavBtn:focus-visible {
+  border-color: var(--red);
+  color: var(--red);
+}
+.archiveNavBtn:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+/* Horizontal scroll track — native scroll drives position; no JS
+   re-implementation of touch/trackpad/wheel behaviour. */
+.videoGrid {
+  display: flex;
+  gap: var(--archive-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  margin: 0 -1px;
+}
+.videoGrid::-webkit-scrollbar {
+  display: none;
+}
 .videoCard {
   display: flex;
   flex-direction: column;
+  flex: 0 0 auto;
+  width: calc((100% - 2 * var(--archive-gap)) / 3);
+  scroll-snap-align: start;
 }
 .videoCopy {
   order: 2;
@@ -221,9 +275,9 @@
 .videoTitle {
   margin: 0 0 10px;
   font-family: var(--app-font-serif);
-  font-size: clamp(1.15rem, 1.4vw, 1.4rem);
+  font-size: clamp(1.1rem, 1.3vw, 1.3rem);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.22;
   letter-spacing: -0.01em;
 }
 .videoText {
@@ -240,13 +294,6 @@
   overflow: hidden;
   border: 1px solid rgba(241, 238, 231, 0.22);
   background: #1b1d1f;
-}
-.videoFrame video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: saturate(0.85) contrast(1.03);
 }
 .videoRegistration {
   position: absolute;
@@ -267,26 +314,70 @@
   text-transform: uppercase;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
-.videoControl {
+
+/* YouTube thumbnail facade — replaced by the iframe only after click */
+.mediaFacade {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: #1b1d1f;
+  cursor: pointer;
+}
+.mediaFacade img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.03);
+  transition: filter 0.2s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mediaFacade:hover img,
+.mediaFacade:focus-visible img {
+  filter: saturate(0.95) contrast(1.05);
+  transform: scale(1.02);
+}
+.mediaFacade::after {
+  content: "";
   position: absolute;
-  right: 14px;
-  bottom: 14px;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.28));
+}
+.mediaFacade:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: -2px;
+}
+.mediaPlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgba(241, 238, 231, 0.7);
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border: 1px solid rgba(241, 238, 231, 0.75);
   border-radius: 50%;
-  background: rgba(21, 23, 26, 0.72);
+  background: rgba(21, 23, 26, 0.6);
   color: var(--ivory);
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
-.videoControl:hover,
-.videoControl:focus-visible {
+.mediaFacade:hover .mediaPlayButton,
+.mediaFacade:focus-visible .mediaPlayButton {
   border-color: var(--red);
-  background: rgba(21, 23, 26, 0.88);
+  background: rgba(215, 25, 32, 0.88);
+  transform: translate(0, 0) scale(1.05);
+}
+
+.mediaIframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* ---- Act 04 — Community + interview ------------------------------------ */
@@ -463,17 +554,17 @@
 
 /* ---- Responsive ------------------------------------------------------------ */
 @media (max-width: 1100px) {
-  .videoGrid { gap: 28px; }
+  .videoGrid { gap: 24px; }
 }
 
 @media (max-width: 1024px) {
   .community { grid-template-columns: 0.42fr 0.58fr; }
   .archiveContinuation { grid-template-columns: 0.5fr 0.5fr; }
   .today { grid-template-columns: 0.44fr 0.56fr; }
+  .videoCard { width: calc((100% - var(--archive-gap)) / 2); }
 }
 
 @media (max-width: 900px) {
-  .videoGrid { grid-template-columns: 1fr 1fr; }
   .community { grid-template-columns: 1fr; gap: 28px; }
   .communityImage { max-width: 460px; }
   .archiveContinuation { grid-template-columns: 1fr; gap: 24px; }
@@ -489,7 +580,7 @@
   .title { font-size: clamp(2rem, 8.4vw, 2.6rem); }
   .intro { max-width: none; }
   .actText { max-width: none; }
-  .videoGrid,
+  .archiveBlock,
   .community,
   .archiveContinuation,
   .today,
@@ -497,7 +588,9 @@
     margin-top: 56px;
     padding-top: 32px;
   }
-  .videoGrid { grid-template-columns: 1fr; gap: 32px; }
+  .archiveHead { align-items: flex-start; }
+  .archiveHead .actTitle { max-width: none; }
+  .videoCard { width: min(84%, 360px); }
   .interviewPlate { width: min(220px, 70%); }
   .todaySecondary { width: 52%; right: 0; margin-left: auto; }
   .ctaRow { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -506,17 +599,21 @@
 @media (max-width: 430px) {
   .archiveContinuationPlates { flex-direction: column; }
   .archiveContinuationPlates figure:nth-child(2) { margin-top: 0; }
+  .videoCard { width: 88%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .intro,
-  .videoGrid,
+  .archiveBlock,
   .community,
   .archiveContinuation,
   .today,
   .ctaRow,
   .cta,
-  .videoControl {
+  .mediaFacade,
+  .mediaFacade img,
+  .mediaPlayButton,
+  .archiveNavBtn {
     transition: none;
     opacity: 1;
     transform: none;
