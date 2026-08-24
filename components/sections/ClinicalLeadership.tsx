@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import styles from "./ClinicalLeadership.module.css";
@@ -12,7 +13,16 @@ const proofs = [
   ["04", "Experience / leadership", "15+ years · Assistant Director · NeoDent"],
 ];
 
-const team = [
+type TeamMember = {
+  label: string;
+  name: ReactNode;
+  degrees: ReactNode;
+  image: string | null;
+  alt: string;
+  initials?: string;
+};
+
+const team: TeamMember[] = [
   {
     label: "01 / SENIOR CLINICAL LEADERSHIP",
     name: <>Dr. Mohd. Siraj<br />Ur Rahman</>,
@@ -33,6 +43,7 @@ const team = [
     degrees: <>MBBS (OSM) · MRSH (LON)<br />30+ years</>,
     image: null,
     alt: "Dr. Asiya Siraj",
+    initials: "AS",
   },
   {
     label: "04 / CLINICAL TEAM",
@@ -40,23 +51,33 @@ const team = [
     degrees: <>BDS · 12+ years</>,
     image: null,
     alt: "Dr. Safoora Talha",
+    initials: "ST",
   },
 ];
 
-/* Generic, non-photographic placeholder used only where no authentic
-   NeoDent portrait exists (Dr. Asiya, Dr. Safoora). A quiet bust
-   silhouette on the same charcoal field as the real photographs --
-   never an invented likeness, never a stock photo standing in for a
-   real, named clinician -- so all four team cards keep one identical
-   frame while staying honest about which portraits are on file. */
-function PortraitPlaceholder({ label }: { label: string }) {
+/* Editorial identity plate used only where no authentic NeoDent
+   portrait exists yet (Dr. Asiya, Dr. Safoora). It intentionally does
+   NOT imply a likeness: an abstract, feature-less head-and-shoulders
+   line sits far behind a ghost-serif initials mark, dressed in the
+   same registration-dot / hairline / arc vocabulary used across the
+   site (see .guide, .filmFocusRing, .filmRegistration). Never a stock
+   photo or invented portrait standing in for a real, named clinician
+   -- the plate is deliberately its own honest, on-brand object, sized
+   to the same frame as a real photograph so all four cards still read
+   as one design system. */
+function EditorialPortraitPlaceholder({ initials, name }: { initials: string; name: string }) {
   return (
-    <div className={styles.teamPlaceholder} role="img" aria-label={`${label} portrait not yet available`}>
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-        <circle cx="22" cy="16" r="8.5" stroke="currentColor" strokeWidth="1.4" />
-        <path d="M6 40c0-8.837 7.163-15 16-15s16 6.163 16 15" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <div className={styles.identityPlate} role="img" aria-label={`${name} — portrait not available`}>
+      <svg className={styles.plateSilhouette} viewBox="0 0 120 160" fill="none" aria-hidden="true" focusable="false">
+        <circle cx="60" cy="50" r="25" strokeWidth="1" />
+        <path d="M14 158c0-31.5 20.6-57 46-57s46 25.5 46 57" strokeWidth="1" />
       </svg>
-      <span>Portrait on file</span>
+      <i className={styles.plateArc} aria-hidden="true" />
+      <i className={styles.plateAxis} aria-hidden="true" />
+      <i className={styles.plateRule} aria-hidden="true" />
+      <i className={styles.plateDot} aria-hidden="true" />
+      <span className={styles.plateInitials} aria-hidden="true">{initials}</span>
+      <span className={styles.plateLabel} aria-hidden="true">Portrait not available</span>
     </div>
   );
 }
@@ -199,9 +220,9 @@ export function ClinicalLeadership() {
             ratio, same label/name/degree stack -- so the roster reads as
             one coherent system. Hierarchy is carried by order and the
             numbered label text, not by unequal card sizes. Dr. Asiya and
-            Dr. Safoora use the generic, non-photographic placeholder
-            above (never an invented likeness) so all four cards still
-            share one identical design standard. */}
+            Dr. Safoora use the editorial identity plate above (never an
+            invented likeness) so all four cards still share one
+            identical design standard. */}
         <div className={styles.team}>
           {team.map((member) => (
             <article className={styles.member} key={member.label}>
@@ -210,7 +231,7 @@ export function ClinicalLeadership() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={member.image} alt={member.alt} />
                 ) : (
-                  <PortraitPlaceholder label={member.label} />
+                  <EditorialPortraitPlaceholder initials={member.initials ?? ""} name={member.alt} />
                 )}
               </div>
               <span>{member.label}</span>

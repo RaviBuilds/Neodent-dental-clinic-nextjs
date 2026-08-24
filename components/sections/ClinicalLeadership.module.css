@@ -334,25 +334,104 @@
   border: 1px solid rgba(241, 238, 231, 0.14);
 }
 .memberImage img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: grayscale(.15) saturate(.75); }
-/* Non-photographic placeholder for team members with no authentic
-   portrait on file yet -- a quiet bust silhouette, never an invented
-   likeness or stock photo standing in for a named clinician, sized to
-   fill the exact same frame as a real photograph so all four cards
-   stay visually consistent. */
-.teamPlaceholder {
+/* Editorial identity plate for team members with no authentic portrait
+   on file yet. Deliberately not a photograph and not a bust icon: an
+   oversized ghost-serif initials mark carries the identity, an
+   extremely faint abstract head-and-shoulders line sits far behind it
+   (no facial features, no skin tone, no hair -- a pure architectural
+   outline), and the same registration-dot / hairline / arc vocabulary
+   used elsewhere in this section (.guide, .filmFocusRing,
+   .filmRegistration) dresses the frame so it reads as an intentional
+   NeoDent object rather than a missing image. Fills the exact same
+   frame as a real photograph so all four cards stay visually
+   consistent. */
+.identityPlate {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  color: rgba(241, 238, 231, 0.28);
+  overflow: hidden;
   background:
     radial-gradient(ellipse at 50% 34%, rgba(241, 238, 231, 0.05), transparent 60%),
     #1b1d1f;
 }
-.teamPlaceholder span { font: 8px var(--app-font-mono, monospace); letter-spacing: .16em; text-transform: uppercase; color: rgba(241, 238, 231, 0.24); }
+.plateSilhouette {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 68%;
+  transform: translate(-50%, -46%);
+  stroke: rgba(241, 238, 231, 0.05);
+  fill: none;
+  z-index: 0;
+}
+.plateInitials {
+  position: relative;
+  z-index: 1;
+  font-family: var(--app-font-serif);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  letter-spacing: -.02em;
+  color: rgba(241, 238, 231, 0.32);
+  line-height: 1;
+}
+.plateLabel {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  font: 8px var(--app-font-mono, monospace);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(241, 238, 231, 0.24);
+}
+/* Restrained NeoDent drafting geometry, matching .guide / .filmFocusRing
+   / .filmRegistration elsewhere in this section -- a thin rule, a
+   vertical axis, one registration dot and a faint arc, never purely
+   decorative additions. */
+.plateRule {
+  position: absolute;
+  top: 26px;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: rgba(241, 238, 231, 0.14);
+  z-index: 1;
+}
+.plateAxis {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(241, 238, 231, 0.06);
+  z-index: 0;
+}
+.plateDot {
+  position: absolute;
+  top: 26px;
+  right: 16px;
+  width: 4px;
+  height: 4px;
+  margin-top: -1.5px;
+  margin-right: -2px;
+  border-radius: 50%;
+  background: var(--red);
+  opacity: .55;
+  z-index: 1;
+}
+.plateArc {
+  position: absolute;
+  bottom: -34px;
+  right: -34px;
+  width: 84px;
+  height: 84px;
+  border: 1px solid rgba(215, 25, 32, 0.14);
+  border-radius: 50%;
+  z-index: 0;
+}
 .member > span { display: block; color: var(--muted); font-size: 9px; }
 .member h3 { margin: 13px 0 10px; font-family: var(--app-font-serif); font-size: 19px; font-weight: 400; line-height: 1.02; letter-spacing: -.01em; }
 .member p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
