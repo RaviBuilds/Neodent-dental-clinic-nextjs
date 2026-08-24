@@ -317,15 +317,9 @@ export function SpacesDesignedAroundCare() {
             <span className={styles.brandLineTick} aria-hidden="true" />
             Two locations. One NeoDent standard.
           </p>
-          {/* Not yet wired: a dedicated Clinic/Locations page does not
-              exist in this multipage site yet. Rendered as plain text
-              (matching PatientStories' "Explore all patient stories"
-              pattern) rather than pointing at a fake route, so it reads
-              as intentional and complete without claiming to be
-              interactive until that page exists. */}
-          <span className={styles.cta}>
+          <a href="/clinic" className={styles.cta}>
             Explore our clinics <ArrowRight size={14} aria-hidden="true" />
-          </span>
+          </a>
         </div>
       </div>
     </section>

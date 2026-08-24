@@ -70,11 +70,14 @@ export const nampallyDirections =
 export const LEAD_CAPTURE_SESSION_KEY = "neodent-lead-capture-shown";
 
 export type NavItem = { label: string; href: string };
+export const nampallyAddress = "Medwin Hospital Complex, Pillar #A1270, Nampally, Hyderabad, Telangana 500001";
+export const mehdipatnamAddress = "10-3-14B/11/1, Humayun Nagar Rd, near Azzia Masjid, Royal Colony, Humayun Nagar, Hyderabad, Telangana 500006";
+
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Expertise", href: "/treatments" },
-  { label: "Clinic", href: "#clinic" },
+  { label: "Clinic", href: "/clinic" },
   { label: "Contact", href: "#contact" },
 ];
 
