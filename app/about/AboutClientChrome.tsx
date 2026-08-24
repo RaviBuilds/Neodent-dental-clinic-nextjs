@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { AppointmentModal } from "@/components/ui/AppointmentModal";
 import { LegacyAndPeople } from "@/components/sections/about/LegacyAndPeople";
 import { BeyondTheClinic } from "@/components/sections/about/BeyondTheClinic";
 
@@ -23,27 +22,14 @@ import { BeyondTheClinic } from "@/components/sections/about/BeyondTheClinic";
    since those were not part of the approved About page scope. ------------------------------------------------------------------ */
 
 export function AboutClientChrome() {
-  const [appointmentOpen, setAppointmentOpen] = useState(false);
-
-  useEffect(() => {
-    const original = document.body.style.overflow;
-    if (appointmentOpen) document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [appointmentOpen]);
-
   return (
     <div className="site">
-      <Navbar onBook={() => setAppointmentOpen(true)} />
+      <Navbar />
       <main>
         <LegacyAndPeople />
         <BeyondTheClinic />
       </main>
       <Footer />
-      {appointmentOpen && (
-        <AppointmentModal onClose={() => setAppointmentOpen(false)} />
-      )}
     </div>
   );
 }

@@ -14,7 +14,6 @@ import { PatientStories } from "@/components/sections/PatientStories";
 import { WhatToExpect } from "@/components/sections/WhatToExpect";
 import { SpacesDesignedAroundCare } from "@/components/sections/SpacesDesignedAroundCare";
 import { ContactNextStep } from "@/components/sections/ContactNextStep";
-import { FloatingCta } from "@/components/ui/FloatingCta";
 import { AppointmentModal } from "@/components/ui/AppointmentModal";
 import { LeadCapture } from "@/components/ui/LeadCapture";
 import { AppButton } from "@/components/ui/AppButton";
@@ -72,7 +71,7 @@ export function Home() {
 
   return (
     <div className="site">
-      <Navbar onBook={() => setAppointmentOpen(true)} />
+      <Navbar />
       <main>
         <Hero />
         <ExperienceIntro />
@@ -86,7 +85,6 @@ export function Home() {
         <ContactNextStep />
       </main>
       <Footer />
-      <FloatingCta onBook={() => setAppointmentOpen(true)} />
       <div className="mobile-bar">
         <AppButton href={telPhone} variant="ghost">
           <Phone size={14} /> Call

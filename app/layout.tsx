@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { FloatingCta } from "@/components/ui/FloatingCta";
 
 export const metadata: Metadata = {
   title: "Neodent Dental Hospitals | Expert Dental Care in Hyderabad",
@@ -49,7 +50,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <FloatingCta />
+      </body>
     </html>
   );
 }
