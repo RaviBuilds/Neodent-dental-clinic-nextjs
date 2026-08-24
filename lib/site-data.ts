@@ -230,10 +230,12 @@ export const heroBranches: readonly HeroBranch[] = [
      - dr-miftah-award-recognition.jpg — would make an individual
        doctor the focal point of an institutional slide. Dr. Miftah is
        introduced properly in his own Doctor section.
-     - Dr-siraj-addressing-gathering-at-govt-dental-collage-hyderabad.jpg
-       — carries burned-in subtitle text in a non-brand typeface across
-       the lower third. Cropping it out removes the only thing that
-       identifies the event; leaving it in breaks the type system.
+     - "Dr Md Siraj addressing the gathering at govt dental collage and
+       hospital hyderabd.jpg" — carries burned-in subtitle text in a
+       non-brand typeface across the lower third. Cropping it out
+       removes the only thing that identifies the event; leaving it in
+       breaks the type system. (Already used, uncropped, by the
+       Republic Day address figure in BeyondTheClinic.tsx.)
      - neodent-mark.png, both doctor portraits, the treatment video —
        already carried by Slides 01/02 and the Doctor section.
    NOTE: neodent-media-siasat-02.jpg does not exist in this project.
