@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import { ArrowRight, Clock3, MapPin, Phone, X } from "lucide-react";
+import { Clock3, MapPin, MessageCircle, Phone, X } from "lucide-react";
 import { AppButton } from "@/components/ui/AppButton";
-import { directions, telPhone } from "@/lib/site-data";
+import { directions, telPhone, whatsappLink } from "@/lib/site-data";
 
 export function LeadCapture({
   onClose,
-  onBook,
 }: {
   onClose: () => void;
-  onBook: () => void;
 }) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -41,16 +39,16 @@ export function LeadCapture({
         <div className="eyebrow lead-eyebrow">Before you go</div>
         <h2 id="lead-capture-title">Let&apos;s make it easy to visit.</h2>
         <p className="lead-sub">
-          Book a time, call the clinic, or find your way to Humayun Nagar —
-          whichever feels right.
+          Message us on WhatsApp, call the clinic, or find your way to
+          Humayun Nagar — whichever feels right.
         </p>
         <div className="lead-hours">
           <Clock3 size={14} strokeWidth={2} />
-          <span>Open today, 04:00 PM – 09:00 PM</span>
+          <span>Open today, 10:00 AM – 08:00 PM</span>
         </div>
         <div className="lead-actions">
-          <AppButton onClick={onBook} variant="primary">
-            Book an Appointment <ArrowRight size={14} />
+          <AppButton href={whatsappLink} variant="primary">
+            <MessageCircle size={14} /> WhatsApp the Clinic
           </AppButton>
           <AppButton href={telPhone} variant="ghost">
             <Phone size={14} /> Call the Clinic

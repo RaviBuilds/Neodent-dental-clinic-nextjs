@@ -41,15 +41,15 @@ const reelFilms = [
     number: "01",
     title: "Clinical Treatment Detail",
     context: "Real clinical treatment by the NeoDent team",
-    src: "/assets/dr-miftah-neodent-clinical-treatment-detailed.mp4",
-    poster: "/assets/Neodent dental hospital - nampally Interior.jpg",
+    src: "/assets/treatment-video/dr-miftah-neodent-clinical-treatment-detailed.mp4",
+    poster: "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg",
   },
   {
     id: "crown-cementation",
     number: "02",
     title: "Crown Cementation",
     context: "Cementation procedure / Dr. Md. Miftah Ur Rahman",
-    src: "/assets/dr-miftah-neodent-crown-cementation-procedure.mp4",
+    src: "/assets/treatment-video/dr-miftah-neodent-crown-cementation-procedure.mp4",
     poster: "/assets/neodent-dmls-crowns-dental-model-side-view.jpg",
   },
   {
@@ -57,7 +57,7 @@ const reelFilms = [
     number: "03",
     title: "Treatment in Practice",
     context: "Clinical dental procedure at NeoDent",
-    src: "/assets/dr-miftah-neodent-dental-treatment-procedure.mp4",
+    src: "/assets/treatment-video/dr-miftah-neodent-dental-treatment-procedure.mp4",
     poster: "/assets/Dr Siraj and Dr. Miftah Neodent dental clinic - during treatment.webp",
   },
 ];
@@ -217,14 +217,14 @@ export function RealTreatmentWork() {
                 <video
                   ref={featuredVideoRef}
                   className={styles.featureVideo}
-                  poster="/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg"
+                  poster="/assets/treatment/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg"
                   preload="metadata"
                   playsInline
                   controls={featuredPlaying}
                   aria-label="Full mouth rehabilitation using dental implants at NeoDent Dental Hospital Mehdipatnam"
                 >
                   <source
-                    src="/assets/neodent-full-mouth-rehabilitation-using-dental-implants.mp4"
+                    src="/assets/treatment-video/neodent-full-mouth-rehabilitation-using-dental-implants.mp4"
                     type="video/mp4"
                   />
                 </video>

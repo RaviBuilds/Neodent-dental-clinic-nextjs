@@ -48,8 +48,8 @@ export const featuredTreatment: Treatment = {
     },
   ],
   beforeAfter: {
-    beforeSrc: "/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - before surgery.jpg",
-    afterSrc: "/assets/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg",
+    beforeSrc: "/assets/treatment/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - before surgery.jpg",
+    afterSrc: "/assets/treatment/Neodent dental Hospital Mehdipatnam - full mouth rehab with implants - after surgery.jpg",
     beforeLabel: "Before Surgery",
     afterLabel: "After Surgery",
     caption: "Full mouth rehabilitation with dental implants — Mehdipatnam",
@@ -70,8 +70,8 @@ export const treatmentAtlas: Treatment[] = [
       },
     ],
     beforeAfter: {
-      beforeSrc: "/assets/Neodent dental hospital Nampally - Upper Arch Rehab with implants - before surgery.jpg",
-      afterSrc: "/assets/Neodent dental hospital Nampally - Upper Arch Rehab with implants - after surgery.jpg",
+      beforeSrc: "/assets/treatment/Neodent dental hospital Nampally - Upper Arch Rehab with implants - before surgery.jpg",
+      afterSrc: "/assets/treatment/Neodent dental hospital Nampally - Upper Arch Rehab with implants - after surgery.jpg",
       beforeLabel: "Before Surgery",
       afterLabel: "After Surgery",
       caption: "Upper arch rehabilitation with dental implants — Nampally",
@@ -118,8 +118,8 @@ export const treatmentAtlas: Treatment[] = [
       },
     ],
     beforeAfter: {
-      beforeSrc: "/assets/Neodent dental hospital Hyderabad - Anterior Smile design of an accident case with zirconia crowns -before treatment.jpg",
-      afterSrc: "/assets/Neodent dental hospital Hyderabad - Anterior Smile design of an accident case with zirconia crowns -after treatment.jpg",
+      beforeSrc: "/assets/treatment/Neodent dental hospital Hyderabad - Anterior Smile design of an accident case with zirconia crowns -before treatment.jpg",
+      afterSrc: "/assets/treatment/Neodent dental hospital Hyderabad - Anterior Smile design of an accident case with zirconia crowns -after treatment.jpg",
       beforeLabel: "Before Treatment",
       afterLabel: "After Treatment",
       caption: "Anterior smile design with zirconia crowns — accident case restoration",

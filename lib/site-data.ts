@@ -3,13 +3,13 @@
 // Keep this content in sync with the source of truth until the
 // post-migration content/SEO pass.
 
-export const entranceImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
-export const waitingImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
-export const doctorImage = "/assets/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png";
+export const entranceImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+export const waitingImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+export const doctorImage = "/assets/dr-miftah/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png";
 export const recognitionImage =
   "/assets/Dr. Mohd. Siraj Ur Rahman - Neodent Dental Hospital Hyd.png";
 export const treatmentVideo =
-  "/assets/Dr. Miftah Neodent dental clinic Hyderabad - treatment video.mp4";
+  "/assets/treatment-video/Dr. Miftah Neodent dental clinic Hyderabad - treatment video.mp4";
 /* Section 01 (ExperienceIntro) primary visual: the vertical/reel-format
    hospital tour. Kept as its own export (distinct from treatmentVideo,
    which is Dr. Miftah's clinical demonstration used by Doctor.tsx)
@@ -21,15 +21,15 @@ export const tourVideo = "/assets/Neodent dental clinic tour video.mp4";
    desaturated and low-opacity behind a charcoal overlay: texture and
    environment, not a photograph. */
 export const experienceIntroBackdrop =
-  "/assets/Neodent dental hospital - nampally Interior.jpg";
-export const treatmentImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
-export const equipmentImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
-export const detailImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
+  "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+export const treatmentImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+export const equipmentImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+export const detailImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
 export const philosophyImage = "/attached_assets/our-philosophy.webp";
-export const legacyPressImage = "/assets/neodent-media-siasat-01.jpg";
+export const legacyPressImage = "/assets/news-articles/neodent-media-siasat-01.jpg";
 export const legacyInterviewImage = "/assets/dr-siraj-tv-interview.jpg";
-export const legacyAwardImage = "/assets/dr-miftah-award-recognition.jpg";
-export const visitImage = "/assets/Neodent dental hospital - nampally Interior.jpg";
+export const legacyAwardImage = "/assets/dr-miftah/dr-miftah-award-recognition.jpg";
+export const visitImage = "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
 export const officialLogo = "/assets/Neodent dental hospital hyderabad logo.jpeg";
 
 export const phone = "+91 9030648393";
@@ -144,13 +144,127 @@ export const HERO_AUTOPLAY_MS = 7000;
    cards.
    ------------------------------------------------------------------ */
 export const mehdipatnamExteriorImage =
-  "/assets/Neodent dental hospital - mehdipatnam Exterior.jpg";
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital - mehdipatnam Exterior.jpg";
 export const mehdipatnamInteriorImage =
-  "/assets/neodent dental hospital-mehdipatnam-interior.jpg";
+  "/assets/neodent-clinic-mehdipatnam/neodent dental hospital-mehdipatnam-interior.jpg";
 export const nampallyExteriorImage =
-  "/assets/Neodent dental hospital - nampally Exterior.jpg";
+  "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Exterior.jpg";
 export const nampallyInteriorImage =
-  "/assets/Neodent dental hospital - nampally Interior.jpg";
+  "/assets/neodent-clinic-nampally/Neodent dental hospital - nampally Interior.jpg";
+
+/* ------------------------------------------------------------------
+   Clinic page — Section 03 (InsideNeoDent) full photograph set.
+
+   Every real interior/exterior photograph available for both
+   branches, used for the "Spaces designed around care." gallery.
+   Mehdipatnam has the larger set (reception, director's office,
+   two treatment chambers, two waiting areas); Nampally currently has
+   only its two hero photographs (exterior + interior) — both are
+   included rather than duplicated or invented.
+   ------------------------------------------------------------------ */
+export const mehdipatnamReceptionImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam exterior of clinic.jpeg";
+export const mehdipatnamDirectorOfficeImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam interior of clinic.jpeg";
+export const mehdipatnamTreatmentRoomOneImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam treatment room 1.jpeg";
+export const mehdipatnamTreatmentRoomTwoImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam treatment room 2.jpeg";
+export const mehdipatnamPatientLoungeImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam waiting area.jpeg";
+export const mehdipatnamWaitingHallImage =
+  "/assets/neodent-clinic-mehdipatnam/Neodent dental hospital mehdipatnam waiting area wide area.jpeg";
+
+export type ClinicGalleryImage = {
+  src: string;
+  alt: string;
+  branch: "Mehdipatnam" | "Nampally";
+  label: string;
+  /** object-position tuned per photograph so the crop favours its
+   * strongest architectural detail rather than a mechanical centre. */
+  position?: string;
+  /** Layout weight in the editorial bento grid — plain tiles when
+   * omitted. Only the two strongest frames are "feature", and one
+   * wide frame breaks the rhythm, matching the site's
+   * "not equal cards" composition rule. */
+  span?: "feature" | "wide";
+};
+
+export const clinicGalleryImages: readonly ClinicGalleryImage[] = [
+  {
+    src: mehdipatnamInteriorImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — the patient waiting lounge with its blue chandelier",
+    branch: "Mehdipatnam",
+    label: "Waiting lounge",
+    position: "68% 42%",
+    span: "feature",
+  },
+  {
+    src: nampallyInteriorImage,
+    alt: "NeoDent Dental Hospital Nampally — the double-height reception and consultation wing",
+    branch: "Nampally",
+    label: "Reception & staircase",
+    position: "50% 26%",
+    span: "feature",
+  },
+  {
+    src: mehdipatnamExteriorImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — the carved wooden entrance doorway",
+    branch: "Mehdipatnam",
+    label: "Entrance",
+    position: "62% 30%",
+  },
+  {
+    src: mehdipatnamReceptionImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — the front-desk reception counter",
+    branch: "Mehdipatnam",
+    label: "Reception counter",
+    position: "50% 38%",
+  },
+  {
+    src: mehdipatnamDirectorOfficeImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — the director's consultation office",
+    branch: "Mehdipatnam",
+    label: "Director's office",
+    position: "50% 42%",
+  },
+  {
+    src: mehdipatnamTreatmentRoomOneImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — a fully equipped dental treatment room",
+    branch: "Mehdipatnam",
+    label: "Treatment room",
+    position: "50% 55%",
+  },
+  {
+    src: mehdipatnamTreatmentRoomTwoImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — a second dental treatment chamber",
+    branch: "Mehdipatnam",
+    label: "Treatment chamber",
+    position: "50% 48%",
+  },
+  {
+    src: mehdipatnamPatientLoungeImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — a quiet patient lounge between chambers",
+    branch: "Mehdipatnam",
+    label: "Patient lounge",
+    position: "50% 55%",
+  },
+  {
+    src: mehdipatnamWaitingHallImage,
+    alt: "NeoDent Dental Hospital Mehdipatnam — the main waiting hall outside the consultation chambers",
+    branch: "Mehdipatnam",
+    label: "Waiting hall",
+    position: "50% 42%",
+    span: "wide",
+  },
+  {
+    src: nampallyExteriorImage,
+    alt: "NeoDent Dental Hospital Nampally — the street frontage and signage",
+    branch: "Nampally",
+    label: "Street frontage",
+    position: "50% 38%",
+  },
+] as const;
 
 export type HeroBranchPhoto = { src: string; alt: string };
 export type HeroBranch = {
@@ -240,7 +354,7 @@ export const heroBranches: readonly HeroBranch[] = [
        already carried by Slides 01/02 and the Doctor section.
    NOTE: neodent-media-siasat-02.jpg does not exist in this project.
    ------------------------------------------------------------------ */
-export const siasatPressImage = "/assets/neodent-media-siasat-01.jpg";
+export const siasatPressImage = "/assets/news-articles/neodent-media-siasat-01.jpg";
 export const tvInterviewImage = "/assets/dr-siraj-tv-interview.jpg";
 export const awardsWallImage = "/assets/neodent-awards-recognition.jpg";
 

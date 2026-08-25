@@ -231,7 +231,7 @@ export function TreatmentThinking() {
               <figure className={styles.doctorPortrait}>
                 <span className={styles.portraitRegistration} aria-hidden="true" />
                 <Image
-                  src="/assets/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png"
+                  src="/assets/dr-miftah/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png"
                   alt="Dr. Md. Miftah Ur Rahman, Prosthodontist and Implantologist, assistant director of NeoDent Dental Hospitals"
                   width={320}
                   height={420}
@@ -317,7 +317,7 @@ export function TreatmentThinking() {
                     aria-label="Dr. Md. Miftah Ur Rahman explaining DMLS crowns and masticatory efficiency"
                   >
                     <source
-                      src="/assets/dr-miftah-explains-dmls-crowns-masticatory-efficiency.mp4"
+                      src="/assets/treatment-video/dr-miftah-explains-dmls-crowns-masticatory-efficiency.mp4"
                       type="video/mp4"
                     />
                   </video>

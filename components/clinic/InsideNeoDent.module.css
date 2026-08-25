@@ -61,31 +61,16 @@
 }
 .draftHorizontal {
   position: absolute;
-  top: 40%;
+  top: 34%;
   left: 3%;
   right: 3%;
   height: 1px;
   background: rgba(38, 48, 51, 0.065);
 }
-/* Vertical rail at ~42% — mirrors the copy/media column boundary */
-.draftVertical {
-  position: absolute;
-  top: 6%;
-  bottom: 6%;
-  left: 42%;
-  width: 1px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(38, 48, 51, 0.065) 18%,
-    rgba(38, 48, 51, 0.065) 82%,
-    transparent
-  );
-}
 .registrationDot {
   position: absolute;
-  top: 40%;
-  left: 42%;
+  top: 34%;
+  right: 6%;
   width: 12px;
   height: 12px;
   margin: -6px -6px;
@@ -95,7 +80,7 @@
 .registrationDotSmall {
   position: absolute;
   bottom: 12%;
-  right: 8%;
+  left: 6%;
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -110,19 +95,9 @@
   z-index: 1;
 }
 
-/* ---- Top composition — text left / dominant image right ----------- */
-/* 45/55 balance — copy is given more presence than before (was 0.88fr) */
-.composition {
-  display: grid;
-  grid-template-columns: 0.92fr 1.08fr;
-  gap: 0 clamp(36px, 5vw, 72px);
-  align-items: start;
-  /* margin-bottom reduced slightly for better spacing into supporting row */
-  margin-bottom: clamp(28px, 3.5vw, 44px);
-}
-
-/* ---- Copy column ---------------------------------------------------- */
+/* ---- Header + copy — full width, gallery follows below ------------ */
 .copyCol {
+  max-width: 720px;
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -186,162 +161,137 @@
   max-width: none;
 }
 
-/* ---- Media column — primary plate + secondary offset -------------- */
-.mediaCol {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1) 180ms;
+/* ---- Photo mosaic — every available branch photograph ------------- */
+/* A 4-column editorial bento grid, not a mechanical masonry wall. Two
+   photographs (each branch's strongest interior) carry `.feature`
+   weight — a 2x2 span — and one photograph carries `.wide` weight (a
+   2-column span) to break the rhythm, echoing the archive-plate
+   "not equal cards" convention used across the site (LegacyAndPeople's
+   .archivePlates, BeyondTheClinic's mosaic). Tiles reveal with a short
+   per-tile stagger (inline transition-delay set from the component)
+   rather than a single simultaneous fade. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 190px;
+  gap: clamp(10px, 1.4vw, 16px);
+  margin-top: clamp(36px, 4.4vw, 56px);
 }
-
-.primaryPlate {
+.tile {
   position: relative;
   margin: 0;
-}
-
-/* Offset ghost frame — editorial plate framing, same as OurClinics */
-.primaryOffsetFrame {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  right: -18px;
-  bottom: 18px;
-  border: 1px solid rgba(38, 48, 51, 0.11);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Primary frame — taller portrait aspect, dominant interior */
-.primaryFrame {
-  position: relative;
-  z-index: 1;
-  /* 3:4 portrait — the Nampally reception is strongest at this ratio */
-  aspect-ratio: 3 / 4;
   overflow: hidden;
-  border: 1px solid rgba(38, 48, 51, 0.15);
+  border: 1px solid rgba(38, 48, 51, 0.14);
   background: #ece7dc;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.primaryFrame img {
+.gallery.galleryVisible .tile {
+  opacity: 1;
+  transform: none;
+}
+/* Button fills the tile completely — the whole photograph is
+   clickable, not just a small affordance in the corner. */
+.tileButton {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.tileButton:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: -2px;
+}
+.tile img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: saturate(0.88) contrast(1.02);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.primaryShade {
+.tileButton:hover img,
+.tileButton:focus-visible img {
+  transform: scale(1.045);
+}
+.tileShade {
   position: absolute;
   inset: auto 0 0 0;
-  height: 30%;
-  background: linear-gradient(180deg, transparent, rgba(38, 48, 51, 0.42) 70%, rgba(38, 48, 51, 0.55));
   z-index: 1;
+  height: 46%;
+  background: linear-gradient(180deg, transparent, rgba(20, 22, 20, 0.66) 62%, rgba(15, 17, 15, 0.8));
   pointer-events: none;
 }
-.primaryRegistration {
+.tileTag {
   position: absolute;
-  top: -18px;
-  left: 28px;
-  width: 1px;
-  height: 18px;
-  background: linear-gradient(180deg, transparent, var(--red));
-  z-index: 2;
-}
-.primaryMeta {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  right: 14px;
+  left: 12px;
+  right: 12px;
+  bottom: 10px;
   z-index: 2;
   display: flex;
-  justify-content: space-between;
-  color: rgba(248, 246, 239, 0.88);
-  font: 9px var(--app-font-mono, "Manrope", sans-serif);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  flex-direction: column;
+  gap: 2px;
 }
-
-/* Secondary offset plate — Mehdipatnam interior, overlaps primary bottom-left */
-.secondaryPlate {
-  position: relative;
-  z-index: 2;
-  width: 46%;
-  max-width: 210px;
-  aspect-ratio: 4 / 3;
-  margin: -52px 0 0 28px;
-  overflow: hidden;
-  border: 1px solid rgba(38, 48, 51, 0.18);
-  background: #ece7dc;
-  box-shadow: 6px 10px 22px rgba(38, 48, 51, 0.15);
-}
-.secondaryPlate::before {
-  content: "";
-  position: absolute;
-  top: -18px;
-  left: 0;
-  width: 1px;
-  height: 18px;
-  background: linear-gradient(180deg, transparent, var(--red));
-  z-index: 3;
-}
-.secondaryPlate img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.9) contrast(1.02);
-}
-.secondaryPlateMeta {
-  position: absolute;
-  left: 8px;
-  bottom: 7px;
-  z-index: 2;
-  color: rgba(248, 246, 239, 0.84);
-  font: 8px var(--app-font-mono, "Manrope", sans-serif);
+.tileTagBranch {
+  color: var(--red);
+  font: 700 9px var(--app-font-mono, "Manrope", sans-serif);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  text-shadow: 0 1px 4px rgba(38, 48, 51, 0.52);
+}
+.tileTagLabel {
+  color: rgba(248, 246, 239, 0.92);
+  font: 12px var(--app-font-serif);
+  font-style: italic;
+  letter-spacing: 0.01em;
 }
 
-/* ---- Supporting row — two smaller exterior plates ----------------- */
-/* These are editorial references, not equal cards. PlateA is offset
-   down to create vertical stagger — reinforcing the hierarchy. */
-.supportingRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(14px, 1.8vw, 22px);
-  /* Tighter gap to main composition than before */
-  margin-top: clamp(20px, 2.6vw, 36px);
+/* Zoom hint — quiet corner affordance signalling the tile is
+   clickable, fades in on hover/focus rather than sitting on the
+   photograph permanently. Matches Gallery.tsx's .gallery-zoom-hint
+   convention (a circle + diagonal line "magnifier" glyph). */
+.tileZoomHint {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(15, 17, 15, 0.5);
+  color: rgba(248, 246, 239, 0.92);
   opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 760ms cubic-bezier(0.22, 1, 0.36, 1) 320ms,
-    transform 760ms cubic-bezier(0.22, 1, 0.36, 1) 320ms;
+  transform: scale(0.9);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
 }
-.supportingPlateA,
-.supportingPlateB {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
+.tileButton:hover .tileZoomHint,
+.tileButton:focus-visible .tileZoomHint {
+  opacity: 1;
+  transform: scale(1);
 }
-/* Stagger: PlateA lower so the pair reads as deliberately offset */
-.supportingPlateA {
-  margin-top: 24px;
+
+/* Feature tiles — 2x2 span for each branch's strongest interior */
+.feature {
+  grid-column: span 2;
+  grid-row: span 2;
 }
-.supportingPlateA img,
-.supportingPlateB img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
-  border: 1px solid rgba(38, 48, 51, 0.13);
-  filter: saturate(0.87) contrast(1.01);
-}
-.supportingCaption {
-  margin-top: 10px;
-  color: var(--muted);
-  font: 9.5px/1.4 var(--app-font-mono, "Manrope", sans-serif);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+/* Wide tile — 2-column span, breaks the grid rhythm once */
+.wide {
+  grid-column: span 2;
 }
 
 /* ---- Closing geographic signature — elevated from tiny metadata --- */
@@ -387,51 +337,27 @@
 }
 
 /* ---- Responsive --------------------------------------------------- */
-@media (max-width: 1280px) {
-  .composition {
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 0 clamp(30px, 4.2vw, 58px);
-  }
-}
-
-@media (max-width: 1100px) {
-  .composition {
-    gap: 0 clamp(24px, 3.8vw, 48px);
-  }
-}
-
 @media (max-width: 1024px) {
-  .primaryOffsetFrame {
-    top: 14px;
-    left: 14px;
-    right: -14px;
-    bottom: 14px;
+  .gallery {
+    grid-auto-rows: 170px;
   }
-  .secondaryPlate {
-    width: 50%;
-    max-width: none;
-    margin-top: -50px;
+  .registrationDot {
+    display: none;
   }
 }
 
 @media (max-width: 900px) {
-  .composition {
-    grid-template-columns: 1fr;
-    gap: 36px;
+  /* Three columns — feature tiles drop to a 2x1 span so nothing
+     stretches taller than the grid can comfortably support. */
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 150px;
   }
-  .copyCol {
-    order: 1;
+  .feature {
+    grid-row: span 1;
   }
-  .mediaCol {
-    order: 0;
-    max-width: 520px;
-  }
-  .supportingRow {
-    margin-top: 18px;
-  }
-  .draftVertical,
-  .registrationDot {
-    display: none;
+  .wide {
+    grid-column: span 3;
   }
 }
 
@@ -448,28 +374,26 @@
   .paragraph {
     font-size: 15.5px;
   }
-  .composition {
-    gap: 28px;
-    margin-bottom: 20px;
-  }
-  .mediaCol {
+  .copyCol {
     max-width: none;
   }
-  .primaryOffsetFrame {
-    display: none;
+  /* Two columns on mobile — every tile is equal height; the "feature"
+     and "wide" weighting steps aside so nothing crops awkwardly on a
+     narrow viewport, per the responsive rule (intentional
+     re-composition, not a stacked desktop grid). */
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 168px;
+    gap: 8px;
+    margin-top: 28px;
   }
-  .primaryFrame {
-    aspect-ratio: 4 / 3;
+  .feature,
+  .wide {
+    grid-column: span 2;
+    grid-row: span 1;
   }
-  .secondaryPlate {
-    width: 44%;
-    margin: -40px 0 0 18px;
-  }
-  .supportingRow {
-    gap: 10px;
-  }
-  .supportingPlateA {
-    margin-top: 12px;
+  .tileTagLabel {
+    font-size: 11px;
   }
   .signature {
     margin-top: clamp(36px, 5vw, 52px);
@@ -481,12 +405,13 @@
 }
 
 @media (max-width: 430px) {
-  .secondaryPlate {
-    width: 46%;
-    margin-left: 14px;
+  .gallery {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 220px;
   }
-  .primaryMeta {
-    font-size: 8px;
+  .feature,
+  .wide {
+    grid-column: span 1;
   }
   .signatureText {
     font-size: 9.5px;
@@ -496,11 +421,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .copyCol,
-  .mediaCol,
-  .supportingRow,
   .signature {
     transition: none;
     opacity: 1;
     transform: none;
+  }
+  .tile {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .tile img {
+    transition: none;
   }
 }

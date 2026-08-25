@@ -418,7 +418,7 @@ export function BeyondTheClinic() {
             <figure>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj neodent dental clinic Nampally news article.jpg"
+                src="/assets/news-articles/Dr siraj neodent dental clinic Nampally news article.jpg"
                 alt="The Siasat Daily — feature on dental awareness delivered by Dr. Siraj"
                 loading="lazy"
               />
@@ -426,7 +426,7 @@ export function BeyondTheClinic() {
             <figure>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj and Dr Miftah neodent dental clinic Nampally news.jpg"
+                src="/assets/news-articles/Dr siraj and Dr Miftah neodent dental clinic Nampally news.jpg"
                 alt="The Siasat Daily — coverage of NeoDent's clinical team at Nampally"
                 loading="lazy"
               />

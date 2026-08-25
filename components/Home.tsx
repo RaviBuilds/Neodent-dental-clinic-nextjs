@@ -64,11 +64,6 @@ export function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [appointmentOpen]);
 
-  const openBooking = () => {
-    setLeadCaptureOpen(false);
-    setAppointmentOpen(true);
-  };
-
   return (
     <div className="site">
       <Navbar />
@@ -95,7 +90,7 @@ export function Home() {
       </div>
       {appointmentOpen && <AppointmentModal onClose={() => setAppointmentOpen(false)} />}
       {!appointmentOpen && leadCaptureOpen && (
-        <LeadCapture onClose={() => setLeadCaptureOpen(false)} onBook={openBooking} />
+        <LeadCapture onClose={() => setLeadCaptureOpen(false)} />
       )}
       {lightbox && (
         <div

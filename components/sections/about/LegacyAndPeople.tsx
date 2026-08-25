@@ -168,7 +168,7 @@ export function LegacyAndPeople() {
             <span className={styles.openingRegistration} aria-hidden="true" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/assets/Dr. Md. Miftah Ur Rahman during treatment- Neodent Dental Hospital.jpg"
+              src="/assets/dr-miftah/Dr. Md. Miftah Ur Rahman during treatment- Neodent Dental Hospital.jpg"
               alt="Dr. Md. Miftah Ur Rahman performing a dental treatment procedure at NeoDent Dental Hospital, Hyderabad"
               loading="eager"
             />
@@ -399,7 +399,7 @@ export function LegacyAndPeople() {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj neodent dental clinic Mehdipatnam news.jpg"
+                src="/assets/news-articles/Dr siraj neodent dental clinic Mehdipatnam news.jpg"
                 alt="The Siasat Daily, Hyderabad — press coverage of a professional dental lecture given by Dr. Mohd. Siraj Ur Rahman"
                 loading="lazy"
               />
@@ -415,7 +415,7 @@ export function LegacyAndPeople() {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj and dr. Miftah neodent dental clinic Nampally news post.jpg"
+                src="/assets/news-articles/Dr siraj and dr. Miftah neodent dental clinic Nampally news post.jpg"
                 alt="The Siasat Daily — feature on modern orthodontic treatment involving NeoDent's clinical team"
                 loading="lazy"
               />
@@ -428,7 +428,7 @@ export function LegacyAndPeople() {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj neodent dental clinic Nampally news about health.jpg"
+                src="/assets/news-articles/Dr siraj neodent dental clinic Nampally news about health.jpg"
                 alt="The Siasat Daily — coverage of a NeoDent dental implant awareness camp"
                 loading="lazy"
               />
@@ -441,7 +441,7 @@ export function LegacyAndPeople() {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr siraj neodent dental clinic Mehdipatnam news article.jpg"
+                src="/assets/news-articles/Dr siraj neodent dental clinic Mehdipatnam news article.jpg"
                 alt="The Siasat Daily — front-page feature on dental care at NeoDent"
                 loading="lazy"
               />
@@ -454,7 +454,7 @@ export function LegacyAndPeople() {
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/Dr miftah neodent dental clinic hyderabad in the news.jpg"
+                src="/assets/news-articles/Dr miftah neodent dental clinic hyderabad in the news.jpg"
                 alt="The Siasat Daily — recognition of Dr. Md. Miftah Ur Rahman's academic achievement"
                 loading="lazy"
               />
@@ -516,7 +516,7 @@ export function LegacyAndPeople() {
             <figure className={styles.recognitionPlateSmall}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/dr-miftah-award-recognition.jpg"
+                src="/assets/dr-miftah/dr-miftah-award-recognition.jpg"
                 alt="Dr. Md. Miftah Ur Rahman receiving a certificate at a professional ceremony"
                 loading="lazy"
               />

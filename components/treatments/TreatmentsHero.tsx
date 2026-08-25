@@ -120,7 +120,7 @@ export function TreatmentsHero() {
             <video
               ref={videoRef}
               className={styles.video}
-              poster="/assets/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png"
+              poster="/assets/dr-miftah/Dr. Md. Miftah Ur Rahman - Neodent Dental Hospital.png"
               preload="metadata"
               playsInline
               controls
@@ -129,7 +129,7 @@ export function TreatmentsHero() {
               aria-label="Dr. Md. Miftah Ur Rahman explains DMLS crowns and masticatory efficiency"
             >
               <source
-                src="/assets/dr-miftah-explains-dmls-crowns-masticatory-efficiency.mp4"
+                src="/assets/treatment-video/dr-miftah-explains-dmls-crowns-masticatory-efficiency.mp4"
                 type="video/mp4"
               />
             </video>

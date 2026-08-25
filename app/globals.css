@@ -8435,7 +8435,17 @@ button {
   color: var(--paper);
 }
 .lead-eyebrow {
-  color: rgba(197, 159, 104, 0.95);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(251, 250, 247, 0.6);
+}
+.lead-eyebrow::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--champagne);
+  flex-shrink: 0;
 }
 .lead-panel h2 {
   font-family: var(--app-font-serif);
